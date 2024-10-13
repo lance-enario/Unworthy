@@ -25,7 +25,7 @@ public class Player extends Entity {
     public void setDefaultValues(){
         x = 100;
         y = 100;
-        speed = 4;
+        speed = 2;
         direction = "down";
     }
 
@@ -38,6 +38,12 @@ public class Player extends Entity {
             walk3 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK3.png"));
             walk4 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK4.png"));
             walk5 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK5.png"));
+            idle0 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE0.png"));
+            idle1 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE1.png"));
+            idle2 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE2.png"));
+            idle3 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE3.png"));
+            idle4 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE4.png"));
+            idle5 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE5.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +65,9 @@ public class Player extends Entity {
             direction = "right";
             maintain = direction;
             x += speed;
+        } else {
+            direction = "default";
+            maintain = direction;;
         }
 
         spriteCounter++;
@@ -168,6 +177,26 @@ public class Player extends Entity {
                 }
                 if (spriteNum == 6){
                     image = walk5;
+                }
+                break;
+            case "default" :
+                if (spriteNum == 1){
+                    image = idle0;
+                }
+                if (spriteNum == 2){
+                    image = idle1;
+                }
+                if (spriteNum == 3){
+                    image = idle2;
+                }
+                if (spriteNum == 4){
+                    image = idle3;
+                }
+                if (spriteNum == 5){
+                    image = idle4;
+                }
+                if (spriteNum == 6){
+                    image = idle5;
                 }
                 break;
         }
