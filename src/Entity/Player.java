@@ -51,23 +51,23 @@ public class Player extends Entity {
 
     public void update(){
 
-        if (keyH.upPressed == true){
+        if (keyH.upPressed){
             direction = "up";
             y -= speed;
-        } else if (keyH.downPressed == true){
+        } else if (keyH.downPressed){
             direction = "down";
             y += speed;
-        } else if (keyH.leftPressed == true){
+        } else if (keyH.leftPressed){
             direction = "left";
             maintain = direction;
             x -= speed;
-        } else if (keyH.rightPressed == true) {
+        } else if (keyH.rightPressed) {
             direction = "right";
             maintain = direction;
             x += speed;
         } else {
             direction = "default";
-            maintain = direction;;
+            maintain = direction;
         }
 
         spriteCounter++;
@@ -201,7 +201,7 @@ public class Player extends Entity {
                 break;
         }
 
-        if (direction == "left" || direction == "up" && maintain == "left" || direction == "down" && maintain == "left"){ // when player faces left, the sprite continues facing left when moving up or down
+        if (direction.equals("left") || direction.equals("up") && maintain.equals("left") || direction.equals("down") && maintain.equals("left")){ // when player faces left, the sprite continues facing left when moving up or down
             g2.drawImage(image, x + gp.tileSize, y, -gp.tileSize, gp.tileSize, null);
         } else {
             g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
