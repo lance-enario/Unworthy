@@ -25,39 +25,46 @@ public class Player extends Entity {
     public void setDefaultValues(){
         x = 100;
         y = 100;
-        speed = 2;
-        direction = "down";
+        speed = 3;
+        direction = "default";
     }
 
     public void getPlayerImage(){
 
         try {
-            walk0 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK0.png"));
-            walk1 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK1.png"));
-            walk2 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK2.png"));
-            walk3 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK3.png"));
-            walk4 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK4.png"));
-            walk5 = ImageIO.read(getClass().getResourceAsStream("/player/sprite_WALK5.png"));
+            walk0 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_0.png"));
+            walk1 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_1.png"));
+            walk2 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_2.png"));
+            walk3 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_3.png"));
+            walk4 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_4.png"));
+            walk5 = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_5.png"));
             idle0 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE0.png"));
             idle1 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE1.png"));
             idle2 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE2.png"));
             idle3 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE3.png"));
             idle4 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE4.png"));
             idle5 = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE5.png"));
+            bscAttack0 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack0.png"));
+            bscAttack1 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack1.png"));
+            bscAttack2 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack2.png"));
+            bscAttack3 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack3.png"));
+            bscAttack4 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack4.png"));
+            bscAttack5 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack5.png"));
+            bscAttack6 = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack6.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void update(){
+    public void update() {
 
-        if (keyH.upPressed){
+        if (keyH.upPressed) {
             direction = "up";
             y -= speed;
-        } else if (keyH.downPressed){
+        } else if (keyH.downPressed) {
             direction = "down";
             y += speed;
-        } else if (keyH.leftPressed){
+        } else if (keyH.leftPressed) {
             direction = "left";
             maintain = direction;
             x -= speed;
@@ -65,15 +72,17 @@ public class Player extends Entity {
             direction = "right";
             maintain = direction;
             x += speed;
+        } else if (keyH.bscAtkPressed) {
+            direction = "bscAttack";
         } else {
             direction = "default";
-            maintain = direction;
+
         }
 
         spriteCounter++;
 
-        if (spriteCounter > 10){
-            if(spriteNum == 1) {
+        if (spriteCounter > 10) {
+            if (spriteNum == 1) {
                 spriteNum = 2;
             } else if (spriteNum == 2) {
                 spriteNum = 3;
@@ -89,6 +98,25 @@ public class Player extends Entity {
             spriteCounter = 0;
         }
 
+        spriteBasicAttack++;
+
+        if (spriteBasicAttack > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+            } else if (spriteNum == 3) {
+                spriteNum = 4;
+            } else if (spriteNum == 4) {
+                spriteNum = 5;
+            } else if (spriteNum == 5) {
+                spriteNum = 6;
+            } else {
+                spriteNum = 1;
+            }
+            spriteBasicAttack = 1;
+        }
+
     }
 
     public void draw(Graphics2D g2){
@@ -99,7 +127,7 @@ public class Player extends Entity {
         BufferedImage image = null;
 
         switch (direction){
-            case "up":
+            case "up", "down", "left", "right":
                 if (spriteNum == 1){
                     image = walk0;
                 }
@@ -119,67 +147,7 @@ public class Player extends Entity {
                     image = walk5;
                 }
                 break;
-            case "down":
-                if (spriteNum == 1){
-                    image = walk0;
-                }
-                if (spriteNum == 2){
-                    image = walk1;
-                }
-                if (spriteNum == 3){
-                    image = walk2;
-                }
-                if (spriteNum == 4){
-                    image = walk3;
-                }
-                if (spriteNum == 5){
-                    image = walk4;
-                }
-                if (spriteNum == 6){
-                    image = walk5;
-                }
-                break;
-            case "left":
-                if (spriteNum == 1){
-                    image = walk0;
-                }
-                if (spriteNum == 2){
-                    image = walk1;
-                }
-                if (spriteNum == 3){
-                    image = walk2;
-                }
-                if (spriteNum == 4){
-                    image = walk3;
-                }
-                if (spriteNum == 5){
-                    image = walk4;
-                }
-                if (spriteNum == 6){
-                    image = walk5;
-                }
-                break;
-            case "right":
-                if (spriteNum == 1){
-                    image = walk0;
-                }
-                if (spriteNum == 2){
-                    image = walk1;
-                }
-                if (spriteNum == 3){
-                    image = walk2;
-                }
-                if (spriteNum == 4){
-                    image = walk3;
-                }
-                if (spriteNum == 5){
-                    image = walk4;
-                }
-                if (spriteNum == 6){
-                    image = walk5;
-                }
-                break;
-            case "default" :
+            case "default" : // idle animation
                 if (spriteNum == 1){
                     image = idle0;
                 }
@@ -197,6 +165,26 @@ public class Player extends Entity {
                 }
                 if (spriteNum == 6){
                     image = idle5;
+                }
+                break;
+            case "bscAttack":
+                if (spriteNum == 1){
+                    image = bscAttack3;
+                }
+                if (spriteNum == 2){
+                    image = bscAttack3;
+                }
+                if (spriteNum == 3){
+                    image = bscAttack4;
+                }
+                if (spriteNum == 4){
+                    image = bscAttack5;
+                }
+                if (spriteNum == 5){
+                    image = bscAttack6;
+                }
+                if (spriteNum == 6){
+                    image = bscAttack0;
                 }
                 break;
         }
