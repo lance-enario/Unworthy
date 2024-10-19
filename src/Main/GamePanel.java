@@ -12,9 +12,11 @@ public class GamePanel extends JPanel implements Runnable{
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16
     final int scale = 4; //giilisan nako to 4 from 8 try lang
+    final int playerScale = 6;
 
     public final int tileSize = originalTileSize * scale; // 48x48
-    public int maxScreenCol = 14;
+    public final int playerSize = originalTileSize * playerScale;
+    public int maxScreenCol = 16;
     public int maxScreenRow = 12;
     public int screenWidth = tileSize * maxScreenCol; // 768 px
     public int screenHeight = tileSize * maxScreenRow; // 576 px
@@ -39,8 +41,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-
-
     }
 
     public void startGameThread() {

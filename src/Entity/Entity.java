@@ -9,7 +9,6 @@ public class Entity{
     public String maintain;
     public boolean isAttacking;
 
-
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public int spriteBasicAttack;

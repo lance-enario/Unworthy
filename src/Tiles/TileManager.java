@@ -65,6 +65,20 @@ public class TileManager {
             tile[13] =  new Tiles();
             tile[13].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/sand/grassCornerlowerRight.png"));
 
+            tile[14] = new Tiles();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/icons/mageicon.png"));
+
+            tile[15] = new Tiles();
+            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/icons/heart.png"));
+
+            tile[16] = new Tiles();
+            tile[16].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/icons/mageatkicon1.png"));
+
+            tile[17] = new Tiles();
+            tile[17].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/icons/mageatkicon2.png"));
+
+
+
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -97,9 +111,8 @@ public class TileManager {
 
     }
 
-    public  void  draw(Graphics2D g2){
+    public void  draw(Graphics2D g2){
             int worldCol =0, worldRow = 0;
-
 
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldCol){
 
@@ -118,5 +131,10 @@ public class TileManager {
                     worldRow++;
                 }
         }
+
+        g2.drawImage(tile[14].image, 20, 20,  140, 140, null);
+        g2.drawImage(tile[15].image, 180, 60,  50, 50, null);
+        g2.drawImage(tile[15].image, 240, 60,  50, 50, null);
+        g2.drawImage(tile[15].image, 300, 60,  50, 50, null);
     }
 }

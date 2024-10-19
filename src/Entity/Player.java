@@ -2,7 +2,6 @@ package Entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,8 +31,8 @@ public class Player extends Entity {
 
     public void setDefaultValues(){
         worldX = gp.tileSize*12;
-        worldY = gp.tileSize*14;
-        speed = 20; // 3 default but increased just for testing
+        worldY = gp.tileSize*16;
+        speed = 3; // 3 default but increased just for testing
         direction = "default";
         maintain = "right";
         isAttacking = false;
@@ -56,7 +55,23 @@ public class Player extends Entity {
 
     public void update() {
 
-        if (keyH.upPressed) {
+        if (keyH.upPressed && keyH.rightPressed){
+            maintain = "right";
+            worldY -= speed;
+            worldX += speed;
+        } else if (keyH.upPressed && keyH.leftPressed && !keyH.rightPressed) {
+            maintain = "left";
+            worldY -= speed;
+            worldX -= speed;
+        } else if (keyH.downPressed && keyH.rightPressed) {
+            maintain = "right";
+            worldY += speed;
+            worldX += speed;
+        } else if (keyH.downPressed && keyH.leftPressed) {
+            maintain = "left";
+            worldY += speed;
+            worldX -= speed;
+        } else if (keyH.upPressed) {
             direction = "up";
             worldY -= speed;
         } else if (keyH.downPressed) {
@@ -104,6 +119,10 @@ public class Player extends Entity {
 
         if (isAttacking) {
             isAttacking = false; // Reset attack state (could be handled differently based on animation needs)
+            keyH.downPressed = false;
+            keyH.leftPressed = false;
+            keyH.upPressed = false;
+            keyH.rightPressed = false;
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
         } else {
             switch (direction) {
@@ -126,9 +145,9 @@ public class Player extends Entity {
                 (direction.equals("default") && maintain.equals("left"));
 
         if (shouldFlip) {
-            g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, (screenX + gp.playerSize), screenY, -gp.playerSize, gp.playerSize, null);
         } else {
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
         }
 
     }
