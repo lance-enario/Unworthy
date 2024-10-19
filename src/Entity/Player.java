@@ -38,7 +38,7 @@ public class Player extends Entity {
     public void setDefaultValues(){
         worldX = gp.tileSize*12;
         worldY = gp.tileSize*16;
-        speed = 3; // 3 default but increased just for testing
+        speed = 30; // 3 default but increased just for testing
         direction = "default";
         maintain = "right";
         isAttacking = false;
