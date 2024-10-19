@@ -25,6 +25,8 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
+        solidArea = new Rectangle(8, 16, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -58,39 +60,59 @@ public class Player extends Entity {
         if (keyH.upPressed && keyH.rightPressed){
             maintain = "right";
             worldY -= speed;
-            worldX += speed;
+           // worldX += speed;
         } else if (keyH.upPressed && keyH.leftPressed && !keyH.rightPressed) {
             maintain = "left";
             worldY -= speed;
-            worldX -= speed;
+           // worldX -= speed;
         } else if (keyH.downPressed && keyH.rightPressed) {
             maintain = "right";
             worldY += speed;
-            worldX += speed;
+          //  worldX += speed;
         } else if (keyH.downPressed && keyH.leftPressed) {
             maintain = "left";
             worldY += speed;
-            worldX -= speed;
+          //  worldX -= speed;
         } else if (keyH.upPressed) {
             direction = "up";
-            worldY -= speed;
+        //    worldY -= speed;
         } else if (keyH.downPressed) {
             direction = "down";
-            worldY += speed;
+          //  worldY += speed;
         } else if (keyH.leftPressed) {
             direction = "left";
             maintain = direction;
-            worldX -= speed;
+         //   worldX -= speed;
         } else if (keyH.rightPressed) {
             direction = "right";
             maintain = direction;
-            worldX += speed;
+         //   worldX += speed;
         } else if (keyH.bscAtkPressed) {
             isAttacking = true;
         } else {
             direction = "default";
         }
-
+        //collision checker
+        CollisionOn = false;
+        gp.cChecker.checkTile(this);
+        //if collision != true, player can move else
+        if(!CollisionOn){
+            switch (direction){
+               // case("up" && "down")
+                case "up":
+                    worldY -= speed;
+                    break;
+                case "down":
+                    worldY += speed;
+                    break;
+                case "left":
+                    worldX -= speed;
+                    break;
+                case "right":
+                    worldX += speed;
+                    break;
+            }
+        }
         spriteCounter++;
 
         if (spriteCounter > 10) {
