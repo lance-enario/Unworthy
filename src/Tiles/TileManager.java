@@ -20,7 +20,6 @@ public class TileManager {
         mapTileNum = new int [gp.maxWorldCol] [gp.maxWorldRow];
         getTileImage();
         loadMap("/Maps/Stage1.txt");
-       // loadMap("/Maps/Stage1overlay.txt");
     }
     public void getTileImage() {
         try{
@@ -82,7 +81,10 @@ public class TileManager {
 
             tile[18] = new Tiles();
             tile[18].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/Empty/blank.png"));
+            tile[18].collision =true;
 
+//            tile[19] = new Tiles();
+//            tile[19] =
 
 
         }catch(IOException e){
