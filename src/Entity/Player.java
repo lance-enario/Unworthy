@@ -18,6 +18,7 @@ public class Player extends Entity {
     BufferedImage[] walkFrames = new BufferedImage[6];
     BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
+    int hasKey =0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -28,6 +29,8 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         solidArea = new Rectangle();
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.x = 32;
         solidArea.y = 56;
         solidArea.width = 32;
@@ -102,8 +105,10 @@ public class Player extends Entity {
             //collision checker
             CollisionOn = false;
             gp.cChecker.checkTile(this);
+            //obj checker
+            int objIDX = gp.cChecker.checkOBJ(this, true);
+            pickUpOBJ(objIDX);
             //if collision != true, player can move
-
             if (!CollisionOn) {
                 switch (direction) {
                     case "up":
@@ -152,6 +157,25 @@ public class Player extends Entity {
 
         }
     }
+
+        public void  pickUpOBJ(int objIDX) {
+            if(objIDX != 999){
+               String objName = gp.obj[objIDX].name;
+
+               switch (objName){
+                   case "Key":
+                       hasKey++;
+                       gp.obj[objIDX] = null;
+                       break;
+                   case "Door":
+                       if(hasKey > 0){
+                           gp.obj[objIDX] = null;
+                           hasKey--;
+                       }
+                       break;
+               }
+            }
+        }
         public void draw (Graphics2D g2) {
 
             BufferedImage image = null;
