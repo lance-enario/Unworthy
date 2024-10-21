@@ -1,5 +1,7 @@
 package Projectile;
 
+import Main.GamePanel;
+
 public class Projectile {
     public int worldX, worldY;
     public int speed;
@@ -7,5 +9,4 @@ public class Projectile {
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
-
 }

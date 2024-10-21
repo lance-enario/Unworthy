@@ -1,10 +1,11 @@
 package Main;
 
 import Entity.Player;
+import Entity.Entity;
 import Tiles.TileManager;
 import objects.superObject;
 import java.awt.*;
-
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -24,20 +25,25 @@ public class GamePanel extends JPanel implements Runnable{
     // WORLD SETTINGS
     public  final  int maxWorldCol = 50;
     public  final  int maxWorldRow = 50;
-    public final int worldWidth = tileSize / maxWorldCol;
-    public final int worldHeight = tileSize / maxWorldRow;
 
     // FPS of game
     int FPS = 60;
 
-    //tilemapsystem
+    // SYSTEM
+    public KeyHandler keyH = new KeyHandler();
     public TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    Sound sound = new Sound();
     Thread gameThread;
-    public CollisionChecker cChecker = new CollisionChecker(this);
-    public AssetSetter aSet = new AssetSetter(this);
-    public Player player = new Player(this,keyH);
 
+    public ArrayList<Entity> projectileList = new ArrayList<>();
+    public CollisionChecker cChecker = new CollisionChecker(this);
+
+    // ENTITY AND OBJECT
+    public Player player = new Player(this, keyH);
+    public Entity[] ent = new Entity[10];
+    public Entity[] npc = new Entity[10];
+
+    public AssetSetter aSet = new AssetSetter(this);
     public superObject obj [] = new superObject[10];
 
 
@@ -49,13 +55,18 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+
     public void  setupGame(){
-       aSet.setObj();
+        aSet.setObj();
     }
+
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
+
 
     @Override
     public void run() {
@@ -89,7 +100,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         //Toolkit.getDefaultToolkit().sync();
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
 
         tileM.draw(g2);
@@ -103,5 +113,20 @@ public class GamePanel extends JPanel implements Runnable{
         g2.dispose();
     }
 
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic(){
+         sound.stop();
+
+    }
+
+    public void playSE(int i){
+         sound.setFile(i);
+         sound.play();
+    }
 
 }
