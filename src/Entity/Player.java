@@ -12,13 +12,12 @@ import java.io.IOException;
 public class Player extends Entity {
 
     KeyHandler keyH;
-    Sound sound;
     public final int screenX;
     public final int screenY;
     BufferedImage[] walkFrames = new BufferedImage[6];
     BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
-    int hasKey =0;
+    int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -29,12 +28,12 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         solidArea = new Rectangle();
+        solidArea.x = 32;       // 32
+        solidArea.y = 56;       // 56
+        solidArea.width = 32;   // 32
+        solidArea.height = 24;  // 24
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.x = 32;
-        solidArea.y = 56;
-        solidArea.width = 32;
-        solidArea.height = 24;
 
         setDefaultValues();
         getPlayerImage();
@@ -43,7 +42,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 12;
         worldY = gp.tileSize * 16;
-        speed = 30; // 3 default but increased just for testing
+        speed = 10; // 3 default but increased just for testing
         direction = "default";
         maintain = "right";
         isAttacking = false;

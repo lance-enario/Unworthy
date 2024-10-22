@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    public void  setupGame(){
+    public void setupGame(){
         aSet.setObj();
         playMusic(0);
     }
@@ -66,8 +66,6 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
-
-
 
     @Override
     public void run() {
