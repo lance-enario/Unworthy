@@ -18,7 +18,7 @@ public class Player extends Entity {
     BufferedImage[] walkFrames = new BufferedImage[6];
     BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
-    int hasKey =0;
+    int hasKey =0 ;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -28,12 +28,7 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        solidArea = new Rectangle();
-
-        solidArea.x = 32;
-        solidArea.y = 56;
-        solidArea.width = 32;
-        solidArea.height = 24;
+        solidArea = new Rectangle(32,56, 32, 24);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -42,9 +37,9 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 12;
-        worldY = gp.tileSize * 16;
-        speed = 30; // 3 default but increased just for testing
+        worldX = gp.tileSize * 3;
+        worldY = gp.tileSize * 6;
+        speed = 5; // 3 default but increased just for testing
         direction = "default";
         maintain = "right";
         isAttacking = false;
@@ -66,6 +61,7 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void update() {
 
 //        if (keyH.upPressed && keyH.rightPressed){
@@ -109,21 +105,18 @@ public class Player extends Entity {
             //obj checker
             int objIDX = gp.cChecker.checkOBJ(this, true);
             pickUpOBJ(objIDX);
+
+            //check npc collision
+            int npcIndex = gp.cChecker.checkEntity(this,gp.npc);
+            interactNPC(npcIndex);
+
             //if collision != true, player can move
             if (!CollisionOn) {
                 switch (direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
                 }
             }
             spriteCounter++;
@@ -174,9 +167,18 @@ public class Player extends Entity {
                            hasKey--;
                        }
                        break;
+                   case "Chest":
+                       break;
                }
             }
         }
+
+        public void interactNPC(int i) {
+             if(i!=999){
+            System.out.print("coll");
+             }
+        }
+
         public void draw (Graphics2D g2) {
 
             BufferedImage image = null;
@@ -190,30 +192,26 @@ public class Player extends Entity {
                 image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
             } else {
                 switch (direction) {
-                    case "left", "right", "up", "down":
-                        image = walkFrames[(spriteNum - 1) % walkFrames.length]; // Walk animation frame
-                        break;
-                    case "default":
-                        image = idleFrames[(spriteNum - 1) % idleFrames.length]; // Idle animation frame
-                        break;
-                    default:
-                        image = idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
-                        break;
+                    case "left", "right", "up", "down": image = walkFrames[(spriteNum - 1) % walkFrames.length];  break; // Walk animation frame
+                    case "default": image = idleFrames[(spriteNum - 1) % idleFrames.length]; break;// Idle animation frame
+                    default: image = idleFrames[0]; break; // Fallback to first idle frame if direction is unrecognized
                 }
             }
 
             boolean shouldFlip =
                     direction.equals("left") ||
-                            (direction.equals("up") && maintain.equals("left")) ||
-                            (direction.equals("down") && maintain.equals("left")) ||
-                            (direction.equals("default") && maintain.equals("left"));
+                    (direction.equals("up") && maintain.equals("left")) ||
+                    (direction.equals("down") && maintain.equals("left")) ||
+                    (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
                 g2.drawImage(image, (screenX + gp.playerSize), screenY, -gp.playerSize, gp.playerSize, null);
             } else {
                 g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
             }
-
+            //visible collision checker, just cross out if not needed
+            g2.setColor(Color.red);
+           g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
     }

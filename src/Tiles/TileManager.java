@@ -54,32 +54,40 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath){
-        try{
-            InputStream is =  getClass().getResourceAsStream(filePath);
+    public void loadMap(String filePath) {
+        try {
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            int col =0;
+            int col = 0;
             int row = 0;
-            while(col < gp.maxWorldCol && row < gp.maxWorldRow){
+
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
-                while(col < gp.maxWorldCol){
+               if (line != null) {
                     String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][row] = num;
-                    col++;
-                }
-                if(col == gp.maxWorldCol){
-                    col = 0;
-                    row++;
+
+                    while (col < gp.maxWorldCol) {
+                        int num = Integer.parseInt(numbers[col]);
+                        mapTileNum[col][row] = num;
+                        col++;
+                    }
+
+                    if (col == gp.maxWorldCol) {
+                        col = 0;
+                        row++;
+                    }
+                } else {
+                   System.out.println("Warning: Reached end of file earlier than expected.");
+                    break;
                 }
             }
             br.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 
     public void draw(Graphics2D g2){
 

@@ -20,30 +20,25 @@ public class Projectile extends Entity{
         this.life = maxLife;
     }
 
-    public void update(){
-
-        switch (direction){
-            case "up": worldY -= speed; break;
-            case "down": worldY -= speed; break;
-            case "left": worldY -= speed; break;
-            case "right": worldY -= speed; break;
-        }
-
-        life--;
-        if (life <= 0){
-            alive = false;
-        }
-
-        spriteCounter++;
-        if (spriteCounter > 12){
-
-
-
-
-
-
-            spriteCounter = 2;
-        }
-    }
+//    public void update(){
+//
+//        switch (direction){
+//            case "up": worldY -= speed; break;
+//            case "down": worldY -= speed; break;
+//            case "left": worldY -= speed; break;
+//            case "right": worldY -= speed; break;
+//        }
+//
+//        life--;
+//        if (life <= 0){
+//            alive = false;
+//        }
+//
+//        spriteCounter++;
+//        if (spriteCounter > 12){
+//
+//            spriteCounter = 2;
+//        }
+//    }
 
 }
