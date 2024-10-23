@@ -38,6 +38,8 @@ public class TileManager {
             setup(12, "sand/grassCornerLowerLeft", false);
             setup(13, "sand/grassCornerLowerRight", false);
             setup(14, "Empty/blank", true);
+            setup(15, "sand/left", false);
+            setup(16, "sand/right", false);
     }
 
     public void setup(int index, String imageName, boolean collision){
