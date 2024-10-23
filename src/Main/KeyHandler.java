@@ -8,7 +8,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gp;
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, bscAtkPressed, skill1Pressed, skill2Pressed, skill3Pressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, bscAtkPressed, skill1Pressed, skill2Pressed, skill3Pressed, enterPressed;
 
     public KeyHandler(GamePanel gp){
         this.gp = gp;
@@ -24,42 +24,55 @@ public class KeyHandler implements KeyListener {
 
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_W){
-            upPressed = true;
-        }
+        if(gp.gameState == gp.playState) {
+            if (code == KeyEvent.VK_W) {
+                upPressed = true;
+            }
 
-        if(code == KeyEvent.VK_A){
-            leftPressed = true;
-        }
+            if (code == KeyEvent.VK_A) {
+                leftPressed = true;
+            }
 
-        if(code == KeyEvent.VK_S){
-            downPressed = true;
-        }
+            if (code == KeyEvent.VK_S) {
+                downPressed = true;
+            }
 
-        if(code == KeyEvent.VK_D){
-            rightPressed = true;
-        }
+            if (code == KeyEvent.VK_D) {
+                rightPressed = true;
+            }
 
-        if(code == KeyEvent.VK_U){
-            bscAtkPressed = true;
-        }
+            if (code == KeyEvent.VK_U) {
+                bscAtkPressed = true;
+            }
 
-        if(code == KeyEvent.VK_I){
-            skill1Pressed = true;
-        }
+            if (code == KeyEvent.VK_I) {
+                skill1Pressed = true;
+            }
 
-        if(code == KeyEvent.VK_O){
-            skill2Pressed = true;
-        }
+            if (code == KeyEvent.VK_O) {
+                skill2Pressed = true;
+            }
 
-        if(code == KeyEvent.VK_P){
-            skill3Pressed = true;
-        }
+            if (code == KeyEvent.VK_P) {
+                skill3Pressed = true;
+            }
+            if(code == KeyEvent.VK_ENTER){
+                enterPressed = true;
+            }
+            if (code == KeyEvent.VK_ESCAPE) {
+                if (gp.gameState == gp.playState) {
+                    gp.gameState = gp.pauseState;
+                }
 
-        if (code == KeyEvent.VK_ESCAPE){
-            if (gp.gameState == gp.playState){
-                gp.gameState = gp.pauseState;
-            } else if (gp.gameState == gp.pauseState) {
+        }
+        else if(gp.gameState == gp.pauseState){
+                if (gp.gameState == gp.pauseState) {
+                    gp.gameState = gp.playState;
+                }
+            }
+        }
+        else if(gp.gameState == gp.dialogueState){
+            if (code == KeyEvent.VK_ENTER) {
                 gp.gameState = gp.playState;
             }
         }
@@ -99,6 +112,10 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_P){
             skill3Pressed = false;
+        }
+
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = false;
         }
     }
 }

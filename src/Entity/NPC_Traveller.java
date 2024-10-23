@@ -23,6 +23,7 @@ public class NPC_Traveller extends Entity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+        setDialogue();
         getImage();
     }
 
@@ -36,7 +37,13 @@ public class NPC_Traveller extends Entity {
         right1 = setup("/NPC_Traveller/wanderingTraveller_6");
      //   right2 = setup("/NPC_Traveller/wanderingTraveller_7");
     }
+    public void setDialogue(){
+        dialogue[0] = "Hi <3";
+        dialogue[1] = "Katugnaw";
+        dialogue[2] = " haha";
+        dialogue[3] = "Palambing";
 
+    }
     @Override
     public void setAction(){
         actionLockCounter++;
@@ -64,6 +71,9 @@ public class NPC_Traveller extends Entity {
 
 
 
+    }
+    public void speak(){
+        super.speak();
     }
 
 }

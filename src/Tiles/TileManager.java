@@ -78,7 +78,7 @@ public class TileManager {
                         row++;
                     }
                 } else {
-                   System.out.println("Warning: Reached end of file earlier than expected.");
+                  // System.out.println("Warning: Reached end of file earlier than expected.");
                     break;
                 }
             }
