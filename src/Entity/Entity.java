@@ -38,10 +38,15 @@ public class Entity {
 
     GamePanel gp;
 
+
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
+
+
     public void setAction(){}
+
+
     public void speak(){
         if(dialogue[dialogueIndex] == null){
             dialogueIndex = 0;
@@ -54,8 +59,11 @@ public class Entity {
             case "left": direction = "right"; break;
             case "down": direction = "up"; break;
             case "right": direction = "left"; break;
+            case "default": direction = "default"; break;
         }
-    };
+    }
+
+
     public void update() {
         setAction();
         CollisionOn = false;
@@ -87,7 +95,10 @@ public class Entity {
         BufferedImage image = null;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
                 case "default", "up", "down", "left", "right":
                    if(spriteNum == 1) {

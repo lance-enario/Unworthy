@@ -22,10 +22,12 @@ public class UI {
         arial_80B = new Font("Arial", Font.BOLD, 80);
     }
 
+
     public void showMessage (String text){
         message = text;
         messageOn = true;
     }
+
 
     public void draw (Graphics2D g2){
         this.g2 = g2;
@@ -73,6 +75,8 @@ public class UI {
         g2.setStroke( new BasicStroke(5) );
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
     }
+
+
     public void drawPauseScreen(){
 
         String text = "PAUSED";
@@ -81,6 +85,7 @@ public class UI {
 
         g2.drawString(text, x, y);
     }
+
 
     public int getXforCenteredText(String text){
         int length  = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();

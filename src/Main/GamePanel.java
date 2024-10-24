@@ -54,7 +54,6 @@ public class GamePanel extends JPanel implements Runnable{
     public final int dialogueState = 3;
 
 
-
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -76,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
+
 
     @Override
     public void run() {
@@ -102,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+
     public void update(){
 
         if (gameState == playState){
@@ -118,29 +119,35 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+
     public void paintComponent(Graphics g){
         //Toolkit.getDefaultToolkit().sync();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
         //draw map
         tileM.draw(g2);
+
         //draw object
         for (int i = 0; i < obj.length; i++) {
             if(obj[i] != null){
                 obj[i].draw(g2, this);
             }
         }
+
         //draw NPC
         for (int i = 0; i < npc.length; i++) {
             if(npc[i] != null){
                 npc[i].draw2(g2);
             }
         }
-        //draw else
+
+        //draw others
         player.draw(g2);
         ui.draw(g2);
         g2.dispose();
     }
+
 
     public void playMusic(int i){
         sound.setFile(i);
@@ -148,10 +155,12 @@ public class GamePanel extends JPanel implements Runnable{
         sound.loop();
     }
 
+
     public void stopMusic(){
          sound.stop();
 
     }
+
 
     public void playSE(int i){
          sound.setFile(i);

@@ -37,8 +37,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 3;
-        worldY = gp.tileSize * 6;
+        worldX = gp.tileSize * 3; //spawn point
+        worldY = gp.tileSize * 16;
         speed = 5; // 3 default but increased just for testing
         direction = "default";
         maintain = "right";
@@ -50,8 +50,8 @@ public class Player extends Entity {
 
         try {
             for (int i = 0; i < 6; i++) {
-                walkFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/walk/sprite_" + i + ".png"));
-                idleFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/idle/sprite_IDLE" + i + ".png"));
+                walkFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/walk/" + (i+1) + ".png"));
+                idleFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/idle/Idle" + (i+1) + ".png"));
             }
             for (int i = 0; i < 7; i++) {
                 bscAttackFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack" + i + ".png"));
@@ -59,6 +59,7 @@ public class Player extends Entity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -82,26 +83,35 @@ public class Player extends Entity {
 //          //  worldX -= speed;
         //  } else
 
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+       if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.bscAtkPressed ) {
             if (keyH.upPressed) {
                 direction = "up";
+                System.out.println("up");
             } else if (keyH.downPressed) {
                 direction = "down";
+                System.out.println("down");
             } else if (keyH.leftPressed) {
                 direction = "left";
                 maintain = direction;
+                System.out.println("left");
             } else if (keyH.rightPressed) {
                 direction = "right";
                 maintain = direction;
+                System.out.println("right");
             } else if (keyH.bscAtkPressed) {
                 isAttacking = true;
+
             } else {
                 direction = "default";
-            }
+                System.out.println("default");
+        }
+
+
 
             //collision checker
             CollisionOn = false;
             gp.cChecker.checkTile(this);
+
             //obj checker
             int objIDX = gp.cChecker.checkOBJ(this, true);
             pickUpOBJ(objIDX);
@@ -117,11 +127,12 @@ public class Player extends Entity {
                     case "down": worldY += speed; break;
                     case "left": worldX -= speed; break;
                     case "right": worldX += speed; break;
+                    case "default": break;
                 }
             }
             spriteCounter++;
 
-            if (spriteCounter > 10) {
+            if (spriteCounter > 6) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
@@ -213,10 +224,12 @@ public class Player extends Entity {
             } else {
                 g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
             }
+
             //visible collision checker, just cross out if not needed
             g2.setColor(Color.red);
-           g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
-    }
+}
+
 

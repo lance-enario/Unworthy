@@ -16,13 +16,6 @@ public class NPC_Traveller extends Entity {
         super(gp);
         direction = "default";
         speed = 1;
-//        try {
-//            for (int i = 0; i < 6; i++) {
-//                idleFrames[i] = ImageIO.read(getClass().getResourceAsStream("/NPC_Traveller/wanderingTraveller_" + i + ".png"));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         setDialogue();
         getImage();
     }
@@ -35,8 +28,8 @@ public class NPC_Traveller extends Entity {
         left1 = setup("/NPC_Traveller/wanderingTraveller_4");
         left2 = setup("/NPC_Traveller/wanderingTraveller_5");
         right1 = setup("/NPC_Traveller/wanderingTraveller_6");
-     //   right2 = setup("/NPC_Traveller/wanderingTraveller_7");
     }
+
     public void setDialogue(){
         dialogue[0] = "Hi <3";
         dialogue[1] = "Katugnaw";
@@ -44,6 +37,7 @@ public class NPC_Traveller extends Entity {
         dialogue[3] = "Palambing";
 
     }
+
     @Override
     public void setAction(){
         actionLockCounter++;
@@ -68,10 +62,8 @@ public class NPC_Traveller extends Entity {
 
             actionLockCounter = 0;
         }
-
-
-
     }
+
     public void speak(){
         super.speak();
     }

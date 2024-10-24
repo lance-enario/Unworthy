@@ -27,7 +27,7 @@ public class AssetSetter {
 
     public void setNPC(){
         gp.npc[0] = new NPC_Traveller(gp);
-        gp.npc[0].worldX = 12 * gp.tileSize;
-        gp.npc[0].worldY = 12 * gp.tileSize;
+        gp.npc[0].worldX = 13 * gp.tileSize;
+        gp.npc[0].worldY = 16 * gp.tileSize;
     }
 }
