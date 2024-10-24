@@ -15,8 +15,8 @@ public class Player extends Entity {
     Sound sound;
     public final int screenX;
     public final int screenY;
-    BufferedImage[] walkFrames = new BufferedImage[6];
-    BufferedImage[] idleFrames = new BufferedImage[6];
+    public BufferedImage[] walkFrames = new BufferedImage[6];
+    public BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
     int hasKey =0 ;
 

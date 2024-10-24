@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -67,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setObj();
         aSet.setNPC();
       //  playMusic(0);
-        gameState = playState;
+        gameState = titleState;
     }
 
 
@@ -125,21 +126,28 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        //draw map
-        tileM.draw(g2);
-
-        //draw object
-        for (int i = 0; i < obj.length; i++) {
-            if(obj[i] != null){
-                obj[i].draw(g2, this);
-            }
+        //tile screen
+        if(gameState == titleState){
+            ui.draw(g2);
         }
+        //others
+        else{
+            //draw map
+            tileM.draw(g2);
 
-        //draw NPC
-        for (int i = 0; i < npc.length; i++) {
-            if(npc[i] != null){
-                npc[i].draw2(g2);
+            //draw object
+            for (int i = 0; i < obj.length; i++) {
+                if(obj[i] != null){
+                    obj[i].draw(g2, this);
+                }
             }
+
+            //draw NPC
+            for (int i = 0; i < npc.length; i++) {
+                if(npc[i] != null){
+                    npc[i].draw2(g2);
+                }
+             }
         }
 
         //draw others
