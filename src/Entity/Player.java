@@ -40,6 +40,11 @@ public class Player extends Entity {
         worldX = gp.tileSize * 3; //spawn point
         worldY = gp.tileSize * 16;
         speed = 5; // 3 default but increased just for testing
+
+        // PLAYER STATUS
+        maxLife = 10;
+        life = maxLife;
+
         direction = "default";
         maintain = "right";
         isAttacking = false;
@@ -119,6 +124,9 @@ public class Player extends Entity {
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this,gp.npc);
             interactNPC(npcIndex);
+
+            //check event
+           gp.eHandler.checkEvent();
 
             //if collision != true, player can move
             if (!CollisionOn) {

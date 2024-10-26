@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     Sound sound = new Sound();
     Thread gameThread;
-
+    public EventHandler eHandler = new EventHandler(this);
     public ArrayList<Entity> projectileList = new ArrayList<>();
     public CollisionChecker cChecker = new CollisionChecker(this);
 
