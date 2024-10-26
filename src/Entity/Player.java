@@ -88,7 +88,6 @@ public class Player extends Entity {
 //          //  worldX -= speed;
         //  } else
 
-       if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.bscAtkPressed ) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -105,13 +104,10 @@ public class Player extends Entity {
                 System.out.println("right");
             } else if (keyH.bscAtkPressed) {
                 isAttacking = true;
-
             } else {
                 direction = "default";
                 System.out.println("default");
-        }
-
-
+            }
 
             //collision checker
             CollisionOn = false;
@@ -122,7 +118,7 @@ public class Player extends Entity {
             pickUpOBJ(objIDX);
 
             //check npc collision
-            int npcIndex = gp.cChecker.checkEntity(this,gp.npc);
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
             //check event
@@ -167,8 +163,6 @@ public class Player extends Entity {
 //
 //            gp.projectileList.add(projectile);
 //        }
-
-        }
     }
 
         public void  pickUpOBJ(int objIDX) {
@@ -195,8 +189,8 @@ public class Player extends Entity {
         public void interactNPC(int i) {
              if(i!=999){
                  if(gp.keyH.enterPressed){
-                gp.gameState = gp.dialogueState;
-                gp.npc[i].speak();
+                 gp.gameState = gp.dialogueState;
+                 gp.npc[i].speak();
                }
              }
             gp.keyH.enterPressed = false;
@@ -220,7 +214,6 @@ public class Player extends Entity {
                     default: image = idleFrames[0]; break; // Fallback to first idle frame if direction is unrecognized
                 }
             }
-
             boolean shouldFlip =
                     direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||

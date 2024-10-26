@@ -43,7 +43,7 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_ENTER) {
                 if (gp.ui.commandNum == 0) {
                     gp.ui.titleScreenState = 1;
-                    gp.playMusic(0);
+                    //gp.playMusic(0);
                 }
                 if (gp.ui.commandNum == 1) {
                     //add later
