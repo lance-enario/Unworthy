@@ -28,7 +28,7 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        solidArea = new Rectangle(32,56, 32, 24);
+        solidArea = new Rectangle(37,79, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -39,7 +39,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 3; //spawn point
         worldY = gp.tileSize * 16;
-        speed = 5; // 3 default but increased just for testing
+        speed = 7; // 3 default but increased just for testing
 
         // PLAYER STATUS
         maxLife = 10;
@@ -221,9 +221,9 @@ public class Player extends Entity {
                     (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
-                g2.drawImage(image, (screenX + gp.playerSize), screenY, -gp.playerSize, gp.playerSize, null);
+                g2.drawImage(image, (screenX + gp.playerSize+15), screenY, -gp.playerSize-15, gp.playerSize+15, null);
             } else {
-                g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
+                g2.drawImage(image, screenX, screenY, gp.playerSize+15, gp.playerSize+15, null);
             }
 
             //visible collision checker, just cross out if not needed
