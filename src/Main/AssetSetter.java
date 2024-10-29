@@ -1,4 +1,5 @@
 package Main;
+import Entity.NPC_Traveller;
 import objects.obj_Chest;
 import objects.obj_Door;
 import objects.obj_Key;
@@ -22,5 +23,11 @@ public class AssetSetter {
         gp.obj[2] = new obj_Door();
         gp.obj[2].worldX = 13 * gp.tileSize;
         gp.obj[2].worldY = 9 * gp.tileSize;
+    }
+
+    public void setNPC(){
+        gp.npc[0] = new NPC_Traveller(gp);
+        gp.npc[0].worldX = 13 * gp.tileSize;
+        gp.npc[0].worldY = 16 * gp.tileSize;
     }
 }
