@@ -1,5 +1,6 @@
 package Main;
 
+import javax.security.auth.kerberos.KeyTab;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.Key;
@@ -123,19 +124,16 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_ENTER){
                 enterPressed = true;
             }
-            if (code == KeyEvent.VK_ESCAPE) {
-                if (gp.gameState == gp.playState) {
-                    gp.gameState = gp.pauseState;
-                }
 
-        }
-        else if(gp.gameState == gp.pauseState){
-                if (gp.gameState == gp.pauseState) {
-                    gp.gameState = gp.playState;
-                }
+            if (code == KeyEvent.VK_ESCAPE) {
+                gp.gameState = gp.pauseState;
             }
-        }
-        else if(gp.gameState == gp.dialogueState){
+        //PAUSE STATE
+        } else if (gp.gameState == gp.pauseState) {
+            if (code == KeyEvent.VK_ESCAPE){
+                gp.gameState = gp.playState;
+            }
+        } else if(gp.gameState == gp.dialogueState){
             if (code == KeyEvent.VK_ENTER) {
                 gp.gameState = gp.playState;
             }

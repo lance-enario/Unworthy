@@ -69,25 +69,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-
-//        if (keyH.upPressed && keyH.rightPressed){
-//            maintain = "right";
-//           // worldY -= speed;
-//           // worldX += speed;
-//        } else if (keyH.upPressed && keyH.leftPressed && !keyH.rightPressed) {
-//            maintain = "left";
-//           // worldY -= speed;
-//           // worldX -= speed;
-//        } else if (keyH.downPressed && keyH.rightPressed) {
-//            maintain = "right";
-//            //worldY += speed;
-//          //  worldX += speed;
-//        } else if (keyH.downPressed && keyH.leftPressed) {
-//            maintain = "left";
-////            worldY += speed;
-//          //  worldX -= speed;
-        //  } else
-
+        if (keyH.enterPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -102,11 +84,9 @@ public class Player extends Entity {
                 direction = "right";
                 maintain = direction;
                 System.out.println("right");
-            } else if (keyH.bscAtkPressed) {
-                isAttacking = true;
-            } else {
+            } else if (keyH.enterPressed){
                 direction = "default";
-                System.out.println("default");
+                System.out.println("idle dialogue trigger");
             }
 
             //collision checker
@@ -122,18 +102,34 @@ public class Player extends Entity {
             interactNPC(npcIndex);
 
             //check event
-           gp.eHandler.checkEvent();
+            gp.eHandler.checkEvent();
 
             //if collision != true, player can move
-            if (!CollisionOn) {
+            if (!CollisionOn && !keyH.enterPressed) {
                 switch (direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
-                    case "default": break;
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    case "default":
+                        break;
                 }
             }
+
+            gp.keyH.enterPressed = false;
+
+        } else {
+            direction = "default";
+            gp.cChecker.checkEntity(this, gp.npc);
+        }
             spriteCounter++;
 
             if (spriteCounter > 6) {
@@ -151,21 +147,11 @@ public class Player extends Entity {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
-                audioCounter++;
-            }
 
-            if (audioCounter > 5){
-                audioCounter = 0;
             }
-
-//        if((gp.keyH.bscAtkPressed && projectile.alive) == false){
-//            projectile.set(worldX, worldY, direction, true, this);
-//
-//            gp.projectileList.add(projectile);
-//        }
     }
 
-        public void  pickUpOBJ(int objIDX) {
+        public void pickUpOBJ(int objIDX) {
             if(objIDX != 999){
                String objName = gp.obj[objIDX].name;
 
@@ -198,7 +184,7 @@ public class Player extends Entity {
 
         public void draw (Graphics2D g2) {
 
-            BufferedImage image = null;
+            BufferedImage image;
 
             if (isAttacking) {
                 isAttacking = false; // Reset attack state (could be handled differently based on animation needs)

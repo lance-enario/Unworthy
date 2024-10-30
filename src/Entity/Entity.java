@@ -13,6 +13,7 @@ public class Entity {
     public int worldX, worldY;
     public String direction;
     public String maintain;
+    public String prevDirection;
     public boolean isAttacking;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage[] idleFrames;
@@ -67,8 +68,8 @@ public class Entity {
     public void update() {
         setAction();
         CollisionOn = false;
-       gp.cChecker.checkTile(this);
-
+        gp.cChecker.checkTile(this);
+        gp.cChecker.checkPlayer(this);
         spriteCounter++;
 
         if (spriteCounter > 10) {
