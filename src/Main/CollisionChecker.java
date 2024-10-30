@@ -135,58 +135,108 @@ public class CollisionChecker {
         return index;
     }
 
-    public int checkEntity(Entity entity, Entity[] target){
-        int index =999;
+    public int checkEntity(Entity entity, Entity[] target) {
+        int index = 999;
 
-        int i;
-        for(i = 0; i<target.length; i++){
-            if(target[i] != null && target[i].solidArea !=null) {
-                //get entity posi
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != null && target[i].solidArea != null) {
+                // Store the original positions of the entity and target solid areas
+                int originalEntitySolidAreaX = entity.solidArea.x;
+                int originalEntitySolidAreaY = entity.solidArea.y;
+                int originalTargetSolidAreaX = target[i].solidArea.x;
+                int originalTargetSolidAreaY = target[i].solidArea.y;
+
+                // Set entity solidArea position based on world coordinates
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
-                //get obj posi
+                // Set target solidArea position based on world coordinates
                 target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
                 target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
 
+                // Check collision based on direction
                 switch (entity.direction) {
                     case "up":
                         entity.solidArea.y -= entity.speed;
-                        if (entity.solidArea.intersects(target[i].solidArea)) {
-                            entity.CollisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "down":
                         entity.solidArea.y += entity.speed;
-                        if (entity.solidArea.intersects(target[i].solidArea)) {
-                            entity.CollisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "left":
                         entity.solidArea.x -= entity.speed;
-                        if (entity.solidArea.intersects(target[i].solidArea)) {
-                            entity.CollisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "right":
                         entity.solidArea.x += entity.speed;
-                        if (entity.solidArea.intersects(target[i].solidArea)) {
-                            entity.CollisionOn = true;
-                            index = i;
                         break;
-                        }
+                    case "default":
+                        // No movement, so directly check current position for collision
+                        break;
                 }
-            entity.solidArea.x = entity.solidAreaDefaultX;
-            entity.solidArea.y = entity.solidAreaDefaultY;;
-                target[i].solidArea.x = target[i].solidAreaDefaultX;
-                target[i].solidArea.y = target[i].solidAreaDefaultY;
 
+                // Check for collision
+                if (entity.solidArea.intersects(target[i].solidArea)) {
+                    entity.CollisionOn = true;
+                    System.out.println("Collision detected!");
+                    index = i;
+                }
+
+                // Reset solid areas to their original positions
+                entity.solidArea.x = originalEntitySolidAreaX;
+                entity.solidArea.y = originalEntitySolidAreaY;
+                target[i].solidArea.x = originalTargetSolidAreaX;
+                target[i].solidArea.y = originalTargetSolidAreaY;
             }
         }
         return index;
     }
 
+    public void checkPlayer(Entity entity){
+        //get entity posi
+        entity.solidArea.x = entity.worldX + entity.solidArea.x;
+        entity.solidArea.y = entity.worldY + entity.solidArea.y;
+        //get obj posi
+        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
+        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+
+        switch (entity.direction) {
+            case "up":
+                entity.solidArea.y -= entity.speed;
+                if (entity.solidArea.intersects(gp.player.solidArea)) {
+                    entity.CollisionOn = true;
+                    System.out.println("Collision above!");
+                }
+
+                break;
+            case "down":
+                entity.solidArea.y += entity.speed;
+                if (entity.solidArea.intersects(gp.player.solidArea)) {
+                    entity.CollisionOn = true;
+                    System.out.println("Collision below!");
+
+                }
+
+                break;
+            case "left":
+                entity.solidArea.x -= entity.speed;
+                if (entity.solidArea.intersects(gp.player.solidArea)) {
+                    entity.CollisionOn = true;
+                    System.out.println("Collision left!");
+
+                }
+
+                break;
+            case "right":
+                entity.solidArea.x += entity.speed;
+                if (entity.solidArea.intersects(gp.player.solidArea)) {
+                    entity.CollisionOn = true;
+                    System.out.println("Collision right!");
+
+                }
+                break;
+        }
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;;
+        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+    }
 
 }
