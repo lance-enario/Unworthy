@@ -12,15 +12,15 @@ public class AssetSetter {
     }
 
     public void setObj(){
-        gp.obj[0] = new obj_Key();
+        gp.obj[0] = new obj_Key(gp);
         gp.obj[0].worldX = 13 * gp.tileSize;
         gp.obj[0].worldY = 8 * gp.tileSize;
 
-        gp.obj[3] = new obj_Chest();
-        gp.obj[3].worldX = 13 * gp.tileSize;
-        gp.obj[3].worldY = 10 * gp.tileSize;
+        gp.obj[1] = new obj_Chest(gp);
+        gp.obj[1].worldX = 13 * gp.tileSize;
+        gp.obj[1].worldY = 10 * gp.tileSize;
 
-        gp.obj[2] = new obj_Door();
+        gp.obj[2] = new obj_Door(gp);
         gp.obj[2].worldX = 13 * gp.tileSize;
         gp.obj[2].worldY = 9 * gp.tileSize;
     }

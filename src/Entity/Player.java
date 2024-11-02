@@ -102,7 +102,7 @@ public class Player extends Entity {
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
         //    int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
             interactNPC(npcIndex);
-       //     interactNPC(npcDialogue);
+//            interactNPC(npcDialogue);
 
             //check event
             gp.eHandler.checkEvent();

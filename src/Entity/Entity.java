@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class Entity {
     public int worldX, worldY;
-    public String direction;
+    public String direction = "down";
     public String maintain;
     public String prevDirection;
     public boolean isAttacking;
@@ -27,9 +27,11 @@ public class Entity {
     public int actionLockCounter = 0;
     String[] dialogue = new String[20];
     int dialogueIndex = 0;
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     // ATTRIBUTES
-    public String name;
     public int speed;
     public int maxLife;
     public int life;
@@ -93,7 +95,7 @@ public class Entity {
     }
 
 
-    public void draw2(Graphics g2) {
+    public void draw(Graphics g2) {
         BufferedImage image = null;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
@@ -101,32 +103,40 @@ public class Entity {
             worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
             worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-            switch (direction) {
-                case "default", "up", "down", "left", "right":
-                   if(spriteNum == 1) {
-                        image = up1;
-                    }
-                    if(spriteNum == 2) {
-                        image = up2;
-                    }
-                    if(spriteNum == 3) {
-                        image = down1;
-                    }
-                    if(spriteNum == 4) {
-                        image = down2;
-                    }
-                    if(spriteNum == 5) {
-                        image = left1;
-                    }
-                    if(spriteNum == 6) {
-                        image = left2;
-                    }
-                    if(spriteNum == 7) {
-                        image = right1;
-                    }
-                    break;
+//            switch (direction) {
+//                case "default", "up", "down", "left", "right":
+//                   if(spriteNum == 1) {
+//                        image = up1;
+//                    }
+//                    if(spriteNum == 2) {
+//                        image = up2;
+//                    }
+//                    if(spriteNum == 3) {
+//                        image = down1;
+//                    }
+//                    if(spriteNum == 4) {
+//                        image = down2;
+//                    }
+//                    if(spriteNum == 5) {
+//                        image = left1;
+//                    }
+//                    if(spriteNum == 6) {
+//                        image = left2;
+//                    }
+//                    if(spriteNum == 7) {
+//                        image = right1;
+//                    }
+//                    break;
+//
+//            }
+                switch(direction){
+                    case "up": image = (spriteNum == 1) ? up1 : up2; break;
+                    case "down": image = (spriteNum == 1) ? down1 : down2; break;
+                    case "left": image = (spriteNum == 1) ? left1 : left2; break;
+                    case "right": image = (spriteNum == 1) ? right1 : right2; break;
 
-            }
+                }
+
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             g2.setColor(Color.green);
             g2.drawRect(screenX + DialogueArea.x, screenY +  DialogueArea.y, DialogueArea.width, DialogueArea.height);
