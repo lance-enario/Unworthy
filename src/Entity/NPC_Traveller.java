@@ -15,19 +15,20 @@ public class NPC_Traveller extends Entity {
     public NPC_Traveller(GamePanel gp) {
         super(gp);
         direction = "default";
-        speed = 1;
+        speed = 0;
         setDialogue();
         getImage();
+        DialogueArea = new Rectangle(1, 1, 70, 70);
     }
 
     public void getImage() {
-        up1 = setup("/NPC_Traveller/wanderingTraveller_0");
-        up2 = setup("/NPC_Traveller/wanderingTraveller_1");
-        down1 = setup("/NPC_Traveller/wanderingTraveller_2");
-        down2 = setup("/NPC_Traveller/wanderingTraveller_3");
-        left1 = setup("/NPC_Traveller/wanderingTraveller_4");
-        left2 = setup("/NPC_Traveller/wanderingTraveller_5");
-        right1 = setup("/NPC_Traveller/wanderingTraveller_6");
+        up1 = setup("/NPC_Traveller/wanderingTraveller0");
+        up2 = setup("/NPC_Traveller/wanderingTraveller1");
+        down1 = setup("/NPC_Traveller/wanderingTraveller2");
+        down2 = setup("/NPC_Traveller/wanderingTraveller3");
+        left1 = setup("/NPC_Traveller/wanderingTraveller4");
+        left2 = setup("/NPC_Traveller/wanderingTraveller5");
+        right1 = setup("/NPC_Traveller/wanderingTraveller6");
     }
 
     public void setDialogue(){
@@ -47,18 +48,19 @@ public class NPC_Traveller extends Entity {
             int i = rand.nextInt(100) + 1;
 
             // naka default tanan since mag idle raman sad ang traveller
-            if(i<=25) {
-                direction = "up"; //up
-            }
-            if(i > 25 && i <=50){
-                direction = "down"; //down
-            }
-            if(i > 50 && i <= 75){
-                direction = "left"; // left
-            }
-            if(i > 75 && i <= 100){
-                direction = "right"; // right
-            }
+//            if(i<=25) {
+//                direction = "up"; //up
+//            }
+//            if(i > 25 && i <=50){
+//                direction = "down"; //down
+//            }
+//            if(i > 50 && i <= 75){
+//                direction = "left"; // left
+//            }
+//            if(i > 75 && i <= 100){
+//                direction = "right"; // right
+//            }
+            direction = "default";
 
             actionLockCounter = 0;
         }
@@ -69,4 +71,3 @@ public class NPC_Traveller extends Entity {
     }
 
 }
-

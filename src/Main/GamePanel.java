@@ -17,8 +17,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int tileSize = originalTileSize * scale; // 48x48
     public final int playerSize = originalTileSize * playerScale;
-    public int maxScreenCol = 16;
-    public int maxScreenRow = 12;
+    public int maxScreenCol = 24; // 16 initial value (tried for fullscreen)
+    public int maxScreenRow = 13; // 12 initial value
     public int screenWidth = tileSize * maxScreenCol; // 768 px
     public int screenHeight = tileSize * maxScreenRow; // 576 px
 
@@ -42,7 +42,8 @@ public class GamePanel extends JPanel implements Runnable{
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
     public Entity[] ent = new Entity[10];
-    public Entity[] npc = new Entity[10];
+    public Entity[] npc = new Entity[1];
+
 
     public AssetSetter aSet = new AssetSetter(this);
     public superObject obj [] = new superObject[10];
@@ -67,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         aSet.setObj();
         aSet.setNPC();
-       playMusic(0);
+      // playMusic(0);
         gameState = titleState;
     }
 

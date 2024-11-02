@@ -21,6 +21,7 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea = new Rectangle(32,56, 64, 64);
+    public Rectangle DialogueArea = new Rectangle(32,56, 80, 80);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean CollisionOn = false;
     public int actionLockCounter = 0;
@@ -127,6 +128,8 @@ public class Entity {
 
             }
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.setColor(Color.green);
+            g2.drawRect(screenX + DialogueArea.x, screenY +  DialogueArea.y, DialogueArea.width, DialogueArea.height);
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }

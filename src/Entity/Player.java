@@ -27,10 +27,11 @@ public class Player extends Entity {
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-
+        DialogueArea = new Rectangle( 32, 56, gp.tileSize, gp.tileSize );
         solidArea = new Rectangle(37,79, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
 
         setDefaultValues();
         getPlayerImage();
@@ -99,7 +100,9 @@ public class Player extends Entity {
 
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+        //    int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
             interactNPC(npcIndex);
+       //     interactNPC(npcDialogue);
 
             //check event
             gp.eHandler.checkEvent();
@@ -129,6 +132,7 @@ public class Player extends Entity {
         } else {
             direction = "default";
             gp.cChecker.checkEntity(this, gp.npc);
+
         }
             spriteCounter++;
 
@@ -167,6 +171,7 @@ public class Player extends Entity {
                        }
                        break;
                    case "Chest":
+                       gp.obj[objIDX] = null;
                        break;
                }
             }
@@ -213,6 +218,8 @@ public class Player extends Entity {
             }
 
             //visible collision checker, just cross out if not needed
+            g2.setColor(Color.green);
+            g2.drawRect(DialogueArea.x + screenX, screenY+ DialogueArea.y, DialogueArea.width, DialogueArea.height);
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }

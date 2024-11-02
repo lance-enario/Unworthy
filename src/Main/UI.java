@@ -77,7 +77,7 @@ public class UI {
         //dialogue
         if(gp.gameState == gp.dialogueState){
             drawPlayerLife();
-            drawDialogueScreen("hi");
+            drawDialogueScreen();
         }
 
     }
@@ -117,7 +117,7 @@ public class UI {
 
             //TITLE NAME
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
-            String text = "Unworthy";
+            String text = "Unworthy"; // Unworthy
             int x = getXforCenteredText(text);
             int y = gp.tileSize * 3;
 
@@ -211,7 +211,7 @@ public class UI {
             }
         }
     }
-    public void drawDialogueScreen(String text){
+    public void drawDialogueScreen(){
             int x = gp.tileSize*2  , y = gp.tileSize, width = gp.screenWidth - (gp.tileSize*4), height = gp.tileSize*4;
             drawSubWindow(x, y, width, height);
 

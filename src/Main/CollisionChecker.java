@@ -2,8 +2,9 @@ package Main;
 
 import Entity.Entity;
 
-public class CollisionChecker {
+import java.awt.*;
 
+public class CollisionChecker {
     GamePanel gp;
 
     public CollisionChecker(GamePanel gp){
@@ -11,10 +12,6 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) {
-        if (entity.solidArea == null) {
-            System.out.println("Error: Entity solidArea is null.");
-            return;  // Exit the method if solidArea is null
-        }
 
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
@@ -147,13 +144,12 @@ public class CollisionChecker {
                 int originalTargetSolidAreaY = target[i].solidArea.y;
 
                 // Set entity solidArea position based on world coordinates
-                entity.solidArea.x = entity.worldX + entity.solidArea.x;
-                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+                entity.solidArea.x = entity.worldX + entity.solidArea.x + 30;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y + 30;
                 // Set target solidArea position based on world coordinates
-                target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
-                target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
+                target[i].solidArea.x = target[i].worldX + target[i].solidArea.x + 30;
+                target[i].solidArea.y = target[i].worldY + target[i].solidArea.y + 30;
 
-                // Check collision based on direction
                 switch (entity.direction) {
                     case "up":
                         entity.solidArea.y -= entity.speed;
@@ -172,10 +168,9 @@ public class CollisionChecker {
                         break;
                 }
 
-                // Check for collision
+                // Check for collision without considering direction
                 if (entity.solidArea.intersects(target[i].solidArea)) {
                     entity.CollisionOn = true;
-                    System.out.println("Collision detected!");
                     index = i;
                 }
 
@@ -184,8 +179,23 @@ public class CollisionChecker {
                 entity.solidArea.y = originalEntitySolidAreaY;
                 target[i].solidArea.x = originalTargetSolidAreaX;
                 target[i].solidArea.y = originalTargetSolidAreaY;
+
+                if (gp.player.DialogueArea.intersects(target[i].solidArea)) {
+                    entity.CollisionOn = false;
+                  //  System.out.println("Yawa");
+                }
+
             }
         }
+        return index;
+    }
+
+    public int checkDialogue(Entity player, Entity npc){
+        int index = 999;
+                // Check for collision
+                if (player.DialogueArea.intersects(npc.DialogueArea)) ;
+                System.out.println("Collision detected!");
+                index = 1;
         return index;
     }
 
