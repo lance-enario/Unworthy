@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class Entity {
     public int worldX, worldY;
-    public String direction = "down";
+    public String direction = "up";
     public String maintain = "right";
     public boolean isAttacking;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -142,36 +142,15 @@ public class Entity {
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
                 case "default", "up", "down", "left", "right":
-                   if(spriteNum == 1) {
-                        image = up1;
-                    }
-                    if(spriteNum == 2) {
-                        image = up2;
-                    }
-                    if(spriteNum == 3) {
-                        image = down1;
-                    }
-                    if(spriteNum == 4) {
-                        image = down2;
-                    }
-                    if(spriteNum == 5) {
-                        image = left1;
-                    }
-                    if(spriteNum == 6) {
-                        image = left2;
-                    }
-                    if(spriteNum == 7) {
-                        image = right1;
-                    }
-                    break;
+                   if(spriteNum == 1) image = up1;
+                   if(spriteNum == 2) image = up2;
+                   if(spriteNum == 3) image = down1;
+                   if(spriteNum == 4) image = down2;
+                   if(spriteNum == 5) image = left1;
+                   if(spriteNum == 6) image = left2;
+                   if(spriteNum == 7) image = right1;
+                   break;
             }
-//                switch(direction){
-//                    case "up": image = (spriteNum == 1) ? up1 : up2; break;
-//                    case "down": image = (spriteNum == 1) ? down1 : down2; break;
-//                    case "left": image = (spriteNum == 1) ? left1 : left2; break;
-//                    case "right": image = (spriteNum == 1) ? right1 : right2; break;
-//
-//                }
 
 //          g2.setColor(Color.green);
 //          g2.drawRect(screenX + DialogueArea.x, screenY +  DialogueArea.y, DialogueArea.width, DialogueArea.height);
