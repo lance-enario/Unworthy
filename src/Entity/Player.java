@@ -100,9 +100,14 @@ public class Player extends Entity {
 
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-        //    int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
             interactNPC(npcIndex);
-//            interactNPC(npcDialogue);
+
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            contactMonster(monsterIndex);
+
+            //int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
+
+            //interactNPC(npcDialogue);
 
             //check event
             gp.eHandler.checkEvent();
@@ -151,29 +156,37 @@ public class Player extends Entity {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
-
             }
+
+        // this code snippet handles invincibility
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 60){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
         public void pickUpOBJ(int objIDX) {
             if(objIDX != 999){
                String objName = gp.obj[objIDX].name;
-
-               switch (objName){
-                   case "Key":
-                       hasKey++;
-                       gp.obj[objIDX] = null;
-                       break;
-                   case "Door":
-                       if(hasKey > 0){
+                   switch (objName){
+                       case "Key":
+                           hasKey++;
                            gp.obj[objIDX] = null;
-                           hasKey--;
-                       }
-                       break;
-                   case "Chest":
-                       gp.obj[objIDX] = null;
-                       break;
-               }
+                           break;
+                       case "Door":
+                           if(hasKey > 0){
+                               gp.obj[objIDX] = null;
+                               hasKey--;
+                           }
+                           break;
+                       case "Chest":
+                           gp.obj[objIDX] = null;
+                           break;
+                   }
             }
         }
 
@@ -187,42 +200,65 @@ public class Player extends Entity {
             gp.keyH.enterPressed = false;
         }
 
-        public void draw (Graphics2D g2) {
-
-            BufferedImage image;
-
-            if (isAttacking) {
-                isAttacking = false; // Reset attack state (could be handled differently based on animation needs)
-                keyH.downPressed = false;
-                keyH.leftPressed = false;
-                keyH.upPressed = false;
-                keyH.rightPressed = false;
-                image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
-            } else {
-                switch (direction) {
-                    case "left", "right", "up", "down": image = walkFrames[(spriteNum - 1) % walkFrames.length];  break; // Walk animation frame
-                    case "default": image = idleFrames[(spriteNum - 1) % idleFrames.length]; break;// Idle animation frame
-                    default: image = idleFrames[0]; break; // Fallback to first idle frame if direction is unrecognized
+        public void contactMonster(int i){
+            if(i!=999){
+                if (!isInvincible){
+                    life -= 1;
+                    isInvincible = true;
                 }
             }
-            boolean shouldFlip =
-                    direction.equals("left") ||
-                    (direction.equals("up") && maintain.equals("left")) ||
-                    (direction.equals("down") && maintain.equals("left")) ||
-                    (direction.equals("default") && maintain.equals("left"));
-
-            if (shouldFlip) {
-                g2.drawImage(image, (screenX + gp.playerSize+15), screenY, -gp.playerSize-15, gp.playerSize+15, null);
-            } else {
-                g2.drawImage(image, screenX, screenY, gp.playerSize+15, gp.playerSize+15, null);
-            }
-
-            //visible collision checker, just cross out if not needed
-            g2.setColor(Color.green);
-            g2.drawRect(DialogueArea.x + screenX, screenY+ DialogueArea.y, DialogueArea.width, DialogueArea.height);
-            g2.setColor(Color.red);
-            g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
+
+
+    public void draw (Graphics2D g2) {
+
+        BufferedImage image;
+
+        if (isAttacking) {
+            isAttacking = false; // Reset attack state (could be handled differently based on animation needs)
+            keyH.downPressed = false;
+            keyH.leftPressed = false;
+            keyH.upPressed = false;
+            keyH.rightPressed = false;
+            image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
+        } else {
+            switch (direction) {
+                case "left", "right", "up", "down": image = walkFrames[(spriteNum - 1) % walkFrames.length];  break; // Walk animation frame
+                case "default": image = idleFrames[(spriteNum - 1) % idleFrames.length]; break;// Idle animation frame
+                default: image = idleFrames[0]; break; // Fallback to first idle frame if direction is unrecognized
+            }
+        }
+
+        // visual confirmation of invincible state
+        if (isInvincible){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+        }
+
+        boolean shouldFlip = false;
+
+        if (direction.equals("left") ||
+            (direction.equals("up") && maintain.equals("left")) ||
+            (direction.equals("down") && maintain.equals("left")) ||
+            (direction.equals("default") && maintain.equals("left")))
+        {
+            shouldFlip = true;
+        }
+
+        if (shouldFlip) {
+            g2.drawImage(image, (screenX + gp.playerSize+15), screenY, -gp.playerSize-15, gp.playerSize+15, null);
+        } else {
+            g2.drawImage(image, screenX, screenY, gp.playerSize+15, gp.playerSize+15, null);
+        }
+
+        // reset composite
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+        //visible collision checker, just cross out if not needed
+        g2.setColor(Color.green);
+        g2.drawRect(DialogueArea.x + screenX, screenY+ DialogueArea.y, DialogueArea.width, DialogueArea.height);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+    }
 
 }
 

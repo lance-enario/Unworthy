@@ -1,5 +1,6 @@
 package Main;
 import Entity.NPC_Traveller;
+import Monster.Slime;
 import objects.obj_Chest;
 import objects.obj_Door;
 import objects.obj_Key;
@@ -30,4 +31,11 @@ public class AssetSetter {
         gp.npc[0].worldX = 13 * gp.tileSize;
         gp.npc[0].worldY = 16 * gp.tileSize;
     }
+
+    public void setMonster(){
+        gp.monster[0] = new Slime(gp);
+        gp.monster[0].worldX = 8 * gp.tileSize;
+        gp.monster[0].worldY = 16 * gp.tileSize;
+    }
+
 }

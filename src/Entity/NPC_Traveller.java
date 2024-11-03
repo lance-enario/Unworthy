@@ -2,15 +2,10 @@ package Entity;
 
 import Main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 public class NPC_Traveller extends Entity {
-
-    BufferedImage[] idleFrames = new BufferedImage[6];
 
     public NPC_Traveller(GamePanel gp) {
         super(gp);
