@@ -22,7 +22,7 @@ public class Entity {
 
     //placeholder area lines for collision & dialogue check
     public Rectangle solidArea = new Rectangle(32,56, 64, 64);
-    public Rectangle DialogueArea = new Rectangle(32,56, 80, 80);
+    public Rectangle DialogueArea = new Rectangle(32,56, 64, 64);
 
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean CollisionOn = false;
@@ -86,7 +86,7 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-        if (this.type == 2 && contactPlayer == true){
+        if (this.type == 2 && contactPlayer){
             if (!gp.player.isInvincible){
                 gp.player.life -= 1;
                 gp.player.isInvincible = true;
@@ -192,7 +192,6 @@ public class Entity {
                 g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
 
-            //g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }

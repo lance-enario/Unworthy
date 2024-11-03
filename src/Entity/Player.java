@@ -27,7 +27,8 @@ public class Player extends Entity {
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-        DialogueArea = new Rectangle( 32, 56, gp.tileSize, gp.tileSize );
+
+        DialogueArea = new Rectangle( 30, 75, 45, 40);
         solidArea = new Rectangle(37,79, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -70,7 +71,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (keyH.enterPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -105,10 +106,6 @@ public class Player extends Entity {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
 
-            //int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
-
-            //interactNPC(npcDialogue);
-
             //check event
             gp.eHandler.checkEvent();
 
@@ -136,8 +133,11 @@ public class Player extends Entity {
 
         } else {
             direction = "default";
-            gp.cChecker.checkEntity(this, gp.npc);
 
+            int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
+            interactNPC(npcDialogue);
+
+            gp.keyH.enterPressed = false;
         }
             spriteCounter++;
 
@@ -193,11 +193,11 @@ public class Player extends Entity {
         public void interactNPC(int i) {
              if(i!=999){
                  if(gp.keyH.enterPressed){
-                 gp.gameState = gp.dialogueState;
-                 gp.npc[i].speak();
-               }
+                     gp.gameState = gp.dialogueState;
+                     gp.npc[i].speak();
+                 }
              }
-            gp.keyH.enterPressed = false;
+             gp.keyH.enterPressed = false;
         }
 
         public void contactMonster(int i){
@@ -255,9 +255,10 @@ public class Player extends Entity {
 
         //visible collision checker, just cross out if not needed
         g2.setColor(Color.green);
-        g2.drawRect(DialogueArea.x + screenX, screenY+ DialogueArea.y, DialogueArea.width, DialogueArea.height);
+        //the -10 is there to center the dialoguearea around character
+        g2.drawRect(screenX + DialogueArea.x,screenY + DialogueArea.y, DialogueArea.width, DialogueArea.height);
         g2.setColor(Color.red);
-        g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 
 }

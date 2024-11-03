@@ -2,9 +2,6 @@ package Entity;
 
 import Main.GamePanel;
 
-import java.awt.*;
-import java.util.Random;
-
 public class NPC_Traveller extends Entity {
 
     public NPC_Traveller(GamePanel gp) {
@@ -13,7 +10,6 @@ public class NPC_Traveller extends Entity {
         speed = 0;
         setDialogue();
         getImage();
-        DialogueArea = new Rectangle(1, 1, 70, 70);
     }
 
     public void getImage() {
@@ -34,15 +30,15 @@ public class NPC_Traveller extends Entity {
 
     }
 
-    @Override
-    public void setAction(){
-        actionLockCounter++;
-
-        if(actionLockCounter  == 120){
-            Random rand = new Random();
-            int i = rand.nextInt(100) + 1;
-
-            // naka default tanan since mag idle raman sad ang traveller
+//    @Override
+//    public void setAction(){
+//        actionLockCounter++;
+//
+//        if(actionLockCounter  == 120){
+//            Random rand = new Random();
+//            int i = rand.nextInt(100) + 1;
+//
+//            //naka default tanan since mag idle raman sad ang traveller
 //            if(i<=25) {
 //                direction = "up"; //up
 //            }
@@ -55,11 +51,11 @@ public class NPC_Traveller extends Entity {
 //            if(i > 75 && i <= 100){
 //                direction = "right"; // right
 //            }
-            direction = "default";
-
-            actionLockCounter = 0;
-        }
-    }
+//            direction = "default";
+//
+//            actionLockCounter = 0;
+//        }
+//    }
 
     public void speak(){
         super.speak();

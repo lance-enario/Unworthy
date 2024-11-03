@@ -182,14 +182,43 @@ public class CollisionChecker {
         return index;
     }
 
-//    public int checkDialogue(Entity player, Entity npc){
-//        int index = 999;
-//                // Check for collision
-//                if (player.DialogueArea.intersects(npc.DialogueArea)) ;
-//                System.out.println("Collision detected!");
-//                index = 1;
-//        return index;
-//    }
+    // this function checks if the player can interact with an npc
+    public int checkDialogue(Entity player, Entity[] npc){
+        int index = 999;
+
+        for (int i = 0; i < npc.length; i++) {
+            if (npc[i] != null && npc[i].solidArea != null) {
+
+                int DialogueAreaDefaultX = player.DialogueArea.x;
+                int DialogueAreaDefaultY = player.DialogueArea.y;
+
+                // Set entity solidArea position based on world coordinates
+                player.DialogueArea.x = player.worldX + player.DialogueArea.x;
+                player.DialogueArea.y = player.worldY + player.DialogueArea.y;
+                // Set target solidArea position based on world coordinates
+                npc[i].solidArea.x = npc[i].worldX + npc[i].solidArea.x;
+                npc[i].solidArea.y = npc[i].worldY + npc[i].solidArea.y;
+
+                switch (player.direction) {
+                    case "up": player.DialogueArea.y -= player.speed; break;
+                    case "down": player.DialogueArea.y += player.speed; break;
+                    case "left": player.DialogueArea.x -= player.speed; break;
+                    case "right": player.DialogueArea.x += player.speed; break;
+                }
+
+                if (player.DialogueArea.intersects(npc[i].solidArea)){
+                    System.out.println("Can interact!");
+                    index = i;
+                }
+
+                player.DialogueArea.x = DialogueAreaDefaultX;
+                player.DialogueArea.y = DialogueAreaDefaultY;
+                npc[i].solidArea.x = npc[i].solidAreaDefaultX;
+                npc[i].solidArea.y = npc[i].solidAreaDefaultY;
+            }
+        }
+        return index;
+    }
 
     public boolean checkPlayer(Entity entity){
 
