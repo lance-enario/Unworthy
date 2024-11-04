@@ -28,11 +28,11 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        DialogueArea = new Rectangle( 30, 75, 45, 40);
+        // (30, 75, 45, 40)
+        DialogueArea = new Rectangle(30, 75, 45, 40);
         solidArea = new Rectangle(37,79, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-
 
         setDefaultValues();
         getPlayerImage();
@@ -61,7 +61,7 @@ public class Player extends Entity {
                 idleFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/idle/Idle" + (i+1) + ".png"));
             }
             for (int i = 0; i < 7; i++) {
-                bscAttackFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/sprite_bscAttack" + i + ".png"));
+                bscAttackFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/" + (i+1) + ".png"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +71,12 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+
+
+        if (keyH.bscAtkPressed){
+            isAttacking = true;
+            attacking();
+        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -169,6 +174,26 @@ public class Player extends Entity {
 
     }
 
+        public void attacking(){
+            spriteCounter++;
+            System.out.println("Attack is starting");
+            if (spriteCounter > 7) {
+                if (spriteNum == 3) {
+                    spriteNum = 4;
+                } else if (spriteNum == 4) {
+                    spriteNum = 5;
+                } else if (spriteNum == 5) {
+                    spriteNum = 6;
+                } else {
+                    spriteNum = 1;
+                    System.out.println("Finished attacking");
+                }
+                spriteCounter = 0;
+                isAttacking = false;
+                gp.keyH.bscAtkPressed = false;
+            }
+        }
+
         public void pickUpOBJ(int objIDX) {
             if(objIDX != 999){
                String objName = gp.obj[objIDX].name;
@@ -215,11 +240,6 @@ public class Player extends Entity {
         BufferedImage image;
 
         if (isAttacking) {
-            isAttacking = false; // Reset attack state (could be handled differently based on animation needs)
-            keyH.downPressed = false;
-            keyH.leftPressed = false;
-            keyH.upPressed = false;
-            keyH.rightPressed = false;
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
         } else {
             switch (direction) {
@@ -245,9 +265,9 @@ public class Player extends Entity {
         }
 
         if (shouldFlip) {
-            g2.drawImage(image, (screenX + gp.playerSize+15), screenY, -gp.playerSize-15, gp.playerSize+15, null);
+            g2.drawImage(image, (screenX + gp.playerSize+30), screenY, -gp.playerSize-30, gp.playerSize+30, null);
         } else {
-            g2.drawImage(image, screenX, screenY, gp.playerSize+15, gp.playerSize+15, null);
+            g2.drawImage(image, screenX, screenY, gp.playerSize+30, gp.playerSize+30, null);
         }
 
         // reset composite
