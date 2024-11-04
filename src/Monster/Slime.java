@@ -7,9 +7,11 @@ import Main.GamePanel;
 import java.util.Random;
 
 public class Slime extends Entity {
+    GamePanel gp;
 
     public Slime(GamePanel gp){
         super(gp);
+        this.gp = gp;
 
         type = 2; //monster type
         name = "Green Slime";
@@ -61,6 +63,77 @@ public class Slime extends Entity {
             actionLockCounter = 0;
         }
 
+    }
+
+    @Override
+    public void update() {
+        setAction();
+        CollisionOn = false;
+
+        gp.cChecker.checkTile(this);
+        gp.cChecker.checkOBJ(this, false);
+        gp.cChecker.checkEntity(this, gp.npc);
+        gp.cChecker.checkEntity(this, gp.monster);
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+        if (this.type == 2 && contactPlayer){
+            if (!gp.player.isInvincible){
+                gp.player.life -= 1;
+                gp.player.isInvincible = true;
+            }
+        }
+
+        if (!CollisionOn) {
+            switch (direction) {
+                case "up":
+                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
+                   //     direction = maintain;
+                        worldY += speed;
+                    }
+                    break;
+                case "down":
+                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
+                     //   direction = maintain;
+                        worldY -= speed;
+                    }
+
+                case "left":
+                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
+                     //   direction = maintain;
+                        worldX -= speed;
+                    }
+
+                    break;
+                case "right":
+                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
+                     //   direction = maintain;
+                        worldX += speed;
+                    }
+
+                    break;
+                case "default":
+                    break;
+            }
+        }
+
+        spriteCounter++;
+
+        if (spriteCounter > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+            } else if (spriteNum == 3) {
+                spriteNum = 4;
+            } else if (spriteNum == 4) {
+                spriteNum = 5;
+            } else if (spriteNum == 5) {
+                spriteNum = 6;
+            } else {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
     }
 
 }
