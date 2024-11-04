@@ -13,6 +13,7 @@ public class Sound {
     public Sound (){
         soundURL[0] = getClass().getResource("/sound/maintheme.wav");
         soundURL[1] = getClass().getResource("/sound/dirtstep.wav");
+        soundURL[2] = getClass().getResource("/sounds/Slime Death.wav");
     }
 
     public void setFile(int i){

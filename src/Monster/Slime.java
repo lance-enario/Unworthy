@@ -86,26 +86,26 @@ public class Slime extends Entity {
             switch (direction) {
                 case "up":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                   //     direction = maintain;
+                        //     direction = maintain;
                         worldY += speed;
                     }
                     break;
                 case "down":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                     //   direction = maintain;
+                        //   direction = maintain;
                         worldY -= speed;
                     }
 
                 case "left":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                     //   direction = maintain;
+                        //   direction = maintain;
                         worldX -= speed;
                     }
 
                     break;
                 case "right":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                     //   direction = maintain;
+                        //   direction = maintain;
                         worldX += speed;
                     }
 
@@ -114,7 +114,6 @@ public class Slime extends Entity {
                     break;
             }
         }
-
         spriteCounter++;
 
         if (spriteCounter > 10) {
@@ -133,6 +132,12 @@ public class Slime extends Entity {
             }
             spriteCounter = 0;
         }
+    }
+
+    @Override
+    public void damageReaction(){
+        actionLockCounter = 0;
+        direction = gp.player.direction;
     }
 
 }
