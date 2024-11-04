@@ -39,6 +39,10 @@ public class Entity {
     public boolean isInvincible = false;
     public int invincibleCounter = 0;
 
+    //entity attack
+    public boolean isAttacking = false;
+    public int attackCounter = 0;
+
     String[] dialogue = new String[20];
     int dialogueIndex = 0;
     public BufferedImage image, image2, image3;
@@ -159,7 +163,7 @@ public class Entity {
                    break;
             }
             //MONSTER HP BAR
-            if(type == 2 && !hpBarOn) {
+            if(type == 2 && hpBarOn) {
                 double oneScale = (double)gp.tileSize/maxLife;
                 double hpBarValue = oneScale*life;
 
@@ -184,6 +188,8 @@ public class Entity {
             if(isDying){
                 dyingAnimation(g2);
             }
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
             changeAlpha(g2,1f);
 
             boolean shouldFlip = direction.equals("left") ||
