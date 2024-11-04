@@ -169,10 +169,6 @@ public class CollisionChecker {
                     }
                 }
 
-//                if (gp.player.DialogueArea.intersects(target[i].solidArea)) {
-//                  //  System.out.println("Yawa");
-//                }
-
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 target[i].solidArea.x = target[i].solidAreaDefaultX;

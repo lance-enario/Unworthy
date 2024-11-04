@@ -1,15 +1,12 @@
 package Main;
 
-import jdk.jfr.Event;
-
-import java.awt.*;
-
 public class EventHandler {
 
     GamePanel gp;
-    EventRect eventRect[][];
+    EventRect[][] eventRect;
 
-    int previousEventX, previousEventY;
+    int previousEventY;
+    int previousEventX;
     boolean canTouchEvent = true;
 
     public EventHandler(GamePanel gp){
@@ -46,18 +43,19 @@ public class EventHandler {
             canTouchEvent = true;
         }
 
-        if(canTouchEvent == true){
-            if(hit(3,3,"any") == true) {
-                damagePit(3,3,gp.dialogueState);
+        if(canTouchEvent){
+            if(hit(3, 3, "any")) {
+                damagePit(gp.dialogueState);
             }
-            if(hit(4,4,"up") == true){
+            if(hit(4, 4, "up")){
                 teleport(gp.dialogueState);
             }
-            if(hit(5,5,"any") == true){
-                damagePit(5,5,gp.dialogueState);
+            if(hit(5, 5, "any")){
+                damagePit(gp.dialogueState);
             }
         }
     }
+
     public boolean hit(int col ,int row, String reqDirection){
         boolean hit = false;
 
@@ -66,7 +64,7 @@ public class EventHandler {
         eventRect[col][row].x = col * gp.tileSize + eventRect[col][row].x;
         eventRect[col][row].y = row * gp.tileSize + eventRect[col][row].y;
 
-        if(gp.player.solidArea.intersects(eventRect[row][col]) && eventRect[col][row].eventDone == false){
+        if(gp.player.solidArea.intersects(eventRect[row][col]) && !eventRect[col][row].eventDone){
             if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")){
                 hit = true;
 
@@ -82,17 +80,18 @@ public class EventHandler {
 
         return hit;
     }
+
     public void teleport(int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "Teleporting!";
         gp.player.worldX = gp.tileSize*25;
         gp.player.worldY = gp.tileSize*25;
     }
-    public void damagePit(int col, int row, int gameState){
+
+    public void damagePit(int gameState){
         gp.gameState = gameState;
-        gp.ui.currentDialogue = "You touched the spike"; // kamo depende unsa ang dialouge
+        gp.ui.currentDialogue = "You touched the spike"; // depending on the dialogue
         gp.player.life -= 1;
-//        eventRect[col][row].eventDone = true;
         canTouchEvent = false;
     }
 }

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity {
 
@@ -57,11 +58,11 @@ public class Player extends Entity {
 
         try {
             for (int i = 0; i < 6; i++) {
-                walkFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/walk/" + (i+1) + ".png"));
-                idleFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/idle/Idle" + (i+1) + ".png"));
+                walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/walk/" + (i + 1) + ".png")));
+                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/idle/Idle" + (i + 1) + ".png")));
             }
             for (int i = 0; i < 7; i++) {
-                bscAttackFrames[i] = ImageIO.read(getClass().getResourceAsStream("/player/bscAttack/" + (i+1) + ".png"));
+                bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/bscAttack/" + (i + 1) + ".png")));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -242,11 +243,12 @@ public class Player extends Entity {
         if (isAttacking) {
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
         } else {
-            switch (direction) {
-                case "left", "right", "up", "down": image = walkFrames[(spriteNum - 1) % walkFrames.length];  break; // Walk animation frame
-                case "default": image = idleFrames[(spriteNum - 1) % idleFrames.length]; break;// Idle animation frame
-                default: image = idleFrames[0]; break; // Fallback to first idle frame if direction is unrecognized
-            }
+            image = switch (direction) {
+                case "left", "right", "up", "down" ->
+                        walkFrames[(spriteNum - 1) % walkFrames.length]; // Walk animation frame
+                case "default" -> idleFrames[(spriteNum - 1) % idleFrames.length];// Idle animation frame
+                default -> idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
+            };
         }
 
         // visual confirmation of invincible state

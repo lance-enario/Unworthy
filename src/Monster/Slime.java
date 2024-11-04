@@ -47,7 +47,6 @@ public class Slime extends Entity {
             Random rand = new Random();
             int i = rand.nextInt(100) + 1;
 
-            // naka default tanan since mag idle raman sad ang traveller
             if(i<=25) {
                 direction = "up"; //up
             }
@@ -57,7 +56,7 @@ public class Slime extends Entity {
             if(i > 50 && i <= 75){
                 direction = "left"; // left
             }
-            if(i > 75 && i <= 100){
+            if(i > 75){
                 direction = "right"; // right
             }
             actionLockCounter = 0;

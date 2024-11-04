@@ -1,9 +1,7 @@
 package Main;
 
-import javax.security.auth.kerberos.KeyTab;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 public class KeyHandler implements KeyListener {
 

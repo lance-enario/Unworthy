@@ -3,6 +3,7 @@ package Entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 import Main.GamePanel;
 import Main.UtilityTool;
@@ -152,18 +153,10 @@ public class Entity {
                    break;
             }
 
-//          g2.setColor(Color.green);
-//          g2.drawRect(screenX + DialogueArea.x, screenY +  DialogueArea.y, DialogueArea.width, DialogueArea.height);
-
-            boolean shouldFlip = false;
-
-            if (direction.equals("left") ||
+            boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left")) ||
-                    (direction.equals("default") && maintain.equals("left")))
-            {
-                shouldFlip = true;
-            }
+                    (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
                 g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
@@ -182,7 +175,7 @@ public class Entity {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
             image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (IOException e) {
             e.printStackTrace();
