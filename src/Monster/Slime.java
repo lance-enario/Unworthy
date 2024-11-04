@@ -9,11 +9,9 @@ import java.util.Random;
 public class Slime extends Entity {
     GamePanel gp;
 
-    GamePanel gp;
 
     public Slime(GamePanel gp){
         super(gp);
-        this.gp = gp;
 
         this.gp = gp;
 

@@ -14,7 +14,6 @@ public class Entity {
     public int worldX, worldY;
     public String direction = "up";
     public String maintain = "right";
-    public boolean isAttacking = false;
     public boolean isAlive = true;
     public boolean isDying = false;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -41,6 +40,10 @@ public class Entity {
     //entity invincibility
     public boolean isInvincible = false;
     public int invincibleCounter = 0;
+
+    //entity attack
+    public boolean isAttacking = false;
+    public int attackCounter = 0;
 
     String[] dialogue = new String[20];
     int dialogueIndex = 0;

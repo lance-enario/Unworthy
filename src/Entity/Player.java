@@ -73,10 +73,17 @@ public class Player extends Entity {
     @Override
     public void update() {
 
-
-        if (keyH.bscAtkPressed){
+        if (isAttacking || keyH.bscAtkPressed){
             isAttacking = true;
-            attacking();
+            //spriteCounter = 0;
+
+            attackCounter++;
+            if (attackCounter > 20){
+                keyH.bscAtkPressed = false;
+                isAttacking = false;
+                attackCounter = 0;
+            }
+
         } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             if (keyH.upPressed) {
                 direction = "up";
@@ -147,6 +154,10 @@ public class Player extends Entity {
         }
             spriteCounter++;
 
+            if (isAttacking){
+                spriteNum = 5;
+            }
+
             if (spriteCounter > 6) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
@@ -172,28 +183,7 @@ public class Player extends Entity {
                 invincibleCounter = 0;
             }
         }
-
     }
-
-        public void attacking(){
-            spriteCounter++;
-            System.out.println("Attack is starting");
-            if (spriteCounter > 7) {
-                if (spriteNum == 3) {
-                    spriteNum = 4;
-                } else if (spriteNum == 4) {
-                    spriteNum = 5;
-                } else if (spriteNum == 5) {
-                    spriteNum = 6;
-                } else {
-                    spriteNum = 1;
-                    System.out.println("Finished attacking");
-                }
-                spriteCounter = 0;
-                isAttacking = false;
-                gp.keyH.bscAtkPressed = false;
-            }
-        }
 
         public void pickUpOBJ(int objIDX) {
             if(objIDX != 999){
@@ -252,7 +242,7 @@ public class Player extends Entity {
 
     public void draw (Graphics2D g2) {
 
-        BufferedImage image;
+        BufferedImage image = idleFrames[0];
 
         if (isAttacking) {
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
