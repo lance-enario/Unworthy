@@ -123,7 +123,12 @@ public class GamePanel extends JPanel implements Runnable{
 
             for(int i = 0; i < monster.length; i++){
                 if(monster[i] != null){
-                    monster[i].update();
+                    if(monster[i].isAlive && !monster[i].isDying){
+                        monster[i].update();
+                    }
+                    if(!monster[i].isAlive){
+                        monster[i] = null;
+                    }
                 }
             }
         }
@@ -181,9 +186,7 @@ public class GamePanel extends JPanel implements Runnable{
                 entityList.get(i).draw(g2);
             }
             // EMPTY THE LIST
-            for(int i = 0; i < entityList.size(); i++){
-                entityList.remove(i);
-            }
+            entityList.clear();
 
             // UI
             ui.draw(g2);

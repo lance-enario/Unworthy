@@ -92,7 +92,6 @@ public class EventHandler {
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You touched the spike"; // kamo depende unsa ang dialouge
         gp.player.life -= 1;
-//        eventRect[col][row].eventDone = true;
         canTouchEvent = false;
     }
 }

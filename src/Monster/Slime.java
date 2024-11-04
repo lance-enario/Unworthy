@@ -8,8 +8,12 @@ import java.util.Random;
 
 public class Slime extends Entity {
 
+    GamePanel gp;
+
     public Slime(GamePanel gp){
         super(gp);
+
+        this.gp = gp;
 
         type = 2; //monster type
         name = "Green Slime";
@@ -61,6 +65,11 @@ public class Slime extends Entity {
             actionLockCounter = 0;
         }
 
+    }
+    @Override
+    public void damageReaction(){
+        actionLockCounter = 0;
+        direction = gp.player.direction;
     }
 
 }

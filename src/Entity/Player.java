@@ -76,7 +76,7 @@ public class Player extends Entity {
         if (keyH.bscAtkPressed){
             isAttacking = true;
             attacking();
-        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -233,6 +233,20 @@ public class Player extends Entity {
                 }
             }
         }
+
+//        public void damageMonster(int i ){
+//        if (i != 999){
+//            if(gp.monster[i].isInvincible == false){
+//                gp.monster[i].life -= 1;
+//                gp.monster[i].isInvincible = true;
+//                gp.monster[i].damageReaction();
+//
+//                if(gp.monster[i].life <= 0){
+//                    gp.monster[i].isDying = true;
+//                }
+//            }
+//        }
+//        }
 
 
     public void draw (Graphics2D g2) {
