@@ -40,7 +40,6 @@ public class Entity {
     public int invincibleCounter = 0;
 
     //entity attack
-    public boolean isAttacking = false;
     public int attackCounter = 0;
 
     String[] dialogue = new String[20];
@@ -188,7 +187,6 @@ public class Entity {
             if(isDying){
                 dyingAnimation(g2);
             }
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
             changeAlpha(g2,1f);
 

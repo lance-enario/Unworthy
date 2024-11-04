@@ -84,7 +84,7 @@ public class Player extends Entity {
                 attackCounter = 0;
             }
 
-        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
+        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
