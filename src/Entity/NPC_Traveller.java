@@ -30,33 +30,6 @@ public class NPC_Traveller extends Entity {
 
     }
 
-//    @Override
-//    public void setAction(){
-//        actionLockCounter++;
-//
-//        if(actionLockCounter  == 120){
-//            Random rand = new Random();
-//            int i = rand.nextInt(100) + 1;
-//
-//            //naka default tanan since mag idle raman sad ang traveller
-//            if(i<=25) {
-//                direction = "up"; //up
-//            }
-//            if(i > 25 && i <=50){
-//                direction = "down"; //down
-//            }
-//            if(i > 50 && i <= 75){
-//                direction = "left"; // left
-//            }
-//            if(i > 75 && i <= 100){
-//                direction = "right"; // right
-//            }
-//            direction = "default";
-//
-//            actionLockCounter = 0;
-//        }
-//    }
-
     public void speak(){
         super.speak();
     }

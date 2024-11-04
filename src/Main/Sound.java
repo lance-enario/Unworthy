@@ -22,7 +22,7 @@ public class Sound {
             clip = AudioSystem.getClip();
             clip.open(ais);
         } catch (Exception e){
-
+            e.printStackTrace();
         }
     }
     public void play(){

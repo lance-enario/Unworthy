@@ -27,8 +27,10 @@ public class UI {
         this.gp = gp;
         try{
             InputStream is = getClass().getResourceAsStream("/Font/x12y16pxMaruMonica.ttf");
+            assert is != null;
             maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
             is = getClass().getResourceAsStream("/Font/Purisa Bold.ttf");
+            assert is != null;
             purisaBold = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch(FontFormatException e){
             e.printStackTrace();
@@ -141,7 +143,7 @@ public class UI {
             y += gp.tileSize * 4;
             g2.drawString(text, x, y);
             if (commandNum == 0) {
-                //if drawing pwedi ra katong function nga drawImage
+                //if drawing we can use the drawImage function
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
@@ -150,7 +152,7 @@ public class UI {
             y += gp.tileSize;
             g2.drawString(text, x, y);
             if (commandNum == 1) {
-                //if drawing pwedi ra katong function nga drawImage
+                //if drawing we can use the drawImage function
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
@@ -159,7 +161,7 @@ public class UI {
             y += gp.tileSize;
             g2.drawString(text, x, y);
             if (commandNum == 2) {
-                //if drawing pwedi ra katong function nga drawImage
+                //if drawing we can use the drawImage function
                 g2.drawString(">", x - gp.tileSize, y);
             }
         }

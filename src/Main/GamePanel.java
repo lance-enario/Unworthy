@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16
-    final int scale = 4; //giilisan nako to 4 from 8 try lang
+    final int scale = 4; // 8 original value
     final int playerScale = 6;
 
     public final int tileSize = originalTileSize * scale; // 48x48
@@ -172,13 +172,12 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             //SORT
-            Collections.sort(entityList, new Comparator<Entity>() {
+            entityList.sort(new Comparator<Entity>() {
 
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY,e2.worldY);
-                    return result;
-                }
+            @Override
+            public int compare(Entity e1, Entity e2) {
+                return Integer.compare(e1.worldY, e2.worldY);
+            }
             });
 
             //DRAW ENTITIES
