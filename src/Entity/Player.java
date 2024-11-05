@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class Player extends Entity {
 
+    Graphics2D test;
     KeyHandler keyH;
     Sound sound;
     public final int screenX;
@@ -34,6 +35,8 @@ public class Player extends Entity {
         solidArea = new Rectangle(37,79, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+        attackArea = new Rectangle(0,0,36,36);
 
         setDefaultValues();
         getPlayerImage();
@@ -75,10 +78,10 @@ public class Player extends Entity {
 
         if (isAttacking || keyH.bscAtkPressed){
             isAttacking = true;
-            //spriteCounter = 0;
 
             attackCounter++;
-            if (attackCounter > 20){
+            if (attackCounter > 15){
+                attacking();
                 keyH.bscAtkPressed = false;
                 isAttacking = false;
                 attackCounter = 0;
@@ -185,6 +188,33 @@ public class Player extends Entity {
         }
     }
 
+    public void attacking(){
+
+        int currentWorldX = worldX;
+        int currentWorldY = worldY;
+        int solidAreaWidth = solidArea.width;
+        int solidAreaHeight = solidArea.height;
+
+        switch(direction){
+            case "left": worldX -= attackArea.width; break;
+            case "right": worldX += attackArea.width; break;
+        }
+        solidArea.width = attackArea.width;
+        solidArea.height = attackArea.height;
+
+        //check monster collision on hit
+        int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+        damageMonster(monsterIndex);
+
+        //test.setColor(Color.blue);
+        //test.drawRect(screenX + solidArea.x, screenY + solidArea.y, attackArea.width, attackArea.height);
+
+        worldY = currentWorldY;
+        worldX = currentWorldX;
+        solidArea.width = solidAreaWidth;
+        solidArea.height = solidAreaHeight;
+    }
+
         public void pickUpOBJ(int objIDX) {
             if(objIDX != 999){
                String objName = gp.obj[objIDX].name;
@@ -225,6 +255,13 @@ public class Player extends Entity {
             }
         }
 
+        public void damageMonster(int i){
+            if(i!=999) {
+                System.out.println("Hit!");
+            } else {
+                System.out.println("Miss!");
+            }
+        }
 //        public void damageMonster(int i ){
 //        if (i != 999){
 //            if(gp.monster[i].isInvincible == false){
@@ -241,7 +278,6 @@ public class Player extends Entity {
 
 
     public void draw (Graphics2D g2) {
-
         BufferedImage image = idleFrames[0];
 
         if (isAttacking) {
@@ -281,7 +317,6 @@ public class Player extends Entity {
 
         //visible collision checker, just cross out if not needed
         g2.setColor(Color.green);
-        //the -10 is there to center the dialoguearea around character
         g2.drawRect(screenX + DialogueArea.x,screenY + DialogueArea.y, DialogueArea.width, DialogueArea.height);
         g2.setColor(Color.red);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);

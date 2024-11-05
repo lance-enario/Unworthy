@@ -27,6 +27,7 @@ public class Entity {
     int hpBarCounter = 0;
 
     //placeholder area lines for collision & dialogue check
+    public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public Rectangle solidArea = new Rectangle(32,56, 64, 64);
     public Rectangle DialogueArea = new Rectangle(32,56, 64, 64);
 
