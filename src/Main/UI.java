@@ -1,6 +1,7 @@
 package Main;
 
 import Entity.Entity;
+import objects.CharSelect;
 import objects.obj_Heart;
 
 import java.awt.*;
@@ -21,9 +22,10 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
-
+    public BufferedImage warrior, mage, ranger;
 
     public UI(GamePanel gp){
+
         this.gp = gp;
         try{
             InputStream is = getClass().getResourceAsStream("/Font/x12y16pxMaruMonica.ttf");
@@ -37,6 +39,11 @@ public class UI {
         } catch(IOException e){
             e.printStackTrace();
         }
+
+        Entity CharSelect = new CharSelect(gp);
+        ranger = CharSelect.image;
+        warrior = CharSelect.image2;
+        mage = CharSelect.image3;
 
         //CREATE HUD OBJECT
         Entity heart = new obj_Heart(gp);
@@ -61,6 +68,7 @@ public class UI {
         //title state
         if(gp.gameState == gp.titleState){
             drawTitleScreen();
+
         }
         //play state
         if (gp.gameState == gp.playState){
@@ -111,6 +119,8 @@ public class UI {
 
     }
     public void drawTitleScreen(){
+        //characterSelectImage();
+//        BufferedImage image1 = ranger[2];
         if(titleScreenState == 0) {
             //BACKGROUND
             g2.setColor(new Color(70, 120, 80));
@@ -167,7 +177,7 @@ public class UI {
         }
         else if(titleScreenState == 1){
             //BACKGROUND
-            g2.setColor(new Color(70, 120, 80));
+            g2.setColor(new Color(90, 90, 80));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
             //CLASS SELECTION SCREEN
@@ -176,29 +186,37 @@ public class UI {
 
             String text = "Select your class!";
             int x = getXforCenteredText(text);
-            int y = gp.tileSize*3;
+            int y = gp.tileSize*2;
+            drawSubWindow(605, 83, gp.tileSize * 5, gp.tileSize);
+            g2.setColor(Color.white);
             g2.drawString(text, x, y);
 
             text = "Warrior";
-            x = getXforCenteredText(text);
-            y += gp.tileSize*3;
+            x =getXforCenteredText(text) - 418;
+            y = gp.tileSize*10;
+            drawSubWindow(x - 41, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
+            g2.drawImage(warrior, gp.tileSize * 3, gp.tileSize *4 + 16, gp.tileSize * 5, gp.tileSize * 5, null);
             if(commandNum == 0){
                 g2.drawString(">",x-gp.tileSize,y);
             }
 
             text = "Mage";
             x = getXforCenteredText(text);
-            y += gp.tileSize;
+            y = gp.tileSize * 10;
+            drawSubWindow(x - 53, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
+            g2.drawImage(mage, gp.tileSize * 7 + 12, gp.tileSize - 60, gp.tileSize * 9, gp.tileSize * 9, null);
             if(commandNum == 1){
                 g2.drawString(">",x-gp.tileSize,y);
             }
 
             text = "Ranger";
-            x = getXforCenteredText(text);
-            y += gp.tileSize;
+            x =getXforCenteredText(text) + 418;
+            y = gp.tileSize * 10;
+            drawSubWindow(x - 48, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
+            g2.drawImage(ranger, gp.tileSize * 16, gp.tileSize * 4, gp.tileSize * 5, gp.tileSize * 5, null);
             if(commandNum == 2){
                 g2.drawString(">",x-gp.tileSize,y);
             }
