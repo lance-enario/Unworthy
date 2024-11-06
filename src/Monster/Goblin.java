@@ -21,10 +21,7 @@ public class Goblin extends Entity{
         maxLife = 5;
         life = maxLife;
 
-        solidArea.x = 3;
-        solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
+        solidArea = new Rectangle(10, 40, 40, 53);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
@@ -64,26 +61,26 @@ public class Goblin extends Entity{
                 case "up":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //     direction = maintain;
-                        worldY += speed;
+                        worldY += speed + 2;
                     }
                     break;
                 case "down":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldY -= speed;
+                        worldY -= speed + 2;
                     }
 
                 case "left":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldX -= speed;
+                        worldX -= speed + 2;
                     }
 
                     break;
                 case "right":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldX += speed;
+                        worldX += speed + 2;
                     }
 
                     break;
@@ -93,7 +90,7 @@ public class Goblin extends Entity{
         }
         spriteCounter++;
 
-        if (spriteCounter > 8) {
+        if (spriteCounter > 4) {
             if (spriteNum == 1) {
                 spriteNum = 2;
             } else if (spriteNum == 2) {
@@ -104,6 +101,10 @@ public class Goblin extends Entity{
                 spriteNum = 5;
             } else if (spriteNum == 5) {
                 spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            } else if (spriteNum == 7) {
+                spriteNum = 8;
             } else {
                 spriteNum = 1;
             }
@@ -155,6 +156,7 @@ public class Goblin extends Entity{
                     if(spriteNum == 5) image = left1;
                     if(spriteNum == 6) image = left2;
                     if(spriteNum == 7) image = right1;
+                    if(spriteNum == 8) image = right2;
                     break;
             }
             //MONSTER HP BAR
@@ -192,7 +194,7 @@ public class Goblin extends Entity{
                     (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
-                g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize-30, gp.tileSize+30, null);
+                g2.drawImage(image, screenX + gp.tileSize, screenY, -gp.tileSize-30, gp.tileSize+30, null);
             } else {
                 g2.drawImage(image, screenX, screenY, gp.tileSize+30, gp.tileSize+30, null);
             }

@@ -4,6 +4,7 @@ package Monster;
 import Entity.Entity;
 import Main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Slime extends Entity {
@@ -20,11 +21,7 @@ public class Slime extends Entity {
         speed = 1;
         maxLife = 4;
         life = maxLife;
-
-        solidArea.x = 3;
-        solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
+        solidArea = new Rectangle(4, 15, 50, 47);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
@@ -89,26 +86,26 @@ public class Slime extends Entity {
                 case "up":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //     direction = maintain;
-                        worldY += speed;
+                        worldY += speed + 1;
                     }
                     break;
                 case "down":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldY -= speed;
+                        worldY -= speed+ 1;
                     }
 
                 case "left":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldX -= speed;
+                        worldX -= speed+ 1;
                     }
 
                     break;
                 case "right":
                     if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
                         //   direction = maintain;
-                        worldX += speed;
+                        worldX += speed+ 1;
                     }
 
                     break;
@@ -118,7 +115,7 @@ public class Slime extends Entity {
         }
         spriteCounter++;
 
-        if (spriteCounter > 10) {
+        if (spriteCounter > 8) {
             if (spriteNum == 1) {
                 spriteNum = 2;
             } else if (spriteNum == 2) {
@@ -129,6 +126,10 @@ public class Slime extends Entity {
                 spriteNum = 5;
             } else if (spriteNum == 5) {
                 spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            } else if (spriteNum == 7) {
+                spriteNum = 8;
             } else {
                 spriteNum = 1;
             }

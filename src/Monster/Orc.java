@@ -21,24 +21,21 @@ public class Orc extends Entity{
         maxLife = 6;
         life = maxLife;
 
-        solidArea.x = 3;
-        solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
+        solidArea = new Rectangle(3, 18, 32, 75);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
     }
 
     public void getImage(){
-        up1 = setup("/monster/orc/walk/orc_walk_0");
-        up2 = setup("/monster/orc/walk/orc_walk_1");
-        down1 = setup("/monster/orc/walk/orc_walk_2");
-        down2 = setup("/monster/orc/walk/orc_walk_3");
-        left1 = setup("/monster/orc/walk/orc_walk_4");
-        left2 = setup("/monster/orc/walk/orc_walk_5");
-        right1 = setup("/monster/orc/walk/orc_walk_6");
-        right2 = setup("/monster/orc/walk/orc_walk_7");
+        up1 = setup("/monster/orc/walk/orc_walking_0");
+        up2 = setup("/monster/orc/walk/orc_walking_1");
+        down1 = setup("/monster/orc/walk/orc_walking_2");
+        down2 = setup("/monster/orc/walk/orc_walking_3");
+        left1 = setup("/monster/orc/walk/orc_walking_4");
+        left2 = setup("/monster/orc/walk/orc_walking_5");
+        right1 = setup("/monster/orc/walk/orc_walking_6");
+        right2 = setup("/monster/orc/walk/orc_walking_7");
     }
 
     @Override
@@ -85,6 +82,7 @@ public class Orc extends Entity{
                     if(spriteNum == 5) image = left1;
                     if(spriteNum == 6) image = left2;
                     if(spriteNum == 7) image = right1;
+                    if(spriteNum == 8) image = right2;
                     break;
             }
             //MONSTER HP BAR
@@ -122,9 +120,9 @@ public class Orc extends Entity{
                     (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
-                g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize-30, gp.tileSize+30, null);
+                g2.drawImage(image, screenX  + gp.tileSize + 5, screenY, -gp.tileSize - 30, gp.tileSize+30, null);
             } else {
-                g2.drawImage(image, screenX, screenY, gp.tileSize+30, gp.tileSize+30, null);
+                g2.drawImage(image, screenX - 29,  screenY, gp.tileSize+30, gp.tileSize+30, null);
             }
 
             g2.setColor(Color.red);
@@ -188,6 +186,10 @@ public class Orc extends Entity{
                 spriteNum = 5;
             } else if (spriteNum == 5) {
                 spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            } else if (spriteNum == 7) {
+                spriteNum = 8;
             } else{
                 spriteNum = 1;
             }

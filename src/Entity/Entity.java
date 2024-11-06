@@ -124,7 +124,7 @@ public class Entity {
 
         spriteCounter++;
 
-        if (spriteCounter > 10) {
+        if (spriteCounter > 8) {
             if (spriteNum == 1) {
                 spriteNum = 2;
             } else if (spriteNum == 2) {
@@ -160,6 +160,7 @@ public class Entity {
                    if(spriteNum == 5) image = left1;
                    if(spriteNum == 6) image = left2;
                    if(spriteNum == 7) image = right1;
+                   if(spriteNum == 8) image = right2;
                    break;
             }
             //MONSTER HP BAR
