@@ -1,5 +1,7 @@
 package Main;
 import Entity.NPC_Traveller;
+import Monster.Goblin;
+import Monster.Orc;
 import Monster.Slime;
 import objects.obj_Chest;
 import objects.obj_Door;
@@ -36,6 +38,14 @@ public class AssetSetter {
         gp.monster[0] = new Slime(gp);
         gp.monster[0].worldX = 8 * gp.tileSize;
         gp.monster[0].worldY = 16 * gp.tileSize;
+
+        gp.monster[1] = new Orc(gp);
+        gp.monster[1].worldX = 8 * gp.tileSize;
+        gp.monster[1].worldY = 17 * gp.tileSize;
+
+        gp.monster[2] = new Goblin(gp);
+        gp.monster[2].worldX = 9 * gp.tileSize;
+        gp.monster[2].worldY = 18 * gp.tileSize;
     }
 
 }

@@ -23,8 +23,8 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
     int dyingCounter = 0;
-    boolean hpBarOn = false;
-    int hpBarCounter = 0;
+    public boolean hpBarOn = false;
+    public int hpBarCounter = 0;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
