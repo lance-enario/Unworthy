@@ -4,6 +4,9 @@ import Main.GamePanel;
 import Main.KeyHandler;
 import Main.Sound;
 import Object.OBJ_MageAttack;
+import objects.obj_Book;
+import objects.obj_Wand;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,11 +53,29 @@ public class Player extends Entity {
         // PLAYER STATUS
         maxLife = 10;
         life = maxLife;
+        level = 1;
+        strength = 1;   // the more strength he has, the more damage he gives
+        dexterity = 1;  // the more dexterity he has, the less damage he receives.
+        exp = 0;
+        nextLevelExp = 5;
+        coins = 0;
+        currentWeapon = new obj_Wand(gp);
+        currentShield = new obj_Book(gp);
+        attack = getAttack();   // total attack value is decided by strength and weapon.
+        defense = getDefense(); // total defense value is decided by dexterity and shield.
 
         direction = "default";
         maintain = "right";
         isAttacking = false;
         projectile = new OBJ_MageAttack(gp);
+    }
+
+    public int getAttack(){
+        return attack = strength * currentWeapon.attack;
+    }
+
+    public int getDefense(){
+        return defense = dexterity * currentShield.defense;
     }
 
     public void getPlayerImage() {
