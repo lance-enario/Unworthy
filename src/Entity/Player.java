@@ -46,7 +46,7 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 3; //spawn point
+        worldX = gp.tileSize * 16; //spawn point
         worldY = gp.tileSize * 16;
         speed = 7; // 3 default but increased just for testing
 

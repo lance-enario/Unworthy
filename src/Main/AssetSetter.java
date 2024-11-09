@@ -36,15 +36,15 @@ public class AssetSetter {
 
     public void setMonster(){
         gp.monster[0] = new Slime(gp);
-        gp.monster[0].worldX = 12 * gp.tileSize;
-        gp.monster[0].worldY = 20 * gp.tileSize;
+        gp.monster[0].worldX = 17 * gp.tileSize;
+        gp.monster[0].worldY = 22 * gp.tileSize;
 
         gp.monster[1] = new Orc(gp);
-        gp.monster[1].worldX = 8 * gp.tileSize;
+        gp.monster[1].worldX = 16 * gp.tileSize;
         gp.monster[1].worldY = 17 * gp.tileSize;
 
         gp.monster[2] = new Goblin(gp);
-        gp.monster[2].worldX = 9 * gp.tileSize;
+        gp.monster[2].worldX = 16 * gp.tileSize;
         gp.monster[2].worldY = 18 * gp.tileSize;
     }
 
