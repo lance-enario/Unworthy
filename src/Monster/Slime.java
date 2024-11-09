@@ -19,7 +19,7 @@ public class Slime extends Entity {
         type = 2; //monster type
         name = "Green Slime";
         speed = 1;
-        maxLife = 4;
+        maxLife = 5;
         life = maxLife;
         solidArea = new Rectangle(4, 15, 50, 47);
         solidAreaDefaultX = solidArea.x;
@@ -135,9 +135,16 @@ public class Slime extends Entity {
             }
             spriteCounter = 0;
         }
+
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 30){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
-    @Override
     public void damageReaction(){
         actionLockCounter = 0;
         direction = gp.player.direction;

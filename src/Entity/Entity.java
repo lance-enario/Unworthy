@@ -14,7 +14,6 @@ public class Entity {
     public int worldX, worldY;
     public String direction = "up";
     public String maintain = "right";
-    public boolean isAttacking = false;
     public boolean isAlive = true;
     public boolean isDying = false;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -41,6 +40,7 @@ public class Entity {
     public int invincibleCounter = 0;
 
     //entity attack
+    public boolean isAttacking = false;
     public int attackCounter = 0;
 
     String[] dialogue = new String[20];
@@ -101,7 +101,6 @@ public class Entity {
         setAction();
         CollisionOn = false;
 
-
         gp.cChecker.checkTile(this);
         gp.cChecker.checkOBJ(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
@@ -152,6 +151,15 @@ public class Entity {
             }
             spriteCounter = 0;
         }
+
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 30){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
     public void draw(Graphics2D g2) {
@@ -175,6 +183,7 @@ public class Entity {
                    if(spriteNum == 8) image = right2;
                    break;
             }
+
             //MONSTER HP BAR
             if(type == 2 && hpBarOn) {
                 double oneScale = (double)gp.tileSize/maxLife;
@@ -188,9 +197,10 @@ public class Entity {
 
                 hpBarCounter++;
 
-                if(hpBarCounter > 600);
-                hpBarCounter = 0;
-                hpBarOn = false;
+                if(hpBarCounter > 300) {
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
             }
 
             if(isInvincible){
@@ -198,11 +208,10 @@ public class Entity {
                 hpBarCounter = 0;
                 changeAlpha(g2,0.4f);
             }
+
             if(isDying){
                 dyingAnimation(g2);
             }
-
-            changeAlpha(g2,1f);
 
             boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
@@ -215,10 +224,13 @@ public class Entity {
                 g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
 
+            changeAlpha(g2,1.0f);
+
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
+
     public void dyingAnimation(Graphics2D g2){
         dyingCounter++;
         int i = 5;

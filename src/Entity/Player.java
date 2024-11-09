@@ -15,7 +15,6 @@ import java.util.Objects;
 
 public class Player extends Entity {
 
-    Graphics2D test;
     KeyHandler keyH;
     Sound sound;
     public final int screenX;
@@ -34,12 +33,13 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         // (30, 75, 45, 40)
-        DialogueArea = new Rectangle(30, 75, 45, 40);
-        solidArea = new Rectangle(37,79, 33, 32);
+        DialogueArea = new Rectangle(13, 40, 100, 100);
+        solidArea = new Rectangle(45,95, 33, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea = new Rectangle(0,0,36,36);
+        attackArea.width = 40;
+        attackArea.height = 24;
 
         setDefaultValues();
         getPlayerImage();
@@ -94,15 +94,16 @@ public class Player extends Entity {
 
     }
 
-    @Override
+    //@Override
     public void update() {
 
         if (isAttacking || keyH.bscAtkPressed){
             isAttacking = true;
+            attacking();
 
             attackCounter++;
             if (attackCounter > 15){
-                attacking();
+
                 keyH.bscAtkPressed = false;
                 isAttacking = false;
                 attackCounter = 0;
@@ -210,28 +211,27 @@ public class Player extends Entity {
     }
 
     public void attacking(){
-
         int currentWorldX = worldX;
         int currentWorldY = worldY;
         int solidAreaWidth = solidArea.width;
         int solidAreaHeight = solidArea.height;
 
         switch(direction){
+            case "up": worldY -= attackArea.height; break;
+            case "down": worldY += attackArea.height; break;
             case "left": worldX -= attackArea.width; break;
             case "right": worldX += attackArea.width; break;
         }
+
         solidArea.width = attackArea.width;
-        solidArea.height = attackArea.height;
+        //solidArea.height = attackArea.height;
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
         damageMonster(monsterIndex);
 
-        //test.setColor(Color.blue);
-        //test.drawRect(screenX + solidArea.x, screenY + solidArea.y, attackArea.width, attackArea.height);
-
-        worldY = currentWorldY;
         worldX = currentWorldX;
+        worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
         solidArea.height = solidAreaHeight;
     }
@@ -277,26 +277,18 @@ public class Player extends Entity {
         }
 
         public void damageMonster(int i){
-            if(i!=999) {
-                System.out.println("Hit!");
-            } else {
-                System.out.println("Miss!");
+            if (i != 999){
+                if(!gp.monster[i].isInvincible){
+                    gp.monster[i].life -= 1;
+                    gp.monster[i].isInvincible = true;
+                    gp.monster[i].damageReaction();
+
+                    if(gp.monster[i].life <= 0){
+                        gp.monster[i].isDying = true;
+                    }
+                }
             }
         }
-//        public void damageMonster(int i ){
-//        if (i != 999){
-//            if(gp.monster[i].isInvincible == false){
-//                gp.monster[i].life -= 1;
-//                gp.monster[i].isInvincible = true;
-//                gp.monster[i].damageReaction();
-//
-//                if(gp.monster[i].life <= 0){
-//                    gp.monster[i].isDying = true;
-//                }
-//            }
-//        }
-//        }
-
 
     public void draw (Graphics2D g2) {
         BufferedImage image = idleFrames[0];

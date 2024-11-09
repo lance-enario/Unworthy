@@ -110,6 +110,15 @@ public class Goblin extends Entity{
             }
             spriteCounter = 0;
         }
+
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 30){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
     @Override
@@ -172,9 +181,10 @@ public class Goblin extends Entity{
 
                 hpBarCounter++;
 
-                if(hpBarCounter > 600);
-                hpBarCounter = 0;
-                hpBarOn = false;
+                if(hpBarCounter > 600) {
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
             }
 
             if(isInvincible){
@@ -186,7 +196,7 @@ public class Goblin extends Entity{
                 dyingAnimation(g2);
             }
 
-            changeAlpha(g2,1f);
+
 
             boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
@@ -198,6 +208,8 @@ public class Goblin extends Entity{
             } else {
                 g2.drawImage(image, screenX, screenY, gp.tileSize+30, gp.tileSize+30, null);
             }
+
+            changeAlpha(g2,1f);
 
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
