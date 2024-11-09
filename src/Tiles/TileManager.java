@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -16,37 +17,91 @@ public class TileManager {
     public Tiles[] tile;
     public int[][] mapTileNum;
 
+    ArrayList<String> fileNames = new ArrayList<>();
+    ArrayList<String> collisionStatus = new ArrayList<>();
+
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile =  new Tiles[20];
-        mapTileNum = new int [gp.maxWorldCol] [gp.maxWorldRow];
+
+        //read tile data from file
+        InputStream is = getClass().getResourceAsStream("/Maps/tiledataStage1.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+        // getting tile names and collision info
+        String line;
+
+        try {
+            while ((line = br.readLine()) != null){
+                fileNames.add(line);
+                collisionStatus.add(br.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        tile =  new Tiles[fileNames.size()];
         getTileImage();
+
+        //maxworldcol ug row
+        is = getClass().getResourceAsStream("/Maps/Stage1.txt");
+        br = new BufferedReader(new InputStreamReader(is));
+
+        try {
+            String line2 = br.readLine();
+            String maxTile[] = line2.split(" ");
+
+            gp.maxWorldCol = maxTile.length;
+            gp.maxWorldRow = maxTile.length;
+            mapTileNum = new int [gp.maxWorldCol] [gp.maxWorldRow];
+
+        } catch (IOException e){
+            System.out.println("Exception!");
+        }
         loadMap("/Maps/Stage1.txt");
+
+
+//        loadMap("/Maps/Stage1.txt");
     }
     public void getTileImage() {
-            setup(0, "grass/grassfull_0", false);
-            setup(1, "grass/grassfull_1", false);
-            setup(2, "sand/sandTexture1", false);
-            setup(3, "sand/cornerUpperLeft", false);
-            setup(4, "sand/cornerUpperRight", false);
-            setup(5, "sand/cornerLowerLeft", false);
-            setup(6, "sand/cornerLowerRight", false);
-            setup(8, "sand/up", false);
-            setup(9, "sand/down", false);
-            setup(10, "sand/grassCornerUpperLeft", false);
-            setup(11, "sand/grassCornerUpperRight", false);
-            setup(12, "sand/grassCornerLowerLeft", false);
-            setup(13, "sand/grassCornerLowerRight", false);
-            setup(14, "Empty/blank", true);
-            setup(15, "sand/left", false);
-            setup(16, "sand/right", false);
+        for(int i = 0; i < fileNames.size(); i++){
+            String fileName;
+            boolean collision;
+
+            //get a file name
+            fileName = fileNames.get(i);
+
+            //get a collision status
+            if(collisionStatus.get(i).equals("true")) {
+                collision = true;
+            } else {
+                collision = false;
+            }
+            setup(i, fileName,collision);
+        }
+//            setup(0, "grass/grassfull_0", false);
+//            setup(1, "grass/grassfull_1", false);
+//            setup(2, "sand/sandTexture1", false);
+//            setup(3, "sand/cornerUpperLeft", false);
+//            setup(4, "sand/cornerUpperRight", false);
+//            setup(5, "sand/cornerLowerLeft", false);
+//            setup(6, "sand/cornerLowerRight", false);
+//            setup(8, "sand/up", false);
+//            setup(9, "sand/down", false);
+//            setup(10, "sand/grassCornerUpperLeft", false);
+//            setup(11, "sand/grassCornerUpperRight", false);
+//            setup(12, "sand/grassCornerLowerLeft", false);
+//            setup(13, "sand/grassCornerLowerRight", false);
+//            setup(14, "Empty/blank", true);
+//            setup(15, "sand/left", false);
+//            setup(16, "sand/right", false);
     }
 
     public void setup(int index, String imageName, boolean collision){
         UtilityTool uTool = new UtilityTool();
         try{
             tile[index] = new Tiles();
-            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Tiles/" + imageName + ".png")));
+            System.out.println(imageName);
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/Stage1/" + imageName));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
         } catch (IOException e){
@@ -65,7 +120,7 @@ public class TileManager {
 
             while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
-               if (line != null) {
+                if (line != null) {
                     String[] numbers = line.split(" ");
 
                     while (col < gp.maxWorldCol) {
@@ -79,7 +134,7 @@ public class TileManager {
                         row++;
                     }
                 } else {
-                  // System.out.println("Warning: Reached end of file earlier than expected.");
+                    // System.out.println("Warning: Reached end of file earlier than expected.");
                     break;
                 }
             }
@@ -113,10 +168,10 @@ public class TileManager {
 
             worldCol++;
 
-                if(worldCol == gp.maxWorldCol){
-                    worldCol = 0;
-                    worldRow++;
-                }
+            if(worldCol == gp.maxWorldCol){
+                worldCol = 0;
+                worldRow++;
+            }
         }
     }
 }
