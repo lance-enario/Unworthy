@@ -7,7 +7,8 @@ public class obj_Wand extends Entity{
         super(gp);
         name = "Wand";
         down1 = setup("/objects/wand");
-        attackValue = 1;
+        attack = 2;
+        description = "[" + name + "]\nAn aghanim Scepter.";
     }
 
 

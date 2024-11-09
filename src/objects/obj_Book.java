@@ -10,6 +10,7 @@ public class obj_Book extends Entity {
         name = "Book";
         down1 = setup("/objects/book");
         defenseValue = 1;
+        description = "[" + name + "]\nOld grimoire";
     }
 
 }

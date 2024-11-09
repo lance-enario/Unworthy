@@ -20,6 +20,9 @@ public class Goblin extends Entity{
         speed = 2;
         maxLife = 5;
         life = maxLife;
+        attack = 1;
+        defense = 0;
+        exp = 5;
 
         solidArea = new Rectangle(10, 40, 40, 53);
         solidAreaDefaultX = solidArea.x;

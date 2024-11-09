@@ -21,6 +21,9 @@ public class Slime extends Entity {
         speed = 1;
         maxLife = 5;
         life = maxLife;
+        attack = 1;
+        defense = 0;
+        exp = 2;
         solidArea = new Rectangle(4, 15, 50, 47);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;

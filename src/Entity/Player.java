@@ -5,12 +5,14 @@ import Main.KeyHandler;
 import Main.Sound;
 import Object.OBJ_MageAttack;
 import objects.obj_Book;
+import objects.obj_Key;
 import objects.obj_Wand;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity {
@@ -23,6 +25,8 @@ public class Player extends Entity {
     public BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
     int hasKey =0 ;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -43,6 +47,7 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -68,6 +73,13 @@ public class Player extends Entity {
         maintain = "right";
         isAttacking = false;
         projectile = new OBJ_MageAttack(gp);
+    }
+
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new obj_Key(gp));
+        inventory.add(new obj_Key(gp));
     }
 
     public int getAttack(){
@@ -270,7 +282,13 @@ public class Player extends Entity {
         public void contactMonster(int i){
             if(i!=999){
                 if (!isInvincible){
-                    life -= 1;
+
+                    int damage = gp.monster[i].attack - defense;
+                    if(damage < 0){
+                        damage = 0;
+                    }
+
+                    life -= damage;
                     isInvincible = true;
                 }
             }
@@ -279,17 +297,42 @@ public class Player extends Entity {
         public void damageMonster(int i){
             if (i != 999){
                 if(!gp.monster[i].isInvincible){
-                    gp.monster[i].life -= 1;
+
+                    int damage = attack - gp.monster[i].defense;
+                    if(damage < 0){
+                        damage = 0;
+                    }
+                    gp.monster[i].life -= damage;
+                    gp.ui.showMessage(damage + "damage!");
                     gp.monster[i].isInvincible = true;
                     gp.monster[i].damageReaction();
 
                     if(gp.monster[i].life <= 0){
                         gp.monster[i].isDying = true;
+                        gp.ui.showMessage("Killed the " + gp.monster[i].name + "!");
+                        gp.ui.showMessage("Exp + " + gp.monster[i].exp);
+                        exp += gp.monster[i].exp;
+                        checkLevelUp();
                     }
                 }
             }
         }
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            nextLevelExp = nextLevelExp*2; // Up to us to decide whats the exp for nextlevelup
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack++;
+            attack = getAttack();
+            defense = getDefense();
 
+            //need sound effect;
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You leveled up to " + level + "!\n" + "You are now stronger than you are before";
+        }
+    }
     public void draw (Graphics2D g2) {
         BufferedImage image = idleFrames[0];
 

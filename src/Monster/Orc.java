@@ -20,7 +20,9 @@ public class Orc extends Entity{
         speed = 2;
         maxLife = 6;
         life = maxLife;
-
+        attack = 2;
+        defense = 1;
+        exp = 5;
         solidArea = new Rectangle(3, 18, 32, 75);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;

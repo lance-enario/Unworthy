@@ -165,8 +165,30 @@ public class KeyHandler implements KeyListener {
     }
 
     public void characterState(int code){
+
+        // Need soundeffect
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_W){
+            if(gp.ui.slotRow != 0) {
+                gp.ui.slotRow--;
+            }
+        }
+        if(code == KeyEvent.VK_A){
+            if(gp.ui.slotCol != 0) {
+                gp.ui.slotCol--;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            if(gp.ui.slotRow != 2) {
+                gp.ui.slotRow++;
+            }
+        }
+        if(code == KeyEvent.VK_D){
+            if(gp.ui.slotCol != 2) {
+                gp.ui.slotCol++;
+            }
         }
     }
 
