@@ -2,6 +2,7 @@ package Main;
 
 import Entity.Entity;
 import objects.CharSelect;
+import objects.assets;
 import objects.obj_Heart;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
-    public BufferedImage warrior, mage, ranger;
+    public BufferedImage warrior, mage, ranger, title, charselect, back, warriorbutton, magebutton, rangerbutton;
     public int slotCol = 0;
     public int slotRow = 0;
 
@@ -43,10 +44,16 @@ public class UI {
             e.printStackTrace();
         }
 
-        Entity CharSelect = new CharSelect(gp);
-        ranger = CharSelect.image;
-        warrior = CharSelect.image2;
-        mage = CharSelect.image3;
+        assets Asset = new assets(gp);
+        title = Asset.image;
+        charselect = Asset.image2;
+        back = Asset.image3;
+        warriorbutton = Asset.image4;
+        magebutton = Asset.image5;
+        rangerbutton = Asset.image6;
+        ranger= Asset.image7;
+        warrior = Asset.image8;
+        mage = Asset.image9;
 
         //CREATE HUD OBJECT
         Entity heart = new obj_Heart(gp);
@@ -150,37 +157,19 @@ public class UI {
         }
     }
     public void drawTitleScreen(){
-        //characterSelectImage();
-//        BufferedImage image1 = ranger[2];
+
         if(titleScreenState == 0) {
             //BACKGROUND
-            g2.setColor(new Color(70, 120, 80));
-            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+            g2.drawImage(title,0, 0, gp.screenWidth, gp.screenHeight, null);
 
             //TITLE NAME
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
-            String text = "Unworthy"; // Unworthy
-            int x = getXforCenteredText(text);
             int y = gp.tileSize * 3;
-
-            //SHADOW
-            g2.setColor(Color.gray);
-            g2.drawString(text, x + 5, y + 5);
-
-            //MAIN COLOR
-            g2.setColor(Color.white);
-            g2.drawString(text, x, y);
-
-            //CHARACTER IMAGE
-            x = gp.screenWidth / 2 - (gp.tileSize * 2) / 2;
-            y += gp.tileSize * 2;
-            g2.drawImage(gp.player.idleFrames[3], x, y, gp.tileSize * 2, gp.tileSize * 2, null);
 
             //MENU
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48f));
 
-            text = "NEW GAME";
-            x = getXforCenteredText(text);
+            String text = "NEW GAME";
+            int x = getXforCenteredText(text);
             y += gp.tileSize * 4;
             g2.drawString(text, x, y);
             if (commandNum == 0) {
@@ -208,28 +197,20 @@ public class UI {
         }
         else if(titleScreenState == 1){
             //BACKGROUND
-            g2.setColor(new Color(90, 90, 80));
-            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+            g2.drawImage(charselect, 0, 0, gp.screenWidth, gp.screenHeight, null);
 
             //CLASS SELECTION SCREEN
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(42F));
 
-            String text = "Select your class!";
-            int x = getXforCenteredText(text);
-            int y = gp.tileSize*2;
-            drawSubWindow(605, 83, gp.tileSize * 5, gp.tileSize);
-            g2.setColor(Color.white);
-            g2.drawString(text, x, y);
-
-            text = "Warrior";
-            x =getXforCenteredText(text) - 418;
-            y = gp.tileSize*10;
+            String text = "Warrior";
+            int x =getXforCenteredText(text) - 418;
+            int y = gp.tileSize*10;
             drawSubWindow(x - 41, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
-            g2.drawImage(warrior, gp.tileSize * 3, gp.tileSize *4 + 16, gp.tileSize * 5, gp.tileSize * 5, null);
+            g2.drawImage(warrior, 172, 220, 800, 450, null);
             if(commandNum == 0){
-                g2.drawString(">",x-gp.tileSize,y);
+                g2.drawImage(warriorbutton, x-49, 520, 200, 200, null);
             }
 
             text = "Mage";
@@ -237,9 +218,9 @@ public class UI {
             y = gp.tileSize * 10;
             drawSubWindow(x - 53, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
-            g2.drawImage(mage, gp.tileSize * 7 + 12, gp.tileSize - 60, gp.tileSize * 9, gp.tileSize * 9, null);
+            g2.drawImage(mage, 590, 220, 800, 450, null);
             if(commandNum == 1){
-                g2.drawString(">",x-gp.tileSize,y);
+                g2.drawImage(magebutton, x- 64, 520, 200, 200, null);
             }
 
             text = "Ranger";
@@ -247,17 +228,17 @@ public class UI {
             y = gp.tileSize * 10;
             drawSubWindow(x - 48, y - 45, gp.tileSize * 3, gp.tileSize);
             g2.drawString(text,x,y);
-            g2.drawImage(ranger, gp.tileSize * 16, gp.tileSize * 4, gp.tileSize * 5, gp.tileSize * 5, null);
+            g2.drawImage(ranger, gp.tileSize * 16, 220, 800, 450, null);
             if(commandNum == 2){
-                g2.drawString(">",x-gp.tileSize,y);
+                g2.drawImage(rangerbutton, x-41, 520, 200, 200, null);
             }
 
-            text = "Back";
+            text = "         ";
             x = getXforCenteredText(text);
-            y += gp.tileSize*2;
+            y += gp.tileSize*2 - 10;
             g2.drawString(text,x,y);
             if(commandNum == 3){
-                g2.drawString(">",x-gp.tileSize,y);
+                g2.drawImage(back, x - 100, 600, 300 , 300, null);
             }
         }
     }

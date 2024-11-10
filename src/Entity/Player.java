@@ -94,11 +94,11 @@ public class Player extends Entity {
 
         try {
             for (int i = 0; i < 6; i++) {
-                walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/walk/" + (i + 1) + ".png")));
-                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/idle/Idle" + (i + 1) + ".png")));
+                walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/walk/" + (i + 1) + ".png")));
+                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/idle/Idle" + (i + 1) + ".png")));
             }
             for (int i = 0; i < 7; i++) {
-                bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/bscAttack/" + (i + 1) + ".png")));
+                bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/bscAttack/" + (i + 1) + ".png")));
             }
         } catch (IOException e) {
             e.printStackTrace();
