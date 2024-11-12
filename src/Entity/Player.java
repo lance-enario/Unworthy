@@ -3,7 +3,7 @@ package Entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import Main.Sound;
-import Object.OBJ_MageAttack;
+import objects.obj_MageAttack;
 import objects.obj_Book;
 import objects.obj_Key;
 import objects.obj_Potion;
@@ -43,7 +43,7 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 40;
+        attackArea.width = 50;
         attackArea.height = 24;
 
         setDefaultValues();
@@ -73,7 +73,7 @@ public class Player extends Entity {
         direction = "default";
         maintain = "right";
         isAttacking = false;
-        projectile = new OBJ_MageAttack(gp);
+        projectile = new obj_MageAttack(gp);
     }
 
     public void setItems(){
@@ -117,7 +117,6 @@ public class Player extends Entity {
 
             attackCounter++;
             if (attackCounter > 15){
-
                 keyH.bscAtkPressed = false;
                 isAttacking = false;
                 attackCounter = 0;
@@ -184,7 +183,6 @@ public class Player extends Entity {
             gp.keyH.enterPressed = false;
 
         } else {
-            direction = "default";
 
             int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
             interactNPC(npcDialogue);
@@ -217,11 +215,16 @@ public class Player extends Entity {
         // this code snippet handles invincibility
         if (isInvincible){
             invincibleCounter++;
-            if (invincibleCounter > 60){
+            if (invincibleCounter > 60) {
                 isInvincible = false;
                 invincibleCounter = 0;
             }
         }
+
+        if(shotAvailableCounter < 15){
+            shotAvailableCounter++;
+        }
+
     }
 
     public void attacking(){
@@ -231,19 +234,33 @@ public class Player extends Entity {
         int solidAreaHeight = solidArea.height;
 
         switch(direction){
-            case "up": worldY -= attackArea.height; break;
-            case "down": worldY += attackArea.height; break;
-            case "left": worldX -= attackArea.width; break;
-            case "right": worldX += attackArea.width; break;
+            case "up":
+                worldY -= attackArea.height;
+                break;
+            case "down":
+                worldY += attackArea.height;
+                break;
+            case "left":
+                worldX -= attackArea.width;
+                break;
+            case "right":
+                worldX += attackArea.width;
+                break;
+        }
+
+        if (gp.keyH.bscAtkPressed && !projectile.isAlive && shotAvailableCounter == 15){
+            projectile.set(worldX, worldY, direction, true, this);
+            shotAvailableCounter = 0;
+            gp.projectileList.add(projectile);
         }
 
         solidArea.width = attackArea.width;
-        //solidArea.height = attackArea.height;
+        solidArea.height = attackArea.height;
 
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex);
+        damageMonster(monsterIndex, attack);
 
         worldX = currentWorldX;
         worldY = currentWorldY;
@@ -291,7 +308,7 @@ public class Player extends Entity {
             }
         }
 
-        public void damageMonster(int i){
+        public void damageMonster(int i, int attack){
             if (i != 999){
                 if(!gp.monster[i].isInvincible){
 

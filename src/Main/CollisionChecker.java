@@ -139,6 +139,7 @@ public class CollisionChecker {
                 // Set entity solidArea position based on world coordinates
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
+
                 // Set target solidArea position based on world coordinates
                 target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
                 target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;

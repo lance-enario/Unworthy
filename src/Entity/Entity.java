@@ -21,9 +21,9 @@ public class Entity {
     public int audioCounter = 0;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    int dyingCounter = 0;
+
     public boolean hpBarOn = false;
-    public int hpBarCounter = 0;
+
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -33,15 +33,24 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean CollisionOn = false;
 
-    public int actionLockCounter = 0;
+
 
     //entity invincibility
     public boolean isInvincible = false;
-    public int invincibleCounter = 0;
-
     //entity attack
     public boolean isAttacking = false;
+
+
+
+
+    //COUNTER
+    public int invincibleCounter = 0;
+    public int actionLockCounter = 0;
+    public int hpBarCounter = 0;
     public int attackCounter = 0;
+    public int shotAvailableCounter = 0;
+    int dyingCounter = 0;
+
 
     String[] dialogue = new String[20];
     int dialogueIndex = 0;
