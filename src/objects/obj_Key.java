@@ -10,5 +10,6 @@ public class obj_Key extends Entity {
         super(gp);
         name = "Key";
         up1 = setup("/objects/key");
+        down1 = setup("/objects/key");
     }
 }

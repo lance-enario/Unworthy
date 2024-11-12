@@ -7,10 +7,10 @@ public class obj_Book extends Entity {
     public obj_Book(GamePanel gp){
         super(gp);
 
-        name = "Book";
+        name = "Grimoire";
         down1 = setup("/objects/book");
         defenseValue = 1;
-        description = "[" + name + "]\nOld grimoire";
+        description = "[" + name + "]\nA record of the final\nreckoning. With one\npage torn out";
     }
 
 }

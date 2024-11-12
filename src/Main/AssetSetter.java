@@ -6,6 +6,7 @@ import Monster.Slime;
 import objects.obj_Chest;
 import objects.obj_Door;
 import objects.obj_Key;
+import objects.obj_Potion;
 
 public class AssetSetter {
     GamePanel gp ;
@@ -15,17 +16,22 @@ public class AssetSetter {
     }
 
     public void setObj(){
-        gp.obj[0] = new obj_Key(gp);
-        gp.obj[0].worldX = 13 * gp.tileSize;
-        gp.obj[0].worldY = 8 * gp.tileSize;
-
-        gp.obj[1] = new obj_Chest(gp);
-        gp.obj[1].worldX = 13 * gp.tileSize;
-        gp.obj[1].worldY = 10 * gp.tileSize;
-
-        gp.obj[2] = new obj_Door(gp);
-        gp.obj[2].worldX = 13 * gp.tileSize;
-        gp.obj[2].worldY = 9 * gp.tileSize;
+        int i = 0;
+        gp.obj[i] = new obj_Key(gp);
+        gp.obj[i].worldX = 13 * gp.tileSize;
+        gp.obj[i].worldY = 8 * gp.tileSize;
+        i++;
+        gp.obj[i] = new obj_Chest(gp);
+        gp.obj[i].worldX = 13 * gp.tileSize;
+        gp.obj[i].worldY = 10 * gp.tileSize;
+        i++;
+        gp.obj[i] = new obj_Door(gp);
+        gp.obj[i].worldX = 13 * gp.tileSize;
+        gp.obj[i].worldY = 9 * gp.tileSize;
+        i++;
+        gp.obj[i] = new obj_Potion(gp);
+        gp.obj[i].worldX = 14 * gp.tileSize;
+        gp.obj[i].worldY = 9 * gp.tileSize;
     }
 
     public void setNPC(){

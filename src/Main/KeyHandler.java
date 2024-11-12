@@ -181,7 +181,7 @@ public class KeyHandler implements KeyListener {
             }
         }
         if(code == KeyEvent.VK_S){
-            if(gp.ui.slotRow != 2) {
+            if(gp.ui.slotRow != 6) {
                 gp.ui.slotRow++;
             }
         }
@@ -189,6 +189,9 @@ public class KeyHandler implements KeyListener {
             if(gp.ui.slotCol != 2) {
                 gp.ui.slotCol++;
             }
+        }
+        if(code == KeyEvent.VK_ENTER){
+            gp.player.selectItem();
         }
     }
 

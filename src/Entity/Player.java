@@ -6,6 +6,7 @@ import Main.Sound;
 import Object.OBJ_MageAttack;
 import objects.obj_Book;
 import objects.obj_Key;
+import objects.obj_Potion;
 import objects.obj_Wand;
 
 import javax.imageio.ImageIO;
@@ -80,14 +81,15 @@ public class Player extends Entity {
         inventory.add(currentShield);
         inventory.add(new obj_Key(gp));
         inventory.add(new obj_Key(gp));
+        inventory.add(new obj_Potion(gp));
     }
 
     public int getAttack(){
-        return attack = strength * currentWeapon.attack;
+        return attack = strength * currentWeapon.attackValue;
     }
 
     public int getDefense(){
-        return defense = dexterity * currentShield.defense;
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
@@ -238,6 +240,7 @@ public class Player extends Entity {
         solidArea.width = attackArea.width;
         //solidArea.height = attackArea.height;
 
+
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
         damageMonster(monsterIndex);
@@ -248,24 +251,18 @@ public class Player extends Entity {
         solidArea.height = solidAreaHeight;
     }
 
-        public void pickUpOBJ(int objIDX) {
-            if(objIDX != 999){
-               String objName = gp.obj[objIDX].name;
-                   switch (objName){
-                       case "Key":
-                           hasKey++;
-                           gp.obj[objIDX] = null;
-                           break;
-                       case "Door":
-                           if(hasKey > 0){
-                               gp.obj[objIDX] = null;
-                               hasKey--;
-                           }
-                           break;
-                       case "Chest":
-                           gp.obj[objIDX] = null;
-                           break;
-                   }
+        public void pickUpOBJ(int i) {
+            if(i != 999){
+                String text;
+                if(inventory.size() != maxInventorySize){
+                    inventory.add(gp.obj[i]);
+                    // Need sounds
+                    text = "You have picked up a " + gp.obj[i].name + "!";
+                } else{
+                    text = "You cannot carry anymore stuff!";
+                }
+                gp.ui.showMessage(text);
+                gp.obj[i] = null;
             }
         }
 
@@ -331,6 +328,26 @@ public class Player extends Entity {
             //need sound effect;
             gp.gameState = gp.dialogueState;
             gp.ui.currentDialogue = "You leveled up to " + level + "!\n" + "You are now stronger than you are before";
+        }
+    }
+    public void selectItem(){
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+
+        if(itemIndex < inventory.size()){
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if(selectedItem.type == type_sword || selectedItem.type == type_shield){
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+            if(selectedItem.type == type_shield){
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+            if(selectedItem.type == type_consumable){
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
+            }
         }
     }
     public void draw (Graphics2D g2) {

@@ -15,7 +15,7 @@ public class Goblin extends Entity{
 
         this.gp = gp;
 
-        type = 2; //monster type
+        type = type_monster; //monster type
         name = "Goblin";
         speed = 2;
         maxLife = 5;

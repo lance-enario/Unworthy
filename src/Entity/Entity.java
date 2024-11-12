@@ -48,7 +48,6 @@ public class Entity {
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision = false;
-    public int type = 0;
 
     // CHARACTER ATTRIBUTES
     public int speed;
@@ -71,6 +70,18 @@ public class Entity {
     public int defenseValue;
     public String description = "";
 
+    //TYPE
+    public int type; // 0 = player, 1 = npc, 2 = monster
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
+    public final int type_sword = 3;
+    public final int type_shield = 4;
+    public final int type_wand = 5;
+    public final int type_bow = 6;
+    public final int type_armor = 7;
+    public final int type_consumable = 8;
+
     GamePanel gp;
 
     public Entity(GamePanel gp) {
@@ -79,8 +90,6 @@ public class Entity {
 
     public void setAction(){}
     public void damageReaction(){}
-
-
     public void speak(){
         if(dialogue[dialogueIndex] == null){
             dialogueIndex = 0;
@@ -96,8 +105,7 @@ public class Entity {
             case "default": direction = "default"; break;
         }
     }
-
-
+    public void use(Entity entity){}
     public void update() {
         setAction();
         CollisionOn = false;
@@ -108,7 +116,7 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-        if (this.type == 2 && contactPlayer){
+        if (this.type == type_monster && contactPlayer){
             if (!gp.player.isInvincible){
 
                 int damage  = attack - gp.player.defense;
@@ -168,7 +176,6 @@ public class Entity {
         }
 
     }
-
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 

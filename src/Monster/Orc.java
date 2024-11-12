@@ -15,7 +15,7 @@ public class Orc extends Entity{
 
         this.gp = gp;
 
-        type = 2; //monster type
+        type = type_monster; //monster type
         name = "Orc";
         speed = 2;
         maxLife = 6;
