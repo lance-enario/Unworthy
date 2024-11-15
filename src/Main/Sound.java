@@ -6,14 +6,14 @@ import javax.sound.sampled.Clip;
 import java.net.URL;
 
 public class Sound {
-
     Clip clip;
     URL[] soundURL = new URL[30];
 
     public Sound (){
         soundURL[0] = getClass().getResource("/sound/maintheme.wav");
         soundURL[1] = getClass().getResource("/sound/dirtstep.wav");
-        soundURL[2] = getClass().getResource("/sounds/Slime Death.wav");
+        soundURL[2] = getClass().getResource("/sound/Slime Death.wav");
+        soundURL[3] = getClass().getResource("/sound/mageattack.wav");
     }
 
     public void setFile(int i){
@@ -25,12 +25,15 @@ public class Sound {
             e.printStackTrace();
         }
     }
+
     public void play(){
         clip.start();
     }
+
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+
     public void stop(){
         clip.stop();
     }

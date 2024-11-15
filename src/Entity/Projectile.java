@@ -8,20 +8,22 @@ public class Projectile extends Entity{
 
     public Projectile(GamePanel gp) {
         super(gp);
+        type = 9;
+        solidArea.width = 32;
+        solidArea.height = 32;
     }
 
     public void set (int worldX, int worldY, String direction, boolean isAlive, Entity user){
-
-        this.worldX = worldX + 30;
-        this.worldY = worldY + 30;
+        this.worldX = worldX + 45;
+        this.worldY = worldY + 50;
         this.direction = direction;
         this.isAlive = isAlive;
         this.user = user;
         this.life = maxLife;
     }
 
+    @Override
     public void update(){
-
         if (user == gp.player){
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if (monsterIndex != 999){
@@ -44,7 +46,6 @@ public class Projectile extends Entity{
 
         spriteCounter++;
         if (spriteCounter > 12){
-
             spriteCounter = 2;
         }
     }

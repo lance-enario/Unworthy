@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setObj();
         aSet.setNPC();
         aSet.setMonster();
-//        playMusic(0);
+        playMusic(0);
         gameState = titleState;
     }
 
@@ -220,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void stopMusic(){
-         sound.stop();
+        sound.stop();
     }
 
     public void playSE(int i){

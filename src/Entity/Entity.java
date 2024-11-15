@@ -24,7 +24,6 @@ public class Entity {
 
     public boolean hpBarOn = false;
 
-
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public Rectangle solidArea = new Rectangle(32,56, 64, 64);
@@ -33,15 +32,10 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean CollisionOn = false;
 
-
-
     //entity invincibility
     public boolean isInvincible = false;
     //entity attack
     public boolean isAttacking = false;
-
-
-
 
     //COUNTER
     public int invincibleCounter = 0;
@@ -49,6 +43,7 @@ public class Entity {
     public int hpBarCounter = 0;
     public int attackCounter = 0;
     public int shotAvailableCounter = 0;
+    public int mageSkill1Counter = 0;
     int dyingCounter = 0;
 
 
@@ -90,6 +85,7 @@ public class Entity {
     public final int type_bow = 6;
     public final int type_armor = 7;
     public final int type_consumable = 8;
+    public final int type_projectile = 9;
 
     GamePanel gp;
 
@@ -111,7 +107,6 @@ public class Entity {
             case "left": direction = "right"; break;
             case "down": direction = "up"; break;
             case "right": direction = "left"; break;
-            case "default": direction = "default"; break;
         }
     }
     public void use(Entity entity){}
@@ -238,13 +233,20 @@ public class Entity {
 
             boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
-                    (direction.equals("down") && maintain.equals("left")) ||
-                    (direction.equals("default") && maintain.equals("left"));
+                    (direction.equals("down") && maintain.equals("left"));
 
-            if (shouldFlip) {
-                g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+            if (type == 9) { //projectile size
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+                }
             } else {
-                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
             }
 
             changeAlpha(g2,1.0f);

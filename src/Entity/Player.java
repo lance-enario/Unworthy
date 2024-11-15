@@ -63,14 +63,14 @@ public class Player extends Entity {
         strength = 1;   // the more strength he has, the more damage he gives
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
-        nextLevelExp = 5;
+        nextLevelExp = 30;
         coins = 0;
         currentWeapon = new obj_Wand(gp);
         currentShield = new obj_Book(gp);
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.
 
-        direction = "default";
+        direction = "left";
         maintain = "right";
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
@@ -111,18 +111,38 @@ public class Player extends Entity {
     //@Override
     public void update() {
 
-        if (isAttacking || keyH.bscAtkPressed){
+        if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
             attacking();
 
             attackCounter++;
-            if (attackCounter > 15){
+            if (attackCounter > 30) {
                 keyH.bscAtkPressed = false;
                 isAttacking = false;
                 attackCounter = 0;
             }
+        } else if (keyH.skill1Pressed || keyH.skill2Pressed || keyH.skill3Pressed){
+            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
+                mageSkill1();
+                mageSkill1Counter = 0;
+            } else if (keyH.skill2Pressed){
+                mageSkill2();
+            } else {
+                mageSkill3();
+            }
 
         } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            //SKILLS
+            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
+                mageSkill1();
+                mageSkill1Counter = 0;
+            } else if (keyH.skill2Pressed){
+                mageSkill2();
+            } else {
+                mageSkill3();
+            }
+
+            //MOVEMENT
             if (keyH.upPressed) {
                 direction = "up";
                 System.out.println("up");
@@ -137,9 +157,6 @@ public class Player extends Entity {
                 direction = "right";
                 maintain = direction;
                 System.out.println("right");
-            } else if (keyH.enterPressed){
-                direction = "default";
-                System.out.println("idle dialogue trigger");
             }
 
             //collision checker
@@ -175,9 +192,14 @@ public class Player extends Entity {
                     case "right":
                         worldX += speed;
                         break;
-                    case "default":
-                        break;
                 }
+            }
+
+            if(audioCounter < 20){
+                audioCounter++;
+            } else {
+                gp.playSE(1);
+                audioCounter = 0;
             }
 
             gp.keyH.enterPressed = false;
@@ -221,8 +243,12 @@ public class Player extends Entity {
             }
         }
 
-        if(shotAvailableCounter < 15){
+        if(shotAvailableCounter < 30){
             shotAvailableCounter++;
+        }
+
+        if(mageSkill1Counter < 180){
+            mageSkill1Counter++;
         }
 
     }
@@ -248,15 +274,16 @@ public class Player extends Entity {
                 break;
         }
 
-        if (gp.keyH.bscAtkPressed && !projectile.isAlive && shotAvailableCounter == 15){
-            projectile.set(worldX, worldY, direction, true, this);
+        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30){
+            Projectile newProjectile = new obj_MageAttack(gp);
+            newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
-            gp.projectileList.add(projectile);
+            gp.projectileList.add(newProjectile);
+            gp.playSE(3);
         }
 
         solidArea.width = attackArea.width;
         solidArea.height = attackArea.height;
-
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
@@ -266,6 +293,30 @@ public class Player extends Entity {
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
         solidArea.height = solidAreaHeight;
+    }
+
+    public void mageSkill1(){
+        Projectile projUp = new obj_MageAttack(gp);
+        Projectile projDown = new obj_MageAttack(gp);
+        Projectile projLeft = new obj_MageAttack(gp);
+        Projectile projRight = new obj_MageAttack(gp);
+        projUp.set(worldX, worldY, "up", true, this);
+        projDown.set(worldX, worldY, "down", true, this);
+        projLeft.set(worldX, worldY, "left", true, this);
+        projRight.set(worldX, worldY, "right", true, this);
+        gp.projectileList.add(projUp);
+        gp.projectileList.add(projDown);
+        gp.projectileList.add(projLeft);
+        gp.projectileList.add(projRight);
+        gp.playSE(3);
+    }
+
+    public void mageSkill2(){
+
+    }
+
+    public void mageSkill3(){
+
     }
 
         public void pickUpOBJ(int i) {
@@ -323,6 +374,7 @@ public class Player extends Entity {
 
                     if(gp.monster[i].life <= 0){
                         gp.monster[i].isDying = true;
+                        gp.playSE(2);
                         gp.ui.showMessage("Killed the " + gp.monster[i].name + "!");
                         gp.ui.showMessage("Exp + " + gp.monster[i].exp);
                         exp += gp.monster[i].exp;
@@ -331,6 +383,7 @@ public class Player extends Entity {
                 }
             }
         }
+
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
             level++;
@@ -372,13 +425,14 @@ public class Player extends Entity {
 
         if (isAttacking) {
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
-        } else {
+        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             image = switch (direction) {
                 case "left", "right", "up", "down" ->
                         walkFrames[(spriteNum - 1) % walkFrames.length]; // Walk animation frame
-                case "default" -> idleFrames[(spriteNum - 1) % idleFrames.length];// Idle animation frame
                 default -> idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
             };
+        } else {
+            image = idleFrames[(spriteNum - 1) % idleFrames.length];// Idle animation frame
         }
 
         // visual confirmation of invincible state
@@ -397,7 +451,7 @@ public class Player extends Entity {
         }
 
         if (shouldFlip) {
-            g2.drawImage(image, (screenX + gp.playerSize+30), screenY, -gp.playerSize-30, gp.playerSize+30, null);
+            g2.drawImage(image, (screenX + gp.playerSize+30), screenY, -(gp.playerSize+30), gp.playerSize+30, null);
         } else {
             g2.drawImage(image, screenX, screenY, gp.playerSize+30, gp.playerSize+30, null);
         }

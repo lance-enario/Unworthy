@@ -10,12 +10,8 @@ public class MageProjectile extends Projectile {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    BufferedImage[] walkFrames = new BufferedImage[6];
-    BufferedImage[] idleFrames = new BufferedImage[6];
-    BufferedImage[] bscAttackFrames = new BufferedImage[7];
 
     public MageProjectile (GamePanel gp, KeyHandler keyH){
-
         this.gp = gp;       // setter for gp
         this.keyH = keyH;   //setter for keyH
 
