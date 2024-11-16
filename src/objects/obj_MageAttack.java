@@ -4,12 +4,11 @@ import Entity.Projectile;
 import Main.GamePanel;
 
 public class obj_MageAttack extends Projectile{
-
-    GamePanel gp;
-
     public obj_MageAttack(GamePanel gp){
         super(gp);
-        this.gp = gp;
+        type = 9;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         name = "MageAttack";
         speed = 8;

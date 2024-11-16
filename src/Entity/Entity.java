@@ -190,7 +190,7 @@ public class Entity {
             worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
-                case "default", "up", "down", "left", "right":
+                case "default", "up", "down", "left", "right", "upright", "upleft", "downright", "downleft":
                    if(spriteNum == 1) image = up1;
                    if(spriteNum == 2) image = up2;
                    if(spriteNum == 3) image = down1;
@@ -235,19 +235,43 @@ public class Entity {
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left"));
 
-            if (type == 9) { //projectile size
-                if (shouldFlip) {
-                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
-                } else {
-                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
-                }
-            } else {
-                if (shouldFlip) {
-                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
-                } else {
-                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
+            switch(type){
+                case 9:     //regular mage projectile
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+                    }
+                    break;
+                case 10:    //skill1 mage Projectile
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + 64), screenY, -(gp.tileSize), gp.tileSize, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    }
+                    break;
+                default:
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    }
+                    break;
             }
+
+//            if (type == 9) { //projectile size
+//                if (shouldFlip) {
+//                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+//                } else {
+//                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+//                }
+//            } else {
+//                if (shouldFlip) {
+//                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+//                } else {
+//                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+//                }
+//            }
 
             changeAlpha(g2,1.0f);
 

@@ -3,11 +3,7 @@ package Entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import Main.Sound;
-import objects.obj_MageAttack;
-import objects.obj_Book;
-import objects.obj_Key;
-import objects.obj_Potion;
-import objects.obj_Wand;
+import objects.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -138,7 +134,7 @@ public class Player extends Entity {
                 mageSkill1Counter = 0;
             } else if (keyH.skill2Pressed){
                 mageSkill2();
-            } else {
+            } else if (keyH.skill3Pressed){
                 mageSkill3();
             }
 
@@ -253,6 +249,57 @@ public class Player extends Entity {
 
     }
 
+//    public void mageSkill1(){
+//        Projectile projUp = new obj_MageAttack(gp);
+//        Projectile projDown = new obj_MageAttack(gp);
+//        Projectile projLeft = new obj_MageAttack(gp);
+//        Projectile projRight = new obj_MageAttack(gp);
+//
+//        Projectile projUpLeft = new obj_MageAttack(gp);
+//        Projectile projUpRight = new obj_MageAttack(gp);
+//        Projectile projDownLeft = new obj_MageAttack(gp);
+//        Projectile projDownRight = new obj_MageAttack(gp);
+//
+//        projUp.set(worldX, worldY, "up", true, this);
+//        projDown.set(worldX, worldY, "down", true, this);
+//        projLeft.set(worldX, worldY, "left", true, this);
+//        projRight.set(worldX, worldY, "right", true, this);
+//
+//        projUpLeft.set(worldX, worldY, "upleft", true, this);
+//        projUpRight.set(worldX, worldY, "upright", true, this);
+//        projDownLeft.set(worldX, worldY, "downleft", true, this);
+//        projDownRight.set(worldX, worldY, "downright", true, this);
+//
+//        gp.projectileList.add(projUp);
+//        gp.projectileList.add(projDown);
+//        gp.projectileList.add(projLeft);
+//        gp.projectileList.add(projRight);
+//
+//        gp.projectileList.add(projUpLeft);
+//        gp.projectileList.add(projUpRight);
+//        gp.projectileList.add(projDownLeft);
+//        gp.projectileList.add(projDownRight);
+//        gp.playSE(3);
+//    }
+
+    public void mageSkill1() {
+        String[] directions = {"up", "down", "left", "right", "upleft", "upright", "downleft", "downright"};
+        for (int i = 0; i < directions.length; i++) {
+            Projectile proj = new obj_MageSkill1(gp);
+            proj.set(worldX, worldY, directions[i], true, this);
+            gp.projectileList.add(proj);
+        }
+        gp.playSE(19);
+    }
+
+    public void mageSkill2(){
+
+    }
+
+    public void mageSkill3(){
+
+    }
+
     public void attacking(){
         int currentWorldX = worldX;
         int currentWorldY = worldY;
@@ -279,7 +326,7 @@ public class Player extends Entity {
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
             gp.projectileList.add(newProjectile);
-            gp.playSE(3);
+            gp.playSE(18);
         }
 
         solidArea.width = attackArea.width;
@@ -293,30 +340,6 @@ public class Player extends Entity {
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
         solidArea.height = solidAreaHeight;
-    }
-
-    public void mageSkill1(){
-        Projectile projUp = new obj_MageAttack(gp);
-        Projectile projDown = new obj_MageAttack(gp);
-        Projectile projLeft = new obj_MageAttack(gp);
-        Projectile projRight = new obj_MageAttack(gp);
-        projUp.set(worldX, worldY, "up", true, this);
-        projDown.set(worldX, worldY, "down", true, this);
-        projLeft.set(worldX, worldY, "left", true, this);
-        projRight.set(worldX, worldY, "right", true, this);
-        gp.projectileList.add(projUp);
-        gp.projectileList.add(projDown);
-        gp.projectileList.add(projLeft);
-        gp.projectileList.add(projRight);
-        gp.playSE(3);
-    }
-
-    public void mageSkill2(){
-
-    }
-
-    public void mageSkill3(){
-
     }
 
         public void pickUpOBJ(int i) {

@@ -13,7 +13,8 @@ public class Sound {
         soundURL[0] = getClass().getResource("/sound/maintheme.wav");
         soundURL[1] = getClass().getResource("/sound/dirtstep.wav");
         soundURL[2] = getClass().getResource("/sound/Slime Death.wav");
-        soundURL[3] = getClass().getResource("/sound/mageattack.wav");
+        soundURL[18] = getClass().getResource("/sound/mageattack.wav");
+        soundURL[19] = getClass().getResource("/sound/mageskill1.wav");
     }
 
     public void setFile(int i){

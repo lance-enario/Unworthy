@@ -8,9 +8,6 @@ public class Projectile extends Entity{
 
     public Projectile(GamePanel gp) {
         super(gp);
-        type = 9;
-        solidArea.width = 32;
-        solidArea.height = 32;
     }
 
     public void set (int worldX, int worldY, String direction, boolean isAlive, Entity user){
@@ -37,6 +34,10 @@ public class Projectile extends Entity{
             case "down": worldY += speed; break;
             case "left": worldX -= speed; break;
             case "right": worldX += speed; break;
+            case "upleft": worldY -= speed; worldX -= speed; break;
+            case "upright": worldY -= speed; worldX += speed; break;
+            case "downleft": worldY += speed; worldX -= speed; break;
+            case "downright": worldY += speed; worldX += speed; break;
         }
 
         life--;
