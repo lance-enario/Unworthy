@@ -73,7 +73,7 @@ public class Slime extends Entity {
 
         gp.cChecker.checkTile(this);
         gp.cChecker.checkOBJ(this, false);
-        gp.cChecker.checkEntity(this, gp.npc);
+        int i = gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 

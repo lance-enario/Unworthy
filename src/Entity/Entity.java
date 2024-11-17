@@ -190,7 +190,7 @@ public class Entity {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
-                case "default", "up", "down", "left", "right":
+                case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
                     if(spriteNum == 1) image = up1;
                     if(spriteNum == 2) image = up2;
                     if(spriteNum == 3) image = down1;
