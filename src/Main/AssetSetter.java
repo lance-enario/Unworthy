@@ -51,17 +51,30 @@ public class AssetSetter {
         int i = 0;
         int mapNUm = 0;
         gp.monster[mapNUm][i] = new Slime(gp);
-        gp.monster[mapNUm][i].worldX = 27 * gp.tileSize;
+        gp.monster[mapNUm][i].worldX = 36 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 55 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNUm][i] = new Slime(gp);
+        gp.monster[mapNUm][i].worldX = 43 * gp.tileSize;
         gp.monster[mapNUm][i].worldY = 35 * gp.tileSize;
         i++;
-        gp.monster[mapNUm][i] = new Orc(gp);
-        gp.monster[mapNUm][i].worldX = 32 * gp.tileSize;
-        gp.monster[mapNUm][i].worldY = 37 * gp.tileSize;
+
+        gp.monster[mapNUm][i] = new Slime(gp);
+        gp.monster[mapNUm][i].worldX = 78 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 29 * gp.tileSize;
         i++;
-        gp.monster[mapNUm][i] = new Goblin(gp);
-        gp.monster[mapNUm][i].worldX = 34 * gp.tileSize;
-        gp.monster[mapNUm][i].worldY = 37 * gp.tileSize;
+
+        gp.monster[mapNUm][i] = new Slime(gp);
+        gp.monster[mapNUm][i].worldX = 72 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 36 * gp.tileSize;
         i++;
+
+        gp.monster[mapNUm][i] = new Slime(gp);
+        gp.monster[mapNUm][i].worldX = 77 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 57 * gp.tileSize;
+        i++;
+
 
         // if ganahan mo place  in map 1
         //mapNUm = 1;

@@ -15,19 +15,30 @@ import java.util.Objects;
 public class Player extends Entity {
 
     KeyHandler keyH;
-    Sound sound;
     public final int screenX;
     public final int screenY;
-    public BufferedImage[] walkFrames = new BufferedImage[6];
-    public BufferedImage[] idleFrames = new BufferedImage[6];
-    BufferedImage[] bscAttackFrames = new BufferedImage[7];
-    int hasKey =0 ;
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
 
+    //graphic images for player
+    BufferedImage[] walkFrames = new BufferedImage[6];
+    BufferedImage[] idleFrames = new BufferedImage[6];
+    BufferedImage[] bscAttackFrames = new BufferedImage[7];
+    BufferedImage[] shieldFrames = new BufferedImage[18];
+
+    //player skill counters
+    public int mageSkill1Counter = 180;
+    public int mageSkill2Counter = 600;
+    boolean skill2Pressed = false;
+
+    //shield sprite variables
+    public int shieldSpriteNum = 1;
+    public int shieldSpriteCounter = 0;
+    public int shieldCtr = 1;
+
     public Player(GamePanel gp, KeyHandler keyH) {
 
-        super(gp); // setter for gp
+        super(gp);          // setter for gp
         this.keyH = keyH;   //setter for keyH
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
@@ -98,6 +109,9 @@ public class Player extends Entity {
             for (int i = 0; i < 7; i++) {
                 bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/bscAttack/" + (i + 1) + ".png")));
             }
+            for (int i = 0; i < 16; i++) {
+                shieldFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/skill2/" + "shield"+ (i + 1) + ".png")));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,6 +120,8 @@ public class Player extends Entity {
 
     //@Override
     public void update() {
+
+        System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
 
         if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
@@ -117,23 +133,15 @@ public class Player extends Entity {
                 isAttacking = false;
                 attackCounter = 0;
             }
-        } else if (keyH.skill1Pressed || keyH.skill2Pressed || keyH.skill3Pressed){
-            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
-                mageSkill1();
-                mageSkill1Counter = 0;
-            } else if (keyH.skill2Pressed){
-                mageSkill2();
-            } else {
-                mageSkill3();
-            }
+        }  else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 
-        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             //SKILLS
             if (keyH.skill1Pressed && mageSkill1Counter == 180) {
                 mageSkill1();
                 mageSkill1Counter = 0;
-            } else if (keyH.skill2Pressed){
+            } else if (keyH.skill2Pressed && mageSkill2Counter == 600){
                 mageSkill2();
+                mageSkill2Counter = 0;
             } else if (keyH.skill3Pressed){
                 mageSkill3();
             }
@@ -141,18 +149,18 @@ public class Player extends Entity {
             //MOVEMENT
             if (keyH.upPressed) {
                 direction = "up";
-                System.out.println("up");
+                //System.out.println("up");
             } else if (keyH.downPressed) {
                 direction = "down";
-                System.out.println("down");
+                //System.out.println("down");
             } else if (keyH.leftPressed) {
                 direction = "left";
                 maintain = direction;
-                System.out.println("left");
+                //System.out.println("left");
             } else if (keyH.rightPressed) {
                 direction = "right";
                 maintain = direction;
-                System.out.println("right");
+                //System.out.println("right");
             }
 
             //collision checker
@@ -200,6 +208,17 @@ public class Player extends Entity {
 
             gp.keyH.enterPressed = false;
 
+        } else if (keyH.skill1Pressed || keyH.skill2Pressed || keyH.skill3Pressed){
+            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
+                mageSkill1();
+                mageSkill1Counter = 0;
+            } else if (keyH.skill2Pressed && mageSkill2Counter == 600){
+                mageSkill2();
+                mageSkill2Counter = 0;
+            } else {
+                mageSkill3();
+            }
+
         } else {
 
             int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc[gp.currentMap]);
@@ -207,7 +226,9 @@ public class Player extends Entity {
 
             gp.keyH.enterPressed = false;
         }
-            spriteCounter++;
+
+        //HANDLES SPRITE FRAME BY FRAME CHANGES FOR PLAYER
+        spriteCounter++;
 
             if (isAttacking){
                 spriteNum = 5;
@@ -230,8 +251,35 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
 
+        System.out.println("shieldSpriteNum = " + shieldSpriteNum + " " + "shieldCtr = " + shieldCtr);
+        if (shieldSpriteCounter > 1) {
+            if (shieldSpriteNum == shieldCtr && shieldSpriteNum < 16){
+                    shieldSpriteNum++;
+                    shieldCtr++;
+            } else {
+                shieldSpriteNum = 16;
+            }
+            shieldSpriteCounter = 0;
+        }
+
+        //HANDLES SHIELD FRAMES FOR PLAYER
+        if (skill2Pressed) {
+            invincibleCounter++;
+            if(invincibleCounter == 30){
+                isInvincible = true;
+            }
+            shieldSpriteCounter++;
+        }
+
         // this code snippet handles invincibility
-        if (isInvincible){
+        if (isInvincible && skill2Pressed) {
+            invincibleCounter++;
+            if (invincibleCounter > 300) {
+                isInvincible = false;
+                skill2Pressed = false;
+                invincibleCounter = 0;
+            }
+        } else if (isInvincible){
             invincibleCounter++;
             if (invincibleCounter > 60) {
                 isInvincible = false;
@@ -247,40 +295,11 @@ public class Player extends Entity {
             mageSkill1Counter++;
         }
 
-    }
+        if(mageSkill2Counter < 600){
+            mageSkill2Counter++;
+        }
 
-//    public void mageSkill1(){
-//        Projectile projUp = new obj_MageAttack(gp);
-//        Projectile projDown = new obj_MageAttack(gp);
-//        Projectile projLeft = new obj_MageAttack(gp);
-//        Projectile projRight = new obj_MageAttack(gp);
-//
-//        Projectile projUpLeft = new obj_MageAttack(gp);
-//        Projectile projUpRight = new obj_MageAttack(gp);
-//        Projectile projDownLeft = new obj_MageAttack(gp);
-//        Projectile projDownRight = new obj_MageAttack(gp);
-//
-//        projUp.set(worldX, worldY, "up", true, this);
-//        projDown.set(worldX, worldY, "down", true, this);
-//        projLeft.set(worldX, worldY, "left", true, this);
-//        projRight.set(worldX, worldY, "right", true, this);
-//
-//        projUpLeft.set(worldX, worldY, "upleft", true, this);
-//        projUpRight.set(worldX, worldY, "upright", true, this);
-//        projDownLeft.set(worldX, worldY, "downleft", true, this);
-//        projDownRight.set(worldX, worldY, "downright", true, this);
-//
-//        gp.projectileList.add(projUp);
-//        gp.projectileList.add(projDown);
-//        gp.projectileList.add(projLeft);
-//        gp.projectileList.add(projRight);
-//
-//        gp.projectileList.add(projUpLeft);
-//        gp.projectileList.add(projUpRight);
-//        gp.projectileList.add(projDownLeft);
-//        gp.projectileList.add(projDownRight);
-//        gp.playSE(3);
-//    }
+    }
 
     public void mageSkill1() {
         String[] directions = {"up", "down", "left", "right", "upleft", "upright", "downleft", "downright"};
@@ -293,7 +312,10 @@ public class Player extends Entity {
     }
 
     public void mageSkill2(){
-
+        //isInvincible = true;
+        skill2Pressed = true;
+        shieldCtr = 1;
+        shieldSpriteNum = 1;
     }
 
     public void mageSkill3(){
@@ -445,6 +467,8 @@ public class Player extends Entity {
     }
     public void draw (Graphics2D g2) {
         BufferedImage image = idleFrames[0];
+        BufferedImage shieldImage;
+        shieldImage = shieldFrames[(shieldSpriteNum - 1) % shieldFrames.length];
 
         if (isAttacking) {
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
@@ -456,6 +480,10 @@ public class Player extends Entity {
             };
         } else {
             image = idleFrames[(spriteNum - 1) % idleFrames.length];// Idle animation frame
+        }
+
+        if (skill2Pressed){
+            g2.drawImage(shieldImage, screenX + 3, screenY + 25, gp.playerSize+30, gp.playerSize+30, null);
         }
 
         // visual confirmation of invincible state
@@ -473,11 +501,10 @@ public class Player extends Entity {
             shouldFlip = true;
         }
 
-        if (shouldFlip) {
+        if (shouldFlip)
             g2.drawImage(image, (screenX + gp.playerSize+30), screenY, -(gp.playerSize+30), gp.playerSize+30, null);
-        } else {
+        else
             g2.drawImage(image, screenX, screenY, gp.playerSize+30, gp.playerSize+30, null);
-        }
 
         // reset composite
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
@@ -488,7 +515,6 @@ public class Player extends Entity {
         g2.setColor(Color.red);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
-
 }
 
 

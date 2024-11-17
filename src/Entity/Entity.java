@@ -43,7 +43,6 @@ public class Entity {
     public int hpBarCounter = 0;
     public int attackCounter = 0;
     public int shotAvailableCounter = 0;
-    public int mageSkill1Counter = 0;
     int dyingCounter = 0;
 
 
