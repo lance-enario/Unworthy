@@ -48,9 +48,9 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 16; //spawn point
-        worldY = gp.tileSize * 16;
-        speed = 7; // 3 default but increased just for testing
+        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
+        worldY = gp.tileSize * 41;
+        speed = 15; // 3 default but increased just for testing
 
         // PLAYER STATUS
         maxLife = 10;
@@ -202,7 +202,7 @@ public class Player extends Entity {
 
         } else {
 
-            int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc);
+            int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc[gp.currentMap]);
             interactNPC(npcDialogue);
 
             gp.keyH.enterPressed = false;
@@ -342,26 +342,26 @@ public class Player extends Entity {
         solidArea.height = solidAreaHeight;
     }
 
-        public void pickUpOBJ(int i) {
-            if(i != 999){
-                String text;
-                if(inventory.size() != maxInventorySize){
-                    inventory.add(gp.obj[i]);
-                    // Need sounds
-                    text = "You have picked up a " + gp.obj[i].name + "!";
-                } else{
-                    text = "You cannot carry anymore stuff!";
-                }
-                gp.ui.showMessage(text);
-                gp.obj[i] = null;
+    public void pickUpOBJ(int i) {
+        if(i != 999){
+            String text;
+            if(inventory.size() != maxInventorySize){
+                inventory.add(gp.obj[gp.currentMap][i]);
+                // Need sounds
+                text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
+            } else{
+                text = "You cannot carry anymore stuff!";
             }
+            gp.ui.showMessage(text);
+            gp.obj[gp.currentMap][i] = null;
         }
+    }
 
         public void interactNPC(int i) {
              if(i!=999){
                  if(gp.keyH.enterPressed){
                      gp.gameState = gp.dialogueState;
-                     gp.npc[i].speak();
+                     gp.npc[gp.currentMap][i].speak();
                  }
              }
              gp.keyH.enterPressed = false;
@@ -371,7 +371,7 @@ public class Player extends Entity {
             if(i!=999){
                 if (!isInvincible){
 
-                    int damage = gp.monster[i].attack - defense;
+                    int damage = gp.monster[gp.currentMap][i].attack - defense;
                     if(damage < 0){
                         damage = 0;
                     }
@@ -382,30 +382,30 @@ public class Player extends Entity {
             }
         }
 
-        public void damageMonster(int i, int attack){
-            if (i != 999){
-                if(!gp.monster[i].isInvincible){
+    public void damageMonster(int i, int attack){
+        if (i != 999){
+            if(!gp.monster[gp.currentMap][i].isInvincible){
 
-                    int damage = attack - gp.monster[i].defense;
-                    if(damage < 0){
-                        damage = 0;
-                    }
-                    gp.monster[i].life -= damage;
-                    gp.ui.showMessage(damage + "damage!");
-                    gp.monster[i].isInvincible = true;
-                    gp.monster[i].damageReaction();
+                int damage = attack - gp.monster[gp.currentMap][i].defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.monster[gp.currentMap][i].life -= damage;
+                gp.ui.showMessage(damage + "damage!");
+                gp.monster[gp.currentMap][i].isInvincible = true;
+                gp.monster[gp.currentMap][i].damageReaction();
 
-                    if(gp.monster[i].life <= 0){
-                        gp.monster[i].isDying = true;
-                        gp.playSE(2);
-                        gp.ui.showMessage("Killed the " + gp.monster[i].name + "!");
-                        gp.ui.showMessage("Exp + " + gp.monster[i].exp);
-                        exp += gp.monster[i].exp;
-                        checkLevelUp();
-                    }
+                if(gp.monster[gp.currentMap][i].life <= 0){
+                    gp.monster[gp.currentMap][i].isDying = true;
+                    gp.playSE(2);
+                    gp.ui.showMessage("Killed the " + gp.monster[gp.currentMap][i].name + "!");
+                    gp.ui.showMessage("Exp + " + gp.monster[gp.currentMap][i].exp);
+                    exp += gp.monster[gp.currentMap][i].exp;
+                    checkLevelUp();
                 }
             }
         }
+    }
 
     public void checkLevelUp(){
         if(exp >= nextLevelExp){

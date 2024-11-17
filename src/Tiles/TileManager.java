@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class TileManager {
     GamePanel gp;
     public Tiles[] tile;
-    public int[][] mapTileNum;
+    public int[][][] mapTileNum;
 
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
@@ -24,7 +23,7 @@ public class TileManager {
         this.gp = gp;
 
         //read tile data from file
-        InputStream is = getClass().getResourceAsStream("/Maps/tiledataStage1.txt");
+        InputStream is = getClass().getResourceAsStream("/Maps/tileData.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
         // getting tile names and collision info
@@ -52,13 +51,14 @@ public class TileManager {
 
             gp.maxWorldCol = maxTile.length;
             gp.maxWorldRow = maxTile.length;
-            mapTileNum = new int [gp.maxWorldCol] [gp.maxWorldRow];
+            mapTileNum = new int [gp.maxMap][gp.maxWorldCol] [gp.maxWorldRow];
 
         } catch (IOException e){
             System.out.println("Exception!");
         }
-        loadMap("/Maps/Stage1.txt");
-
+        loadMap("/Maps/Stage1.txt",0);
+        loadMap("/Maps/Stage2.txt",1);
+        loadMap("/Maps/Stage3.txt",2);
 
 //        loadMap("/Maps/Stage1.txt");
     }
@@ -101,7 +101,7 @@ public class TileManager {
         try{
             tile[index] = new Tiles();
             System.out.println(imageName);
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/Stage1/" + imageName));
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/Stage/" + imageName));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
         } catch (IOException e){
@@ -109,7 +109,7 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath) {
+    public void loadMap(String filePath,int map) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             assert is != null;
@@ -125,7 +125,7 @@ public class TileManager {
 
                     while (col < gp.maxWorldCol) {
                         int num = Integer.parseInt(numbers[col]);
-                        mapTileNum[col][row] = num;
+                        mapTileNum[map][col][row] = num;
                         col++;
                     }
 
@@ -151,7 +151,7 @@ public class TileManager {
 
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldCol){
 
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;

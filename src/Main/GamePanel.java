@@ -25,8 +25,10 @@ public class GamePanel extends JPanel implements Runnable{
     public int screenHeight = tileSize * maxScreenRow; // 576 px
 
     // WORLD SETTINGS
-    public  int  maxWorldCol = 50;
-    public  int maxWorldRow = 50;
+    public  int  maxWorldCol;
+    public  int maxWorldRow;
+    public final int maxMap = 5;
+    public int currentMap = 0;
 
     // FPS of game
     int FPS = 60;
@@ -43,9 +45,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
-    public Entity[] npc = new Entity[10];
-    public Entity[] obj = new Entity[10];
-    public Entity[] monster = new Entity[10];
+    public Entity[][] npc = new Entity[maxMap][10];
+    public Entity[][] obj = new Entity[maxMap][10];
+    public Entity[][] monster = new Entity[maxMap][10];
     public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
 
@@ -56,6 +58,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
+    public final int transitionState = 7;
+    public String text;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -115,19 +119,19 @@ public class GamePanel extends JPanel implements Runnable{
             player.update();
 
             //NPC
-            for(int i =0; i < npc.length; i++) {
-                if (npc[i] != null) {
-                    npc[i].update();
+            for(int i =0; i < npc[1].length; i++) {
+                if (npc[currentMap][i] != null) {
+                    npc[currentMap][i].update();
                 }
             }
 
-            for(int i = 0; i < monster.length; i++){
-                if(monster[i] != null){
-                    if(monster[i].isAlive && !monster[i].isDying){
-                        monster[i].update();
+            for(int i = 0; i < monster[1].length; i++){
+                if(monster[currentMap][i] != null){
+                    if(monster[currentMap][i].isAlive && !monster[currentMap][i].isDying){
+                        monster[currentMap][i].update();
                     }
-                    if(!monster[i].isAlive){
-                        monster[i] = null;
+                    if(!monster[currentMap][i].isAlive){
+                        monster[currentMap][i] = null;
                     }
                 }
             }
@@ -164,21 +168,21 @@ public class GamePanel extends JPanel implements Runnable{
             tileM.draw(g2);
 
             // ADD ENTITIES TO THE LIST
-            for(int i = 0; i < npc.length; i++){
-                if(npc[i] != null){
-                    entityList.add(npc[i]);
+            for(int i = 0; i < npc[1].length; i++){
+                if(npc[currentMap][i] != null){
+                    entityList.add(npc[currentMap][i]);
                 }
             }
 
-            for(int i = 0; i < obj.length; i++){
-                if(obj[i] != null){
-                    entityList.add(obj[i]);
+            for(int i = 0; i < obj[1].length; i++){
+                if(obj[currentMap][i] != null){
+                    entityList.add(obj[currentMap][i]);
                 }
             }
 
-            for(int i = 0; i < monster.length; i++){
-                if(monster[i] != null){
-                    entityList.add(monster[i]);
+            for(int i = 0; i < monster[1].length; i++){
+                if(monster[currentMap][i] != null){
+                    entityList.add(monster[currentMap][i]);
                 }
             }
 
@@ -191,10 +195,10 @@ public class GamePanel extends JPanel implements Runnable{
             //SORT
             entityList.sort(new Comparator<Entity>() {
 
-            @Override
-            public int compare(Entity e1, Entity e2) {
-                return Integer.compare(e1.worldY, e2.worldY);
-            }
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    return Integer.compare(e1.worldY, e2.worldY);
+                }
             });
 
             //DRAW ENTITIES
@@ -207,6 +211,18 @@ public class GamePanel extends JPanel implements Runnable{
             // UI
             ui.draw(g2);
             player.draw(g2);
+
+            //debug text col & row
+            if(keyH.showDebugText == true) {
+                g2.setFont(new Font("Arial",Font.PLAIN,20));
+                g2.setColor(Color.white);
+                int x = 100;
+                int y = 400;
+                int lineHeight =  20;
+
+                g2.drawString("Col: X " + (player.worldX + player.solidArea.x) / tileSize,x,y); y+=lineHeight;
+                g2.drawString("Row: Y " + (player.worldY + player.solidArea.y) / tileSize,x,y); y+=lineHeight;
+            }
         }
 
         //draw others
@@ -224,8 +240,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void playSE(int i){
-         sound.setFile(i);
-         sound.play();
+        sound.setFile(i);
+        sound.play();
     }
+
 
 }

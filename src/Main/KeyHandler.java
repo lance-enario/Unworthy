@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-
+    boolean showDebugText = false;
     GamePanel gp;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, bscAtkPressed, skill1Pressed, skill2Pressed, skill3Pressed, enterPressed;
@@ -30,10 +30,10 @@ public class KeyHandler implements KeyListener {
         if(gp.gameState == gp.playState) {
             playState(code);
 
-        //PAUSE STATE
+            //PAUSE STATE
         } else if (gp.gameState == gp.pauseState) {
             pauseState(code);
-        //DIALOGUE STATE
+            //DIALOGUE STATE
         } else if(gp.gameState == gp.dialogueState){
             dialogueState(code);
         }
@@ -41,6 +41,23 @@ public class KeyHandler implements KeyListener {
         //CHARACTER STATE
         else if(gp.gameState == gp.characterState){
             characterState(code);
+        }
+
+        //debug text
+        if (code == KeyEvent.VK_T){
+            if(showDebugText == false){
+                showDebugText = true;
+            } else if(showDebugText = true){
+                showDebugText = false;
+            }
+        }
+        //refresh map
+        if (code == KeyEvent.VK_R){
+            switch(gp.currentMap){
+                case 0: gp.tileM.loadMap("/Maps/Stage1.txt",0); break;
+                case 1: gp.tileM.loadMap("/Maps/Stage2.txt",1); break;
+                case 2: gp.tileM.loadMap("/Maps/Stage2.txt",2); break;
+            }
         }
     }
 

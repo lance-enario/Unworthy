@@ -17,43 +17,59 @@ public class AssetSetter {
 
     public void setObj(){
         int i = 0;
-        gp.obj[i] = new obj_Key(gp);
-        gp.obj[i].worldX = 13 * gp.tileSize;
-        gp.obj[i].worldY = 8 * gp.tileSize;
+        int mapNUm = 0;
+        gp.obj[mapNUm][i] = new obj_Key(gp);
+        gp.obj[mapNUm][i].worldX = 39 * gp.tileSize;
+        gp.obj[mapNUm][i].worldY =42 * gp.tileSize;
         i++;
-        gp.obj[i] = new obj_Chest(gp);
-        gp.obj[i].worldX = 13 * gp.tileSize;
-        gp.obj[i].worldY = 10 * gp.tileSize;
+        gp.obj[mapNUm][i] = new obj_Chest(gp);
+        gp.obj[mapNUm][i].worldX = 41 * gp.tileSize;
+        gp.obj[mapNUm][i].worldY = 42 * gp.tileSize;
         i++;
-        gp.obj[i] = new obj_Door(gp);
-        gp.obj[i].worldX = 13 * gp.tileSize;
-        gp.obj[i].worldY = 9 * gp.tileSize;
+        gp.obj[mapNUm][i] = new obj_Door(gp);
+        gp.obj[mapNUm][i].worldX = 43 * gp.tileSize;
+        gp.obj[mapNUm][i].worldY = 42 * gp.tileSize;
         i++;
-        gp.obj[i] = new obj_Potion(gp);
-        gp.obj[i].worldX = 14 * gp.tileSize;
-        gp.obj[i].worldY = 9 * gp.tileSize;
+        gp.obj[mapNUm][i] = new obj_Potion(gp);
+        gp.obj[mapNUm][i].worldX = 45 * gp.tileSize;
+        gp.obj[mapNUm][i].worldY = 42 * gp.tileSize;
     }
 
     public void setNPC(){
-        gp.npc[0] = new NPC_Traveller(gp);
-        gp.npc[0].worldX = 13 * gp.tileSize;
-        gp.npc[0].worldY = 16 * gp.tileSize;
+        int mapNUm = 0;
+        gp.npc[mapNUm][0] = new NPC_Traveller(gp);
+        gp.npc[mapNUm][0].worldX = 22 * gp.tileSize;
+        gp.npc[mapNUm][0].worldY = 40 * gp.tileSize;
+
+        mapNUm = 1;
+        gp.npc[mapNUm][0] = new NPC_Traveller(gp);
+        gp.npc[mapNUm][0].worldX = 24 * gp.tileSize;
+        gp.npc[mapNUm][0].worldY = 47 * gp.tileSize;
     }
 
     public void setMonster(){
         int i = 0;
-        gp.monster[i] = new Slime(gp);
-        gp.monster[i].worldX = 15 * gp.tileSize;
-        gp.monster[i].worldY = 22 * gp.tileSize;
+        int mapNUm = 0;
+        gp.monster[mapNUm][i] = new Slime(gp);
+        gp.monster[mapNUm][i].worldX = 27 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 35 * gp.tileSize;
         i++;
-        gp.monster[i] = new Orc(gp);
-        gp.monster[i].worldX = 12 * gp.tileSize;
-        gp.monster[i].worldY = 22 * gp.tileSize;
+        gp.monster[mapNUm][i] = new Orc(gp);
+        gp.monster[mapNUm][i].worldX = 32 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 37 * gp.tileSize;
         i++;
-        gp.monster[i] = new Goblin(gp);
-        gp.monster[i].worldX = 16 * gp.tileSize;
-        gp.monster[i].worldY = 22 * gp.tileSize;
+        gp.monster[mapNUm][i] = new Goblin(gp);
+        gp.monster[mapNUm][i].worldX = 34 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 37 * gp.tileSize;
         i++;
+
+        // if ganahan mo place  in map 1
+        //mapNUm = 1;
+        //same code
+        mapNUm = 1;
+        gp.monster[mapNUm][i] = new Goblin(gp);
+        gp.monster[mapNUm][i].worldX = 25 * gp.tileSize;
+        gp.monster[mapNUm][i].worldY = 47 * gp.tileSize;
     }
 
 }

@@ -47,7 +47,7 @@ public class Goblin extends Entity{
         CollisionOn = false;
 
         gp.cChecker.checkTile(this);
-        gp.cChecker.checkOBJ(this, false);
+        int i = gp.cChecker.checkOBJ(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);

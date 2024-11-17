@@ -27,6 +27,7 @@ public class UI {
     public BufferedImage warrior, mage, ranger, title, charselect, back, warriorbutton, magebutton, rangerbutton;
     public int slotCol = 0;
     public int slotRow = 0;
+    int counter = 0;
 
     public UI(GamePanel gp){
 
@@ -102,6 +103,12 @@ public class UI {
         if(gp.gameState == gp.characterState){
             drawCharacterScreen();
             drawInventory();
+        }
+
+        // TRANSITION STATE
+        if(gp.gameState == gp.transitionState){
+            drawTransition();
+            drawDialogueScreen();
         }
 
     }
@@ -447,4 +454,29 @@ public class UI {
         int x = tailX - length;
         return x;
     }
+
+    public void drawTransition(){
+        counter++;
+        g2.setColor(new Color(0,0,0,counter*5));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+
+        if (counter >= 50) {
+                counter = 0;
+                gp.gameState = gp.playState;
+
+                // Teleport the player to the new position
+                gp.player.worldX = gp.tileSize * gp.eHandler.tempCol;
+                gp.player.worldY = gp.tileSize * gp.eHandler.tempRow;
+
+                gp.currentMap = gp.eHandler.tempMap;  // Set the map to the temporary map
+
+                gp.eHandler.previousEventX = gp.player.worldX;
+                gp.eHandler.previousEventY = gp.player.worldY;
+
+        }
+
+    }
+
+
 }
