@@ -3,6 +3,9 @@ package Monster;
 
 import Entity.Entity;
 import Main.GamePanel;
+import objects.obj_Coin;
+import objects.obj_Potion;
+import objects.obj_Projectile;
 
 import java.awt.*;
 import java.util.Random;
@@ -24,6 +27,9 @@ public class Slime extends Entity {
         attack = 1;
         defense = 0;
         exp = 2;
+        projectile = new obj_Projectile(gp);
+
+
         solidArea = new Rectangle(4, 15, 50, 47);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -63,7 +69,12 @@ public class Slime extends Entity {
             }
             actionLockCounter = 0;
         }
-
+        int i = new Random().nextInt(100)+1;
+        if(i > 99 && !projectile.isAlive && shotAvailableCounter == 30){
+            projectile.set(worldX, worldY, direction, true, this);
+            gp.projectileList.add(projectile);
+            shotAvailableCounter = 0;
+        }
     }
 
     @Override
@@ -146,11 +157,24 @@ public class Slime extends Entity {
                 invincibleCounter = 0;
             }
         }
+        if(shotAvailableCounter < 30){
+            shotAvailableCounter++;
+        }
     }
 
     public void damageReaction(){
         actionLockCounter = 0;
         direction = gp.player.direction;
+    }
+
+    public void checkDrop(){
+        int i = new Random().nextInt(100)+1;
+        if(i < 50){
+            dropItem(new obj_Potion(gp));
+        }
+        if(i > 50){
+            dropItem(new obj_Coin(gp));
+        }
     }
 
 }

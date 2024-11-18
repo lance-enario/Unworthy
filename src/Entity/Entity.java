@@ -72,6 +72,7 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
     public String description = "";
+    public int value;
 
     //TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
@@ -84,7 +85,7 @@ public class Entity {
     public final int type_bow = 6;
     public final int type_armor = 7;
     public final int type_consumable = 8;
-    public final int type_projectile = 9;
+    public final int type_pickupOnly = 9;
 
     GamePanel gp;
 
@@ -108,7 +109,24 @@ public class Entity {
             case "right": direction = "left"; break;
         }
     }
-    public void use(Entity entity){}
+
+    public void use(Entity entity) {
+    }
+
+    public void checkDrop() {
+    }
+
+    public void dropItem(Entity droppedItem) {
+        for (int i = 0; i < gp.obj[1].length; i++) {
+            if (gp.obj[gp.currentMap][i] == null) {
+                gp.obj[gp.currentMap][i] = droppedItem;
+                gp.obj[gp.currentMap][i].worldX = worldX;
+                gp.obj[gp.currentMap][i].worldY = worldY;
+                break;
+            }
+        }
+    }
+
     public void update() {
         setAction();
         CollisionOn = false;
@@ -119,17 +137,8 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-        if (this.type == type_monster && contactPlayer){
-            if (!gp.player.isInvincible){
-
-                int damage  = attack - gp.player.defense;
-                if(damage < 0){
-                    damage = 0;
-                }
-
-                gp.player.life -= damage;
-                gp.player.isInvincible = true;
-            }
+        if (this.type == type_monster && contactPlayer) {
+            damagePlayer(attack);
         }
 
         if (!CollisionOn) {
@@ -177,7 +186,22 @@ public class Entity {
                 invincibleCounter = 0;
             }
         }
+        if (shotAvailableCounter < 30) {
+            shotAvailableCounter++;
+        }
+    }
 
+    public void damagePlayer(int attack) {
+        if (!gp.player.isInvincible) {
+
+            int damage = attack - gp.player.defense;
+            if (damage < 0) {
+                damage = 0;
+            }
+
+            gp.player.life -= damage;
+            gp.player.isInvincible = true;
+        }
     }
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
@@ -185,20 +209,20 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
-                case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
-                    if(spriteNum == 1) image = up1;
-                    if(spriteNum == 2) image = up2;
-                    if(spriteNum == 3) image = down1;
-                    if(spriteNum == 4) image = down2;
-                    if(spriteNum == 5) image = left1;
-                    if(spriteNum == 6) image = left2;
-                    if(spriteNum == 7) image = right1;
-                    if(spriteNum == 8) image = right2;
-                    break;
+                case "default", "up", "down", "left", "right", "upright", "upleft", "downright", "downleft":
+                   if(spriteNum == 1) image = up1;
+                   if(spriteNum == 2) image = up2;
+                   if(spriteNum == 3) image = down1;
+                   if(spriteNum == 4) image = down2;
+                   if(spriteNum == 5) image = left1;
+                   if(spriteNum == 6) image = left2;
+                   if(spriteNum == 7) image = right1;
+                   if(spriteNum == 8) image = right2;
+                   break;
             }
 
             //MONSTER HP BAR
@@ -234,39 +258,63 @@ public class Entity {
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left"));
 
-            if (type == 9) { //projectile size
-                if (shouldFlip) {
-                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
-                } else {
-                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
-                }
-            } else {
-                if (shouldFlip) {
-                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
-                } else {
-                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
+            switch(type){
+                case 9:     //regular mage projectile
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+                    }
+                    break;
+                case 10:    //skill1 mage Projectile
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + 64), screenY, -(gp.tileSize), gp.tileSize, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    }
+                    break;
+                default:
+                    if (shouldFlip) {
+                        g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+                    } else {
+                        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    }
+                    break;
             }
+
+//            if (type == 9) { //projectile size
+//                if (shouldFlip) {
+//                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+//                } else {
+//                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+//                }
+//            } else {
+//                if (shouldFlip) {
+//                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
+//                } else {
+//                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+//                }
+//            }
 
             changeAlpha(g2,1.0f);
 
             g2.setColor(Color.red);
-            g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
     public void dyingAnimation(Graphics2D g2){
         dyingCounter++;
         int i = 5;
-        if(dyingCounter <= i){changeAlpha(g2,0f);}
-        if(dyingCounter > i && dyingCounter <= i*2){changeAlpha(g2,1f);}
-        if(dyingCounter > i*2 && dyingCounter <= i*3){changeAlpha(g2,0f);}
-        if(dyingCounter > i*3 && dyingCounter <= i*4){changeAlpha(g2,1f);}
-        if(dyingCounter > i*4 && dyingCounter <= i*5){changeAlpha(g2,0f);}
-        if(dyingCounter > i*5 && dyingCounter <= i*6){changeAlpha(g2,1f);}
-        if(dyingCounter > i*6 && dyingCounter <= i*7){changeAlpha(g2,0f);}
-        if(dyingCounter > i*7 && dyingCounter <= i*8){changeAlpha(g2,1f);}
-        if(dyingCounter > i*8){
+             if(dyingCounter <= i){changeAlpha(g2,0f);}
+             if(dyingCounter > i && dyingCounter <= i*2){changeAlpha(g2,1f);}
+             if(dyingCounter > i*2 && dyingCounter <= i*3){changeAlpha(g2,0f);}
+             if(dyingCounter > i*3 && dyingCounter <= i*4){changeAlpha(g2,1f);}
+             if(dyingCounter > i*4 && dyingCounter <= i*5){changeAlpha(g2,0f);}
+             if(dyingCounter > i*5 && dyingCounter <= i*6){changeAlpha(g2,1f);}
+             if(dyingCounter > i*6 && dyingCounter <= i*7){changeAlpha(g2,0f);}
+             if(dyingCounter > i*7 && dyingCounter <= i*8){changeAlpha(g2,1f);}
+            if(dyingCounter > i*8){
             isDying = false;
             isAlive = false;
         }

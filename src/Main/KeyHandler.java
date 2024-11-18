@@ -36,6 +36,9 @@ public class KeyHandler implements KeyListener {
             //DIALOGUE STATE
         } else if(gp.gameState == gp.dialogueState){
             dialogueState(code);
+        //OPTION STATE
+        } else if(gp.gameState == gp.optionState){
+            optionState(code);
         }
 
         //CHARACTER STATE
@@ -164,13 +167,17 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
 
-        if (code == KeyEvent.VK_ESCAPE) {
+        if (code == KeyEvent.VK_P) {
             gp.gameState = gp.pauseState;
+        }
+
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.optionState;
         }
     }
 
     public void pauseState(int code){
-        if (code == KeyEvent.VK_ESCAPE){
+        if (code == KeyEvent.VK_P){
             gp.gameState = gp.playState;
         }
     }
@@ -211,9 +218,63 @@ public class KeyHandler implements KeyListener {
             gp.player.selectItem();
         }
     }
+    public void optionState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+        int maxCommandNum = 0;
+        switch(gp.ui.subState){
+            case 0: maxCommandNum = 5; break;
+            case 3: maxCommandNum = 1; break;
+        }
+
+        if(code == KeyEvent.VK_W){
+            // NEED SE
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0){
+                gp.ui.commandNum = maxCommandNum;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            // NEED SE
+            gp.ui.commandNum++;
+                if(gp.ui.commandNum > maxCommandNum){
+                    gp.ui.commandNum = 0;
+                }
+        }
+        if(code == KeyEvent.VK_A){
+            if(gp.ui.subState == 0){
+                if(gp.ui.commandNum == 1 && gp.sound.volumeScale > 0){
+                    gp.sound.volumeScale--;
+                    gp.sound.checkVolume();
+                    //NEED SE
+                }
+                if(gp.ui.commandNum == 2 && gp.SE.volumeScale > 0){
+                    gp.SE.volumeScale--;
+                    //NEED SE
+                }
+            }
+        }
+        if(code == KeyEvent.VK_D){
+            if(gp.ui.subState == 0){
+                if(gp.ui.commandNum == 1 && gp.sound.volumeScale < 5){
+                    gp.sound.volumeScale++;
+                    gp.sound.checkVolume();
+                    //NEED SE
+                }
+                if(gp.ui.commandNum == 2 && gp.SE.volumeScale < 5){
+                    gp.SE.volumeScale++;
+                    //NEED SE
+                }
+            }
+        }
 
 
 
+    }
     @Override
     public void keyReleased(KeyEvent e) {
 
