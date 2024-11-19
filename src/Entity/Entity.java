@@ -72,6 +72,7 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
     public String description = "";
+    public int value;
 
     //TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
@@ -84,7 +85,7 @@ public class Entity {
     public final int type_bow = 6;
     public final int type_armor = 7;
     public final int type_consumable = 8;
-    public final int type_projectile = 9;
+    public final int type_pickUpOnly = 9;
 
     GamePanel gp;
 
@@ -93,7 +94,9 @@ public class Entity {
     }
 
     public void setAction(){}
+
     public void damageReaction(){}
+
     public void speak(){
         if(dialogue[dialogueIndex] == null){
             dialogueIndex = 0;
@@ -108,7 +111,22 @@ public class Entity {
             case "right": direction = "left"; break;
         }
     }
+
     public void use(Entity entity){}
+
+    public void checkDrop(){}
+
+    public void dropItem(Entity droppedItem) {
+        for (int i = 0; i < gp.obj[1].length; i++) {
+            if (gp.obj[gp.currentMap][i] == null) {
+                gp.obj[gp.currentMap][i] = droppedItem;
+                gp.obj[gp.currentMap][i].worldX = worldX;
+                gp.obj[gp.currentMap][i].worldY = worldY;
+                break;
+            }
+        }
+    }
+
     public void update() {
         setAction();
         CollisionOn = false;
@@ -179,6 +197,20 @@ public class Entity {
         }
 
     }
+
+    public void damagePlayer(int attack) {
+        if (!gp.player.isInvincible) {
+
+            int damage = attack - gp.player.defense;
+            if (damage < 0) {
+                damage = 0;
+            }
+
+            gp.player.life -= damage;
+            gp.player.isInvincible = true;
+        }
+    }
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 

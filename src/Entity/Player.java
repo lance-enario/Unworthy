@@ -82,8 +82,8 @@ public class Player extends Entity {
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
     }
-
     public void setItems(){
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         inventory.add(new obj_Key(gp));
@@ -299,6 +299,13 @@ public class Player extends Entity {
             mageSkill2Counter++;
         }
 
+        if(life > maxLife){
+            life = maxLife;
+        }
+        if(life <= 0){
+            gp.gameState = gp.gameOverState;
+            //NEED ANIMATION WHEN DYING
+        }
     }
 
     public void mageSkill1() {

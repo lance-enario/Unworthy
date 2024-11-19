@@ -6,7 +6,6 @@ import Main.GamePanel;
 
 public class obj_Potion extends Entity {
     GamePanel gp;
-    int value = 5;
 
     public obj_Potion(GamePanel gp){
         super(gp);
@@ -14,6 +13,7 @@ public class obj_Potion extends Entity {
 
         type = type_consumable;
         name = "Health Potion";
+        value = 5;
         down1 = setup("/objects/potion");
         up1 = setup("/objects/potion");
         description = "[" + name + "]\nA magical salve that\ncan mend even the\ndeepest of wounds.";
