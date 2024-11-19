@@ -103,8 +103,8 @@ public class Orc extends Entity{
                 hpBarCounter++;
 
                 if(hpBarCounter > 600){
-                hpBarCounter = 0;
-                hpBarOn = false;
+                    hpBarCounter = 0;
+                    hpBarOn = false;
                 }
             }
 

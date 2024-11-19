@@ -43,39 +43,87 @@ public class EventHandler {
 //                damagePit(gp.dialogueState);
 //            }
             // 0 to 1
-            if(hit(0,83, 41, "any")||
-                    hit(0,83, 42, "any") ||
-                    hit(0,83, 43, "any")){
-                teleport(1, 14,47,gp.dialogueState,"Travelling to the Village");
-                System.out.println("Currently at Map" + (gp.currentMap-1));
-            }
-            // 1 to 0
-            else if(hit(1, 12,48, "any") ||
-                    hit(1, 12,49, "any") ||
-                    hit(1, 13,47, "any") ||
-                    hit(1, 12,47, "any")){
-                teleport(0,81, 40,gp.dialogueState, "Leaving the village");
-                System.out.println("Currently at Map" + (gp.currentMap-1));
-            }
+            if (canTouchEvent) {
+                //dungeon hole
+                if (hit(3, 72, 25, "any") ||
+                        hit(3, 73, 25, "any") ||
+                        hit(3, 74, 25, "any") ||
+                        hit(3, 75, 25, "any") ||
+                        hit(3, 76, 25, "any") ||
+                        hit(3, 77, 25, "any")) {
+                    damagePit(gp.dialogueState);
+                }
+                if (hit(3, 72, 26, "any") ||
+                        hit(3, 73, 26, "any") ||
+                        hit(3, 74, 26, "any") ||
+                        hit(3, 75, 26, "any") ||
+                        hit(3, 76, 26, "any") ||
+                        hit(3, 77, 26, "any")) {
+                    damagePit(gp.dialogueState);
+                }
+                //dungeon hole2
+                if (hit(3, 65, 17, "any") ||
+                        hit(3, 66, 17, "any") ||
+                        hit(3, 67, 17, "any") ||
+                        hit(3, 68, 17, "any") ||
+                        hit(3, 69, 17, "any")) {
+                    damagePit(gp.dialogueState);
+                }
+                if (hit(3, 65, 16, "any") ||
+                        hit(3, 66, 16, "any") ||
+                        hit(3, 67, 16, "any") ||
+                        hit(3, 68, 16, "any") ||
+                        hit(3, 69, 16, "any")) {
+                    damagePit(gp.dialogueState);
+                }
+                // 0 to 1
+                if (hit(0, 83, 41, "any") ||
+                        hit(0, 83, 42, "any") ||
+                        hit(0, 83, 43, "any")) {
+                    teleport(1, 14, 47, gp.dialogueState, "Travelling to the Village");
 
-            // 1 to 2
-            else if (hit(1, 49,10, "any") ||
-                    hit(1, 50,10, "any") ){
-                teleport(2,49, 91,gp.dialogueState, "Entering the castle");
+                }
+                // 1 to 0
+                else if (hit(1, 12, 48, "any") ||
+                        hit(1, 12, 49, "any") ||
+                        hit(1, 13, 47, "any") ||
+                        hit(1, 12, 47, "any")) {
+                    teleport(0, 81, 40, gp.dialogueState, "Leaving the village");
 
-                System.out.println("Currently at Map" + (gp.currentMap-1));
-            }
+                }
 
-            // 2 to 1
-            else if (hit(2, 49,93, "any") ||
-                    hit(2, 50,93, "any") ){
-                teleport(1,49, 11,gp.dialogueState, "Exiting the castle");
+                // 1 to 2
+                else if (hit(1, 49, 10, "any") ||
+                        hit(1, 50, 10, "any")) {
+                    teleport(2, 49, 91, gp.dialogueState, "Entering the castle");
 
-                System.out.println("Currently at Map" + gp.currentMap);
-            }
 
-            if(hit(0,5, 5, "any")){
-                damagePit(gp.dialogueState);
+                }
+
+                // 2 to 1
+                else if (hit(2, 49, 93, "any") ||
+                        hit(2, 50, 93, "any")) {
+                    teleport(1, 49, 11, gp.dialogueState, "Exiting the castle");
+
+
+                }
+                // dungeon to 1
+                else if (hit(3, 74, 15, "any")) {
+                    teleport(1, 79, 88, gp.dialogueState, "Exiting the dungeon");
+
+
+                }
+                //1 to dungeon
+                else if (hit(1, 80, 90, "any") ||
+                        hit(1, 79, 90, "any")) {
+                    teleport(3, 73, 14, gp.dialogueState, "Entering the dungeon");
+
+
+                }
+
+                if (hit(0, 5, 5, "any")) {
+                    damagePit(gp.dialogueState);
+                }
             }
         }
     }
@@ -119,7 +167,7 @@ public class EventHandler {
 
     public void damagePit(int gameState){
         gp.gameState = gameState;
-        gp.ui.currentDialogue = "You touched the spike"; // depending on the dialogue
+        gp.ui.currentDialogue = "You fell in a hole and took damage! \nYou climb up the hole."; // depending on the dialogue
         gp.player.life -= 1;
         canTouchEvent = false;
     }

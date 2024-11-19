@@ -5,10 +5,49 @@ import Main.GamePanel;
 
 public class obj_Chest extends Entity {
 
-    public obj_Chest(GamePanel gp){
-        super(gp);
+    GamePanel gp;
+    Entity loot;
+    boolean opened = false;
 
+    public obj_Chest(GamePanel gp, Entity loot){
+        super(gp);
+        this.gp = gp;
+        this.loot = loot;
+
+        type = type_obstacle;
         name = "Chest";
-        up1 = setup("/objects/chest");
+        image = setup("/objects/chest");
+        image2 = setup("/objects/chest_open");
+        up1 = image;
+        collision = true;
+
+        solidArea.x = 4;
+        solidArea.y = 16;
+        solidArea.width = 40;
+        solidArea.height = 32;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+    }
+
+    public void interact(){
+        gp.gameState = gp.dialogueState;
+
+        if(!opened){
+            StringBuilder sb = new StringBuilder();
+            sb.append("You open the chest and find a " + loot.name + "!");
+
+            if(gp.player.inventory.size() == gp.player.maxInventorySize){
+                sb.append("\n...Your hands are too full to pick that up!");
+            } else {
+                sb.append("\nYou obtained "+loot.name+"!");
+                gp.player.inventory.add(loot);
+                up1 = image2;
+                opened = true;
+            }
+            gp.ui.currentDialogue = sb.toString();
+        }
+        else {
+            gp.ui.currentDialogue = "It's empty!";
+        }
     }
 }

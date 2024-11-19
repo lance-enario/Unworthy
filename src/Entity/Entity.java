@@ -86,16 +86,36 @@ public class Entity {
     public final int type_armor = 7;
     public final int type_consumable = 8;
     public final int type_pickUpOnly = 9;
+    public final int type_obstacle = 7;
 
     GamePanel gp;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
-
+    public int getLeftX(){
+        return worldX + solidArea.x;
+    }
+    public int getRightX(){
+        return worldX + solidArea.width;
+    }
+    public int getTopY(){
+        return worldY + solidArea.y;
+    }
+    public int getBottomY(){
+        return worldY + solidArea.y + solidArea.height;
+    }
+    public int getCol(){
+        return (worldX + solidArea.x)/gp.tileSize;
+    }
+    public int getRow(){
+        return (worldY + solidArea.y)/gp.tileSize;
+    }
     public void setAction(){}
 
     public void damageReaction(){}
+
+    public void interact(){}
 
     public void speak(){
         if(dialogue[dialogueIndex] == null){
@@ -111,9 +131,9 @@ public class Entity {
             case "right": direction = "left"; break;
         }
     }
-
-    public void use(Entity entity){}
-
+    public boolean use(Entity entity){
+        return false;
+    }
     public void checkDrop(){}
 
     public void dropItem(Entity droppedItem) {
@@ -322,6 +342,56 @@ public class Entity {
         }
         return image;
     }
+
+    public int getDetected(Entity user, Entity target[][], String targetName) {
+        int index = 999;
+
+        int col = user.getCol();
+        int row = user.getRow();
+
+//        for (int[] direction : directions) {
+//            int checkCol = col + direction[0];
+//            int checkRow = row + direction[1];
+//
+//            System.out.println("Checking tile at: " + checkCol + ", " + checkRow); // Debug log
+//
+//            for (int i = 0; i < target[1].length; i++) {
+//                if (target[gp.currentMap][i] != null &&
+//                        target[gp.currentMap][i].getCol() == checkCol &&
+//                        target[gp.currentMap][i].getRow() == checkRow &&
+//                        target[gp.currentMap][i].name.equals(targetName)) {
+//                    index = i;
+//                    return index;  // Return immediately if found
+//                }
+//            }
+//        }
+
+        // Checking all four directions (up, down, left, right) for target
+        for (int i = 0; i < 4; i++) {
+            int checkCol = col;
+            int checkRow = row;
+
+            if (i == 0) checkRow -= 1; // Up
+            if (i == 1) checkRow += 1; // Down
+            if (i == 2) checkCol -= 1; // Left
+            if (i == 3) checkCol += 1; // Right
+
+            // Loop through all objects in the current map
+            for (int j = 0; j < target[1].length; j++) {
+                if (target[gp.currentMap][j] != null &&
+                        target[gp.currentMap][j].getCol() == checkCol &&
+                        target[gp.currentMap][j].getRow() == checkRow &&
+                        target[gp.currentMap][j].name.equals(targetName)) {
+                    index = j;
+                    return index;
+                }
+            }
+        }
+
+        return index;
+    }
+
+
 
 }
 

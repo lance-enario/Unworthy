@@ -18,7 +18,7 @@ public class obj_Potion extends Entity {
         up1 = setup("/objects/potion");
         description = "[" + name + "]\nA magical salve that\ncan mend even the\ndeepest of wounds.";
     }
-    public void use(Entity e){
+    public boolean use(Entity e){
         gp.gameState = gp.dialogueState;
         gp.ui.currentDialogue = "You drink the " + name + "!\n" + "Your wounds have been healed by " + value + ".";
         e.life += value;
@@ -26,5 +26,6 @@ public class obj_Potion extends Entity {
             gp.player.life = gp.player.maxLife;
         }
         //needs sounds
+        return true;
     }
 }

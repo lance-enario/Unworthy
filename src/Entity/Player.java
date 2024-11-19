@@ -82,13 +82,13 @@ public class Player extends Entity {
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
     }
+
     public void setItems(){
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         inventory.add(new obj_Key(gp));
-        inventory.add(new obj_Key(gp));
-        inventory.add(new obj_Potion(gp));
+
     }
 
     public int getAttack(){
@@ -121,7 +121,7 @@ public class Player extends Entity {
     //@Override
     public void update() {
 
-        System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
+        //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
 
         if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
@@ -251,7 +251,7 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
 
-        System.out.println("shieldSpriteNum = " + shieldSpriteNum + " " + "shieldCtr = " + shieldCtr);
+        //System.out.println("shieldSpriteNum = " + shieldSpriteNum + " " + "shieldCtr = " + shieldCtr);
         if (shieldSpriteCounter > 1) {
             if (shieldSpriteNum == shieldCtr && shieldSpriteNum < 16){
                     shieldSpriteNum++;
@@ -373,16 +373,26 @@ public class Player extends Entity {
 
     public void pickUpOBJ(int i) {
         if(i != 999){
-            String text;
-            if(inventory.size() != maxInventorySize){
-                inventory.add(gp.obj[gp.currentMap][i]);
-                // Need sounds
-                text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
-            } else{
-                text = "You cannot carry anymore stuff!";
+            // para OBSTACLE
+            if(gp.obj[gp.currentMap][i].type == type_obstacle){
+                if(keyH.enterPressed == true){
+                    gp.obj[gp.currentMap][i].interact();
+                }
             }
-            gp.ui.showMessage(text);
-            gp.obj[gp.currentMap][i] = null;
+            // para INVENTORY
+            else {
+                String text;
+                if(inventory.size() != maxInventorySize){
+                    inventory.add(gp.obj[gp.currentMap][i]);
+                    // Need sounds
+                    text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
+                } else{
+                    text = "You cannot carry anymore stuff!";
+                }
+                gp.ui.showMessage(text);
+                gp.obj[gp.currentMap][i] = null;
+            }
+
         }
     }
 
@@ -467,8 +477,9 @@ public class Player extends Entity {
                 defense = getDefense();
             }
             if(selectedItem.type == type_consumable){
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+                if(selectedItem.use(this) == true) {
+                    inventory.remove(itemIndex);
+                }
             }
         }
     }

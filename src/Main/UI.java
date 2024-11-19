@@ -379,7 +379,7 @@ public class UI {
             if (commandNum == 2) {
                 //if drawing we can use the drawImage function
                 g2.drawString(">", x - gp.tileSize, y);
-            }   
+            }
         }
         else if(titleScreenState == 1) {
             rollCutScene();
