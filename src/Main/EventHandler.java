@@ -20,11 +20,6 @@ public class EventHandler {
     public EventHandler(GamePanel gp){
         this.gp = gp;
 
-        eventRect = new Rectangle();
-//        int col = 0;
-//        int row = 0;
-//        while(col < gp.maxWorldCol && row < gp.maxWorldRow){
-
         eventRect = new EventRect();
         eventRect.x = 23;
         eventRect.y = 23;
@@ -32,13 +27,6 @@ public class EventHandler {
         eventRect.height = 25;
         eventRectDefaultX = eventRect.x;
         eventRectDefaultY = eventRect.y;
-
-//            col++;
-//            if(col == gp.maxWorldCol){
-//                col = 0;
-//                row++;
-//            }
-//        }
     }
 
     public void checkEvent(){

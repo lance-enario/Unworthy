@@ -24,7 +24,7 @@ public class Player extends Entity {
     BufferedImage[] walkFrames = new BufferedImage[6];
     BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
-    BufferedImage[] shieldFrames = new BufferedImage[18];
+    BufferedImage[] shieldFrames = new BufferedImage[16];
 
     //player skill counters
     public int mageSkill1Counter = 180;
@@ -432,7 +432,7 @@ public class Player extends Entity {
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
             level++;
-            nextLevelExp = nextLevelExp*2; // Up to us to decide whats the exp for nextlevelup
+            nextLevelExp = nextLevelExp*2; // Up to us to decide what's the exp for nextlevelup
             maxLife += 2;
             strength++;
             dexterity++;
@@ -466,7 +466,7 @@ public class Player extends Entity {
         }
     }
     public void draw (Graphics2D g2) {
-        BufferedImage image = idleFrames[0];
+        //BufferedImage image = idleFrames[0];
         BufferedImage shieldImage;
         shieldImage = shieldFrames[(shieldSpriteNum - 1) % shieldFrames.length];
 

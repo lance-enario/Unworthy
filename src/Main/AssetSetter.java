@@ -3,7 +3,10 @@ import Entity.NPC_Traveller;
 import Monster.Goblin;
 import Monster.Orc;
 import Monster.Slime;
-import objects.*;
+import objects.obj_Chest;
+import objects.obj_Door;
+import objects.obj_Key;
+import objects.obj_Potion;
 
 public class AssetSetter {
     GamePanel gp ;

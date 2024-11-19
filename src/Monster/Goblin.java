@@ -2,8 +2,6 @@ package Monster;
 
 import Entity.Entity;
 import Main.GamePanel;
-import objects.obj_Coin;
-import objects.obj_Potion;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -225,17 +223,7 @@ public class Goblin extends Entity{
     public void damageReaction(){
         actionLockCounter = 0;
         direction = gp.player.direction;
+    }
 
-        
-    }
-    public void checkDrop(){
-        int i = new Random().nextInt(100)+1;
-        if(i < 50){
-            dropItem(new obj_Potion(gp));
-        }
-        if(i > 50){
-            dropItem(new obj_Coin(gp));
-        }
-    }
 
 }
