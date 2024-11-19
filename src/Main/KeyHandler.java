@@ -302,9 +302,11 @@ public class KeyHandler implements KeyListener {
                 if(gp.ui.commandNum == 0){
                     gp.gameState = gp.playState;
                     gp.restart();
+                } else if(gp.ui.commandNum == 1) {
+                    gp.ui.titleScreenState = 0;
+                    gp.gameState = gp.titleState;
+                    gp.restart();
                 }
-            } else if(gp.ui.commandNum == 1){
-                gp.gameState = gp.titleState;
             }
         }
 
