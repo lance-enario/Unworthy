@@ -12,6 +12,7 @@ public class obj_Potion extends Entity {
         this.gp = gp;
 
         type = type_consumable;
+        price = 10;
         name = "Health Potion";
         value = 5;
         down1 = setup("/objects/potion");

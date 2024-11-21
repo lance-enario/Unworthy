@@ -25,6 +25,7 @@ public class npc_merchant extends Entity{
 
             getImage();
             setDialogue();
+            setItems();
         }
 
         public void getImage(){
@@ -38,13 +39,12 @@ public class npc_merchant extends Entity{
         }
 
         public void setDialogue(){
-            dialogue[0] = "Hey there!\n I have some good stuff.\n Do you want to buy?";
+            dialogue[0] = "Hey there!\n I have some good stuff.\nDo you want to buy?";
 
         }
 
         public void setItems(){
             inventory.add(new obj_Potion(gp));
-            inventory.add(new obj_Wand(gp));
             //add more for inventory
         }
 

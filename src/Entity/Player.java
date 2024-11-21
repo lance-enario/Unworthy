@@ -17,8 +17,6 @@ public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int maxInventorySize = 20;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -227,6 +225,9 @@ public class Player extends Entity {
 
     public void pickUpOBJ(int i) {
         if(i != 999){
+            if(gp.obj[gp.currentMap][i].type == type_pickUpOnly){
+                gp.obj[gp.currentMap][i].use(this);
+            }
             // para OBSTACLE
             if(gp.obj[gp.currentMap][i].type == type_obstacle){
                 if(keyH.enterPressed == true){

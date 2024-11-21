@@ -307,13 +307,13 @@ public class KeyHandler implements KeyListener {
                 if(code == KeyEvent.VK_W){
                     gp.ui.commandNum--;
                     if(gp.ui.commandNum < 0){
-                        gp.ui.commandNum = 2;
+                        gp.ui.commandNum = 1;
                     }
                     gp.playSE(9);
                 }
                 if(code == KeyEvent.VK_S){
                     gp.ui.commandNum++;
-                    if(gp.ui.commandNum > 2){
+                    if(gp.ui.commandNum > 1){
                         gp.ui.commandNum = 0;
                     }
                     gp.playSE(9);
@@ -325,6 +325,13 @@ public class KeyHandler implements KeyListener {
                     gp.ui.subState = 0;
                 }
             }
+            if(gp.ui.subState == 2){
+                playerInventory(code);
+                if(code == KeyEvent.VK_ESCAPE){
+                    gp.ui.subState = 0;
+                }
+            }
+
         }
 
     public void playerInventory(int code){
@@ -340,12 +347,12 @@ public class KeyHandler implements KeyListener {
             }
         }
         if(code == KeyEvent.VK_S){
-            if(gp.ui.playerSlotRow != 6) {
+            if(gp.ui.playerSlotRow != 3) {
                 gp.ui.playerSlotRow++;
             }
         }
         if(code == KeyEvent.VK_D){
-            if(gp.ui.playerSlotCol != 2) {
+            if(gp.ui.playerSlotCol != 4) {
                 gp.ui.playerSlotCol++;
             }
         }
