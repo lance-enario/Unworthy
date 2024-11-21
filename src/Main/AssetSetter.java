@@ -29,12 +29,10 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldX = 45 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 42 * gp.tileSize;
         i++;
-        i++;
 
         // Map 1 Village
         mapNum = 1;
         i = 0;
-
         gp.obj[mapNum][i] = new obj_guard(gp);
         gp.obj[mapNum][i].worldX = 49 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 22 * gp.tileSize;
@@ -51,7 +49,6 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldX = 77 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 59 * gp.tileSize;
         i++;
-
 
         gp.obj[mapNum][i] = new obj_Chest(gp, new obj_Potion(gp));
         gp.obj[mapNum][i].worldX = 50 * gp.tileSize;
@@ -76,6 +73,11 @@ public class AssetSetter {
         int i = 0;
         gp.npc[mapNum][i] = new NPC_Traveller(gp);
         gp.npc[mapNum][i].worldX = 22 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 40 * gp.tileSize;
+        i++;
+
+        gp.npc[mapNum][i] = new SIGN(gp, gp.ui.signDialogue[0]);
+        gp.npc[mapNum][i].worldX = 21 * gp.tileSize;
         gp.npc[mapNum][i].worldY = 40 * gp.tileSize;
         i++;
 

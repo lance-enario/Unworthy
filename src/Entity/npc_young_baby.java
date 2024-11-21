@@ -27,10 +27,10 @@ public class npc_young_baby extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Shh, little one, rest now. The world can wait for you. I’ll carry you through it all.";
+        dialogue[1] = "One day, you’ll be grown and strong, and I’ll be the one needing help to carry you.";
+        dialogue[2] = "You’ll see great things, my dear. The world will be a better place because of you.";
+        dialogue[3] = "The road is long, but we will walk it together. I’ll carry you through it all, my love.";
 
     }
 

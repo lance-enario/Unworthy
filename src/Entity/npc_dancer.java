@@ -27,10 +27,10 @@ public class npc_dancer extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "One day, I’ll dance for the king and queen, and they’ll toss gold coins at my feet!";
+        dialogue[1] = "Do you think the minstrel’s lute can play a tune fast enough for my twirls?";
+        dialogue[2] = "Let’s pretend the marketplace is a grand hall, and I’m dancing for all the nobles!";
+        dialogue[3] = "I’ll travel to the next kingdom and learn dances from faraway lands. Imagine the stories in their steps!";
 
     }
 

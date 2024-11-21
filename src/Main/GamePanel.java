@@ -12,7 +12,6 @@ import Tiles.TileManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
@@ -37,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean fullScreenOn = false;
     public final int maxMap = 5;
     public int currentMap = 0;
+
     //FULL SCREEN
     int screenWidth2 = screenWidth;
     int screenHeight2 = screenHeight;
@@ -68,8 +68,10 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity[][] npc = new Entity[maxMap][20];
     public Entity[][] obj = new Entity[maxMap][20];
     public Entity[][] monster = new Entity[maxMap][20];
+    public Entity[][] signs = new Entity[maxMap][20];
     public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
+
 
     // GAME STATE
     public int gameState;
@@ -169,6 +171,11 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[currentMap][i].update();
                 }
             }
+            for(int i =0; i < signs[1].length; i++) {
+                if (signs[currentMap][i] != null) {
+                    signs[currentMap][i].update();
+                }
+            }
 
             for(int i = 0; i < monster[1].length; i++){
                 if(monster[currentMap][i] != null){
@@ -211,6 +218,12 @@ public class GamePanel extends JPanel implements Runnable{
             for(int i = 0; i < npc[1].length; i++){
                 if(npc[currentMap][i] != null){
                     entityList.add(npc[currentMap][i]);
+                }
+            }
+
+            for(int i = 0; i < signs[1].length; i++){
+                if(signs[currentMap][i] != null){
+                    entityList.add(signs[currentMap][i]);
                 }
             }
 
@@ -290,4 +303,8 @@ public class GamePanel extends JPanel implements Runnable{
         SE.setFile(i);
         SE.play();
     }
+
+
+
+
 }

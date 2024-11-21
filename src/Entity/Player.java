@@ -123,6 +123,9 @@ public class Player extends Entity {
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            int signDialogue = gp.cChecker.checkEntity(this, gp.signs);
+            interactSign(signDialogue);
+
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
 
@@ -160,6 +163,9 @@ public class Player extends Entity {
 
             int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc[gp.currentMap]);
             interactNPC(npcDialogue);
+
+            int signDialogue = gp.cChecker.checkDialogue(this, gp.signs[gp.currentMap]);
+            interactSign(signDialogue);
 
             gp.keyH.enterPressed = false;
         }
@@ -254,6 +260,16 @@ public class Player extends Entity {
              gp.keyH.enterPressed = false;
         }
 
+    public void interactSign(int i) {
+        if(i!=999){
+            if(gp.keyH.enterPressed){
+                gp.gameState = gp.dialogueState;
+                gp.signs[gp.currentMap][i].speak();
+            }
+        }
+        gp.keyH.enterPressed = false;
+    }
+
         public void contactMonster(int i){
             if(i!=999){
                 if (!isInvincible){
@@ -325,7 +341,7 @@ public class Player extends Entity {
                 defense = getDefense();
             }
             if(selectedItem.type == type_consumable){
-                if(selectedItem.use(this) == true) {
+                if(selectedItem.use(this)) {
                     inventory.remove(itemIndex);
                 }
             }

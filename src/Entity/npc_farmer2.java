@@ -26,10 +26,10 @@ public class npc_farmer2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "The day’s done, the crops are watered, and my boots can finally rest by the river.";
+        dialogue[1] = "The cows get the easy life—eat, sleep, and moo. Maybe I’ll trade places with them tomorrow.";
+        dialogue[2] = "I’m so tired, even the scarecrow could outrun me tonight.";
+        dialogue[3] = "A mug of ale and a chair that doesn’t wobble—that’s all I need after a day like this.";
 
     }
 

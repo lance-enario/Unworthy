@@ -28,8 +28,8 @@ public class npc_guardl extends Entity {
 
     public void setDialogue(){
         dialogue[0] = "You cannot enter!";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
+        dialogue[1] = "The walls are strong, but a watchful eye makes them impenetrable";
+        dialogue[2] = " Trouble doesn’t knock; it slips through the cracks when no one’s looking. Keep your eyes sharp.";
         dialogue[3] = "Palambing";
 
     }

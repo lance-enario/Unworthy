@@ -26,10 +26,10 @@ public class npc_child2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Let’s pretend the floor is lava, and we’re pirates trying to save the treasure!";
+        dialogue[1] = "If cats have nine lives, how do they remember which one they’re on?";
+        dialogue[2] = "If we dig deep enough in the sandbox, do you think we’ll find a dragon egg?";
+        dialogue[3] = "I don’t need a nap. Naps are for grown-ups who drink coffee!";
 
     }
 

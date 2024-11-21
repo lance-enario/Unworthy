@@ -27,10 +27,10 @@ public class npc_dancer2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Every movement is a story, and every step carries the weight of a thousand tales.";
+        dialogue[1] = "The secret is not in the steps but in the soul you pour into them. Without that, you’re merely moving.";
+        dialogue[2] = "Do not ask me to perform for your coin. If I dance, it is for a cause greater than gold.";
+        dialogue[3] = "The dragons of the south move in the air as I do on the ground—perhaps we share the same teacher.";
 
     }
 

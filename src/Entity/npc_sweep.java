@@ -27,10 +27,10 @@ public class npc_sweep extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Clean clean clean!";
+        dialogue[1] = "That my home be serene";
+        dialogue[2] = "Sweep sweep sweep";
+        dialogue[3] = "Dust and dirt i defeat";
 
     }
 

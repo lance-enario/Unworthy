@@ -8,11 +8,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 public class UI {
 
@@ -24,7 +26,7 @@ public class UI {
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
-    public String currentDialogue = "";
+
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
     public BufferedImage warrior, mage, ranger, title, charselect, back, warriorbutton, magebutton, rangerbutton;
@@ -41,12 +43,18 @@ public class UI {
     boolean bg = false;
     public int cutsceneNum = 0;
     String[] caption = new String[12];
+    String displayedDialogue = "";
     Clip curr, titleBg;
     float opacity = 0.0f;
     public boolean fadingOut = false;
     public boolean transitioning = false; // True during a transition
     private long lastUpdateTime = System.currentTimeMillis(); // Timer to control fade speed
     public Entity npc; // easy access for inventory
+
+    public String currentDialogue = "";
+    public String[] signDialogue = new String[20];
+    private int charIndex = 0; // Current character index being displayed
+    private Timer dialogueTimer; // Timer to control the typing effect
 
 
     public UI(GamePanel gp){
@@ -80,7 +88,7 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
-
+        setSigns();
         //For Cutscenes
         System.arraycopy(Asset.cue, 0, cutscenes, 0, cutscenes.length);
         Sound narrate = new Sound();
@@ -249,6 +257,7 @@ public class UI {
         }
         setCaptions();
         drawCaptions(cutsceneNum);
+       // startTypewriterEffect(caption[cutsceneNum]);
 
 
     }
@@ -288,6 +297,8 @@ public class UI {
     }
 
     public  void drawCaptions(int i){
+
+       // startTypewriterEffect(caption[cutsceneNum]);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32f));
         int y = 105, x = 125;
         if(cutsceneNum == 0){
@@ -299,6 +310,15 @@ public class UI {
                 g2.drawString(line, x, y+3);
                 y+=50;
             }
+
+//            for(int k =0; k< caption[i].length();k++){
+//                g2.drawString(String.valueOf(caption[i].charAt(k)),x, y);
+//                int l = 0;
+//                while (l != 600){
+////                    if(l = )
+//                        l++;
+//                }
+//            }
         }else if (i >= 1 && i <= 3 || i == 6){
             g2.setColor(Color.darkGray);
             g2.drawString(caption[i], getXforCenteredText(caption[i]), (gp.screenWidth / 2) - 3);
@@ -318,6 +338,7 @@ public class UI {
 
          }
     }
+
 
     public void setCaptions(){
         caption[0] = """
@@ -360,6 +381,12 @@ public class UI {
                 Thus began Lucian's journey back to Eldoria—a tale woven with threads of betrayal, ambition, and redemption.
                 As he prepared to face his brother once more, he knew that this confrontation would determine both their\s
                 fates and that of an entire kingdom yearning for freedom from tyranny.""";
+    }
+
+    public void setSigns(){
+        signDialogue[0] = "YAAWAAA";
+        signDialogue[1] = "hi";
+        signDialogue[2] = "hello";
     }
 
     public void drawPlayerLife(){
@@ -457,6 +484,7 @@ public class UI {
         else if(titleScreenState == 1) {
             rollCutScene();
         }else if(titleScreenState == 2) {
+            stopCurr();
             //BACKGROUND
             g2.drawImage(charselect, 0, 0, gp.screenWidth, gp.screenHeight, null);
 
@@ -516,6 +544,48 @@ public class UI {
                 y += 40;
             }
     }
+//public void drawDialogueScreen() {
+//    int x = gp.tileSize * 2, y = gp.tileSize, width = gp.screenWidth - (gp.tileSize * 4), height = gp.tileSize * 4;
+//    drawSubWindow(x, y, width, height);
+//
+//    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+//    x += gp.tileSize;
+//    y += gp.tileSize;
+//
+//   // startTypewriterEffect(displayedDialogue);
+//    // Display only the revealed portion of the dialogue
+//    for (String line : displayedDialogue.split("\n")) {
+//        g2.drawString(line, x, y);
+//        y += 40;
+//    }
+//}
+
+
+    public void startTypewriterEffect(String dialogue) {
+        currentDialogue = dialogue;
+
+        charIndex = 0;
+
+        if (dialogueTimer != null) {
+            dialogueTimer.stop(); // Stop any previous timer
+        }
+
+        // Timer to reveal characters one by one
+        dialogueTimer = new Timer(50, new ActionListener() { // Adjust delay (e.g., 50ms)
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (charIndex < currentDialogue.length()) {
+                    displayedDialogue += currentDialogue.charAt(charIndex); // Add the next character
+                    charIndex++;
+                    gp.repaint(); // Redraw the screen
+                } else {
+                    dialogueTimer.stop(); // Stop when the dialogue is fully displayed
+                }
+            }
+        });
+        dialogueTimer.start();
+    }
+
 
     public void drawCharacterScreen(){
         //CREATE A FRAME
@@ -1012,9 +1082,6 @@ public class UI {
         }
     }
 
-    public void fadein(){
-
-    }
 
     public void drawTransition(){
         counter++;

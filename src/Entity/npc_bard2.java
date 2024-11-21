@@ -26,10 +26,22 @@ public class npc_bard2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
+        dialogue[1] = "A dragon lives forever, but not so little boys\n" +
+                "Painted wings and giant's rings make way for other toys\n" +
+                "One gray night it happened, Jackie Paper came no more\n" +
+                "And Puff, that mighty dragon, he ceased his fearless roar";
+        dialogue[2] = " His head was bent in sorrow, green scales fell like rain\n" +
+                "Puff no longer went to play along the cherry lane\n" +
+                "Without his lifelong friend, Puff could not be brave\n" +
+                "So Puff, that mighty dragon, sadly slipped into his cave";
+        dialogue[3] = "Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
 
     }
 

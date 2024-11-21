@@ -5,7 +5,8 @@ import Main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_bard1 extends Entity {
+public class
+npc_bard1 extends Entity {
 
     public npc_bard1(GamePanel gp) {
         super(gp);
@@ -26,10 +27,19 @@ public class npc_bard1 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Fine day innit!";
+        dialogue[1] = "Puff, the magic dragon lived by the sea\n" +
+                      "And frolicked in the autumn mist in a land called Honah Lee\n" +
+                      "Little Jackie Paper loved that rascal Puff\n" +
+                      "And brought him strings, and sealing wax, and other fancy stuff";
+        dialogue[2] = " Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
+        dialogue[3] = "Together they would travel on a boat with billowed sail\n" +
+                "Jackie kept a lookout perched on Puff's gigantic tail\n" +
+                "Noble kings and princes would bow whenever they came\n" +
+                "Pirate ships would lower their flags when Puff roared out his name";
 
     }
 
@@ -78,7 +88,4 @@ public class npc_bard1 extends Entity {
             changeAlpha(g2, 1.0f);
         }
     }
-
-
-
 }

@@ -27,10 +27,10 @@ public class npc_toss extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "G'dday!";
+        dialogue[1] = "Ah, a discerning eye! You’ve chosen well. I’ll give you a fair price, as long as you don’t tell the others!";
+        dialogue[2] = "Step closer, my friend! No need to wander. I’ve got wares for all, and I’m sure we can come to a fair deal.";
+        dialogue[3] = "You won’t find a better deal in the market, I assure you. My goods are the finest quality, and my prices, well, they’re as fair as the sun rises!";
 
     }
 

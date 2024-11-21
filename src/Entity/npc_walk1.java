@@ -28,10 +28,10 @@ public class npc_walk1 extends Entity {
     }
 
     public void setDialogue() {
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Oops! Sorry";
+        dialogue[1] = "Out of the way mate!";
+        dialogue[2] = "Pardon!";
+        dialogue[3] = "Im on a hurry!!";
     }
 
     @Override

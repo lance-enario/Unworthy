@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import Main.GamePanel;
 import Main.UtilityTool;
-import objects.obj_MageAttack;
 
 import javax.imageio.ImageIO;
 
@@ -50,7 +49,8 @@ public class Entity {
     int dyingCounter = 0;
 
 
-    String[] dialogue = new String[20];
+    public String[] dialogue = new String[20];
+
     int dialogueIndex = 0;
     public BufferedImage image, image2, image3;
     public String name;
@@ -93,6 +93,7 @@ public class Entity {
     public final int type_consumable = 8;
     public final int type_pickUpOnly = 9;
     public final int type_obstacle = 7;
+    public final int type_sign = 10;
 
     GamePanel gp;
 
@@ -160,6 +161,8 @@ public class Entity {
         gp.cChecker.checkOBJ(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
+        gp.cChecker.checkEntity(this, gp.signs);
+      //  gp.cChecker.checkDialogue(this, gp.signs);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
         if (this.type == type_monster && contactPlayer){
@@ -350,7 +353,9 @@ public class Entity {
                 } else {
                     g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
                 }
-            } else {
+            } else if(type == 10){
+                g2.drawImage(image, screenX, screenY - 22, gp.tileSize, gp.tileSize + 20, null);
+            }else {
                 if (shouldFlip) {
                     g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
                 } else {
@@ -599,6 +604,7 @@ public class Entity {
 //            }
         }
     }
+
 
 }
 

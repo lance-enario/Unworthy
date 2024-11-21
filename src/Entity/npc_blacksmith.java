@@ -27,10 +27,11 @@ public class npc_blacksmith extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "By Hammer and Hand All Arts Do Stand!";
+        dialogue[1] = "\tDoes that one interest you?";
+        dialogue[2] = " Heat, beat, repeat.";
+        dialogue[3] = "A blacksmiths hell is not made of fire and brimstone, It is a world of clinker\"\n" +
+                "thats not the exact wording but ya..read it somewhere..";
 
     }
 

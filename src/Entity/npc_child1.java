@@ -26,10 +26,10 @@ public class npc_child1 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hi <3";
-        dialogue[1] = "Katugnaw";
-        dialogue[2] = " haha";
-        dialogue[3] = "Palambing";
+        dialogue[0] = "Did you see that rainbow? It’s like the sky painted itself with crayons!";
+        dialogue[1] = "Why do fish never close their eyes? Are they scared of the dark underwater?";
+        dialogue[2] = "Tag! You’re it! No wait—double tag, I’m it again!";
+        dialogue[3] = "I can eat broccoli… but only if it’s invisible broccoli";
 
     }
 
