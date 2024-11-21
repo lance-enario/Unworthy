@@ -1,4 +1,4 @@
-package Monster;
+package Enemies;
 
 import Entity.Entity;
 import Main.GamePanel;
@@ -25,8 +25,7 @@ public class Goblin extends Entity{
         attack = 1;
         defense = 0;
         exp = 5;
-
-        solidArea = new Rectangle(10, 40, 40, 53);
+        solidArea = new Rectangle(3, 18, 32, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
@@ -44,110 +43,44 @@ public class Goblin extends Entity{
     }
 
     @Override
-    public void update() {
-        setAction();
-        CollisionOn = false;
-
-        gp.cChecker.checkTile(this);
-        gp.cChecker.checkOBJ(this, false);
-        int i = gp.cChecker.checkEntity(this, gp.npc);
-        gp.cChecker.checkEntity(this, gp.monster);
-        boolean contactPlayer = gp.cChecker.checkPlayer(this);
-
-        if (this.type == 2 && contactPlayer){
-            if (!gp.player.isInvincible){
-                gp.player.life -= 1;
-                gp.player.isInvincible = true;
-            }
-        }
-
-        if (!CollisionOn) {
-            switch (direction) {
-                case "up":
-                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                        //     direction = maintain;
-                        worldY += speed + 2;
-                    }
-                    break;
-                case "down":
-                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                        //   direction = maintain;
-                        worldY -= speed + 2;
-                    }
-
-                case "left":
-                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                        //   direction = maintain;
-                        worldX -= speed + 2;
-                    }
-
-                    break;
-                case "right":
-                    if(spriteNum == 4 || spriteNum == 5 || spriteNum == 6) {
-                        //   direction = maintain;
-                        worldX += speed + 2;
-                    }
-
-                    break;
-                case "default":
-                    break;
-            }
-        }
-        spriteCounter++;
-
-        if (spriteCounter > 4) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 3;
-            } else if (spriteNum == 3) {
-                spriteNum = 4;
-            } else if (spriteNum == 4) {
-                spriteNum = 5;
-            } else if (spriteNum == 5) {
-                spriteNum = 6;
-            } else if (spriteNum == 6) {
-                spriteNum = 7;
-            } else if (spriteNum == 7) {
-                spriteNum = 8;
-            } else {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
-
-        if (isInvincible){
-            invincibleCounter++;
-            if (invincibleCounter > 30){
-                isInvincible = false;
-                invincibleCounter = 0;
-            }
-        }
-
-    }
-
-    @Override
     public void setAction() {
-        actionLockCounter++;
+        if(onPath){
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+            searchPath(goalCol,goalRow);
+        } else {
+            if(onPath){
+//            int goalCol = 78;
+//            int goalRow = 22;
 
-        if(actionLockCounter == 40){
-            Random rand = new Random();
-            int i = rand.nextInt(100) + 1;
+                int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+                int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+                searchPath(goalCol,goalRow);
+            } else {
+                if(actionLockCounter == 40){
+                    Random rand = new Random();
+                    int i = rand.nextInt(100) + 1;
 
-            if(i<=25) {
-                direction = "up"; //up
+                    if(i<=25) {
+                        direction = "up"; //up
+                    }
+                    if(i > 25 && i <=50){
+                        direction = "down"; //down
+                    }
+                    if(i > 50 && i <= 75){
+                        direction = "left"; // left
+                    }
+                    if(i > 75){
+                        direction = "right"; // right
+                    }
+                    actionLockCounter = 0;
+                }
             }
-            if(i > 25 && i <=50){
-                direction = "down"; //down
-            }
-            if(i > 50 && i <= 75){
-                direction = "left"; // left
-            }
-            if(i > 75){
-                direction = "right"; // right
-            }
-            actionLockCounter = 0;
         }
+
+//        if(isAttacking){
+//            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
+//        }
 
     }
 
@@ -186,7 +119,7 @@ public class Goblin extends Entity{
 
                 hpBarCounter++;
 
-                if(hpBarCounter > 600) {
+                if(hpBarCounter > 600){
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }
@@ -200,8 +133,6 @@ public class Goblin extends Entity{
             if(isDying){
                 dyingAnimation(g2);
             }
-
-
 
             boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
@@ -224,7 +155,28 @@ public class Goblin extends Entity{
     @Override
     public void damageReaction(){
         actionLockCounter = 0;
-        direction = gp.player.direction;
+        //direction = gp.player.direction;
+        onPath = true;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+
+        int xDistance = Math.abs(worldX-gp.player.worldX);
+        int yDistance = Math.abs(worldY-gp.player.worldY);
+        int tileDistance = (xDistance+yDistance)/gp.tileSize;
+
+
+
+        if(!onPath && tileDistance < 5){
+            int i = new Random().nextInt(100)+1;
+            if(i > 50) onPath = true;
+        }
+
+        if(onPath && tileDistance > 20) onPath = false;
+        setAction();
+        CollisionOn = false;
     }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;
@@ -235,4 +187,10 @@ public class Goblin extends Entity{
             dropItem(new obj_Coin(gp));
         }
     }
+
 }
+
+
+
+
+

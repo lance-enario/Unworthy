@@ -1,4 +1,4 @@
-package Monster;
+package Enemies;
 
 import Entity.Entity;
 import Main.GamePanel;
@@ -9,61 +9,79 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Orc extends Entity{
+public class Bandit extends Entity{
     GamePanel gp;
 
-    public Orc(GamePanel gp){
+    public Bandit(GamePanel gp){
         super(gp);
 
         this.gp = gp;
 
         type = type_monster; //monster type
-        name = "Orc";
+        name = "Bandit";
         speed = 2;
         maxLife = 6;
         life = maxLife;
         attack = 2;
         defense = 1;
         exp = 5;
-        solidArea = new Rectangle(3, 18, 32, 75);
+        solidArea = new Rectangle(3, 18, 32, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
     }
 
     public void getImage(){
-        up1 = setup("/monster/orc/walk/orc_walking_0");
-        up2 = setup("/monster/orc/walk/orc_walking_1");
-        down1 = setup("/monster/orc/walk/orc_walking_2");
-        down2 = setup("/monster/orc/walk/orc_walking_3");
-        left1 = setup("/monster/orc/walk/orc_walking_4");
-        left2 = setup("/monster/orc/walk/orc_walking_5");
-        right1 = setup("/monster/orc/walk/orc_walking_6");
-        right2 = setup("/monster/orc/walk/orc_walking_7");
+        up1 = setup("/Enemies/Bandit/bandit_walk_0");
+        up2 = setup("/Enemies/Bandit/bandit_walk_1");
+        down1 = setup("/Enemies/Bandit/bandit_walk_2");
+        down2 = setup("/Enemies/Bandit/bandit_walk_3");
+        left1 = setup("/Enemies/Bandit/bandit_walk_4");
+        left2 = setup("/Enemies/Bandit/bandit_walk_5");
+        right1 = setup("/Enemies/Bandit/bandit_walk_6");
+        right2 = setup("/Enemies/Bandit/bandit_walk_7");
     }
 
     @Override
     public void setAction() {
-        actionLockCounter++;
+        if(onPath){
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+            searchPath(goalCol,goalRow);
+        } else {
+            if(onPath){
+//            int goalCol = 78;
+//            int goalRow = 22;
 
-        if(actionLockCounter == 40){
-            Random rand = new Random();
-            int i = rand.nextInt(100) + 1;
+                int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+                int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+                searchPath(goalCol,goalRow);
+            } else {
+                actionLockCounter++;
 
-            if(i<=25) {
-                direction = "up"; //up
+                if(actionLockCounter == 40){
+                    Random rand = new Random();
+                    int i = rand.nextInt(100) + 1;
+                    if(i <= 25){
+                        direction = "up";
+                    }
+                    if ( i > 25 && i <= 50){
+                        direction = "down";
+                    }
+                    if(i > 50 && i <=75 ){
+                        direction = "left"; // left
+                    }
+                    if(i > 75 && i <= 100 ){
+                        direction = "right"; // right
+                    }
+                    actionLockCounter = 0;
+                }
             }
-            if(i > 25 && i <=50){
-                direction = "down"; //down
-            }
-            if(i > 50 && i <= 75){
-                direction = "left"; // left
-            }
-            if(i > 75){
-                direction = "right"; // right
-            }
-            actionLockCounter = 0;
         }
+
+//        if(isAttacking){
+//            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
+//        }
 
     }
 
@@ -123,9 +141,9 @@ public class Orc extends Entity{
                     (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
-                g2.drawImage(image, screenX  + gp.tileSize + 5, screenY, -gp.tileSize - 30, gp.tileSize+30, null);
+                g2.drawImage(image, screenX  + gp.tileSize + 5, screenY, -gp.tileSize - 50, gp.tileSize+50, null);
             } else {
-                g2.drawImage(image, screenX - 29,  screenY, gp.tileSize+30, gp.tileSize+30, null);
+                g2.drawImage(image, screenX - 29,  screenY, gp.tileSize+50, gp.tileSize+50, null);
             }
 
             changeAlpha(g2,1f);
@@ -138,76 +156,28 @@ public class Orc extends Entity{
     @Override
     public void damageReaction(){
         actionLockCounter = 0;
-        direction = gp.player.direction;
+        //direction = gp.player.direction;
+        onPath = true;
     }
 
+    @Override
     public void update() {
+        super.update();
+
+        int xDistance = Math.abs(worldX-gp.player.worldX);
+        int yDistance = Math.abs(worldY-gp.player.worldY);
+        int tileDistance = (xDistance+yDistance)/gp.tileSize;
+
+
+
+        if(!onPath && tileDistance < 5){
+            int i = new Random().nextInt(100)+1;
+            if(i > 50) onPath = true;
+        }
+
+        if(onPath && tileDistance > 20) onPath = false;
         setAction();
         CollisionOn = false;
-
-
-        gp.cChecker.checkTile(this);
-        gp.cChecker.checkOBJ(this, false);
-        int i = gp.cChecker.checkEntity(this, gp.npc);
-        gp.cChecker.checkEntity(this, gp.monster);
-        boolean contactPlayer = gp.cChecker.checkPlayer(this);
-
-        if (this.type == 2 && contactPlayer){
-            if (!gp.player.isInvincible){
-                gp.player.life -= 1;
-                gp.player.isInvincible = true;
-            }
-        }
-
-        if (!CollisionOn) {
-            switch (direction) {
-                case "up":
-                    worldY -= speed;
-                    break;
-                case "down":
-                    worldY += speed;
-                    break;
-                case "left":
-                    worldX -= speed;
-                    break;
-                case "right":
-                    worldX += speed;
-                    break;
-                case "default":
-                    break;
-            }
-        }
-
-        spriteCounter++;
-
-        if (spriteCounter > 8) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 3;
-            } else if (spriteNum == 3) {
-                spriteNum = 4;
-            } else if (spriteNum == 4) {
-                spriteNum = 5;
-            } else if (spriteNum == 5) {
-                spriteNum = 6;
-            } else if (spriteNum == 6) {
-                spriteNum = 7;
-            } else if (spriteNum == 7) {
-                spriteNum = 8;
-            } else{
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
-
-        if (isInvincible){
-            invincibleCounter++;
-            if (invincibleCounter > 30){
-                isInvincible = false;
-                invincibleCounter = 0;
-            }
-        }
     }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;
@@ -220,3 +190,8 @@ public class Orc extends Entity{
     }
 
 }
+
+
+
+
+

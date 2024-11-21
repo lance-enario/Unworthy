@@ -59,7 +59,7 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
+        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47      Dungeon = 73,14
         worldY = gp.tileSize * 41;
         speed = 15; // 3 default but increased just for testing
 

@@ -21,10 +21,10 @@ public class obj_Chest extends Entity {
         up1 = image;
         collision = true;
 
-        solidArea.x = 4;
-        solidArea.y = 16;
-        solidArea.width = 40;
-        solidArea.height = 32;
+        solidArea.x = 0;
+        solidArea.y = 0;
+        solidArea.width = gp.tileSize;
+        solidArea.height = gp.tileSize;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
     }

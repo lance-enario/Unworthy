@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import Main.GamePanel;
 import Main.UtilityTool;
+import objects.obj_MageAttack;
 
 import javax.imageio.ImageIO;
 
@@ -23,6 +24,8 @@ public class Entity {
     public int spriteNum = 1;
 
     public boolean hpBarOn = false;
+
+    public boolean onPath = false;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -147,8 +150,7 @@ public class Entity {
         }
     }
 
-    public void update() {
-        setAction();
+    public void checkCollision(){
         CollisionOn = false;
 
         gp.cChecker.checkTile(this);
@@ -169,6 +171,59 @@ public class Entity {
                 gp.player.isInvincible = true;
             }
         }
+    }
+
+    public void update() {
+        setAction();
+        checkCollision();
+
+        gp.cChecker.checkTile(this);
+        gp.cChecker.checkOBJ(this, false);
+        gp.cChecker.checkEntity(this, gp.npc);
+        gp.cChecker.checkEntity(this, gp.monster);
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+        if (this.type == 2 && contactPlayer){
+            if (!gp.player.isInvincible){
+                gp.player.life -= 1;
+                gp.player.isInvincible = true;
+            }
+        }
+
+        spriteCounter++;
+
+        if (spriteCounter > 8) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+            } else if (spriteNum == 3) {
+                spriteNum = 4;
+            } else if (spriteNum == 4) {
+                spriteNum = 5;
+            } else if (spriteNum == 5) {
+                spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            } else if (spriteNum == 7) {
+                spriteNum = 8;
+            } else {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 30){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
+        if(shotAvailableCounter < 30) {
+            shotAvailableCounter++;
+        }
+
 
         if (!CollisionOn) {
             switch (direction) {
@@ -387,11 +442,160 @@ public class Entity {
                 }
             }
         }
-
         return index;
     }
 
+//    public void attacking(){
+//        int currentWorldX = worldX;
+//        int currentWorldY = worldY;
+//        int solidAreaWidth = solidArea.width;
+//        int solidAreaHeight = solidArea.height;
+//
+//        switch(direction){
+//            case "up":
+//                worldY -= attackArea.height;
+//                break;
+//            case "down":
+//                worldY += attackArea.height;
+//                break;
+//            case "left":
+//                worldX -= attackArea.width;
+//                break;
+//            case "right":
+//                worldX += attackArea.width;
+//                break;
+//        }
+//
+//        if(type == type_monster){
+//            if(gp.cChecker.checkPlayer(this) == true){
+//                damagePlayer(attack);
+//            }
+//        } else {
+//
+//            if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30) {
+//                Projectile newProjectile = new obj_MageAttack(gp);
+//                newProjectile.set(worldX, worldY, direction, true, this);
+//                shotAvailableCounter = 0;
+//                gp.projectileList.add(newProjectile);
+//                gp.playSE(18);
+//            }
+//
+//            solidArea.width = attackArea.width;
+//            solidArea.height = attackArea.height;
+//
+//            //check monster collision on hit
+//            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+//            gp.player.damageMonster(monsterIndex, attack);
+//
+//            worldX = currentWorldX;
+//            worldY = currentWorldY;
+//            solidArea.width = solidAreaWidth;
+//            solidArea.height = solidAreaHeight;
+//        }
+//    }
+//    public void checkAttackOrNot(int rate, int straight, int horizontal){
+//        boolean targetInRange = false;
+//        int xDis = getXDistance(gp.player);z
+//        int yDis = getYDistance(gp.player);
+//
+//        switch(direction){
+//            case "up":
+//                if(gp.player.worldY < worldY && yDis < straight && xDis < horizontal){
+//
+//                }
+//                break;
+//            case "down":
+//                break;
+//            case "left":
+//                break;
+//            case "right":
+//                break;
+//        }
+//    }
+//
+//    public int getYDistance(Entity target) {
+//        return Math.abs(worldY - target.worldY);
+//    }
+//
+//    public int getXDistance(Entity target){
+//        return Math.abs(worldX - target.worldX);
+//    }
+//    public int getTileDistance(Entity target){
+//        return (getXDistance(target) + getYDistance(target))/gp.tileSize;
+//    }
 
+
+    public void searchPath(int goalCol,int goalRow){
+        int startCol = (worldX + solidArea.x) / gp.tileSize;
+        int startRow = (worldY + solidArea.y) / gp.tileSize;
+
+        gp.pFinder.setNodes(startCol,startRow,goalCol,goalRow);
+
+        if(gp.pFinder.search() == true){
+            //next worldX && worldY
+
+            int nextX = gp.pFinder.pathlist.get(0).col * gp.tileSize;
+            int nextY = gp.pFinder.pathlist.get(0).row * gp.tileSize;
+
+            //entity's solid area position
+            int enLeftX = worldX + solidArea.x;
+            int enRightX = worldX + solidArea.x + solidArea.width;
+            int enTopY = worldY + solidArea.y;
+            int enBottomY =  worldY + solidArea.y + solidArea.height;
+
+            if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
+                direction = "up";
+            }
+            else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
+                direction = "down";
+            }
+            else if (enTopY >= nextY && enBottomY < nextY + gp.tileSize){
+                //can go left or right
+                if(enLeftX > nextX){
+                    direction ="left";
+                }
+                if(enLeftX < nextX){
+                    direction = "right";
+                }
+            }
+            else if (enTopY > nextY && enLeftX > nextX){
+                //up or left
+                direction = "up";
+
+                checkCollision();
+                if(collision){
+                    direction = "left";
+                }
+            }
+            else if (enTopY > nextY && enLeftX < nextX){
+                direction = "up";
+                checkCollision();
+                if(collision){
+                    direction = "right";
+                }
+            }
+            else if (enTopY < nextY && enLeftX > nextX){
+                direction = "down";
+                checkCollision();
+                if(collision){
+                    direction = "left";
+                }
+            }
+            else if (enTopY < nextY && enLeftX < nextX){
+                direction = "down";
+                checkCollision();
+                if(collision){
+                    direction = "right";
+                }
+            }
+
+//            int nextCol = gp.pFinder.pathlist.get(0).col;
+//            int nextRow = gp.pFinder.pathlist.get(0).row;
+//            if(nextCol == goalCol && nextRow == goalRow){
+//                onPath = false;
+//            }
+        }
+    }
 
 }
 

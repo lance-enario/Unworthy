@@ -1,5 +1,6 @@
 package Main;
 
+import AI.Pathfinder;
 import Entity.Player;
 import Entity.Entity;
 import Tiles.TileManager;
@@ -52,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter aSet = new AssetSetter(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     Config config = new Config(this);
+    public Pathfinder pFinder = new Pathfinder(this);
+
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);

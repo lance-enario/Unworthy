@@ -30,8 +30,14 @@ public class obj_Key extends Entity {
         objIndex = getDetected(entity, gp.obj, "Iron_Door");
         if (objIndex != 999) {
             gp.ui.currentDialogue = "You use the " + name + " and open the door.";
-            gp.obj[gp.currentMap][objIndex] = null;
-            return true;
+            System.out.println(objIndex);
+            if(objIndex == 7){
+                gp.obj[gp.currentMap][objIndex] = null;
+                gp.obj[gp.currentMap][objIndex-1] = null;
+            }else {
+                gp.obj[gp.currentMap][objIndex+1] = null;
+                gp.obj[gp.currentMap][objIndex] = null;
+            }return true;
         }
 
 
