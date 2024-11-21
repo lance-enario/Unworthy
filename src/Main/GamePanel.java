@@ -3,6 +3,10 @@ package Main;
 import AI.Pathfinder;
 import Entity.Player;
 import Entity.Entity;
+import Entity.Warrior;
+import Entity.Mage;
+import Entity.Ranger;
+
 import Tiles.TileManager;
 
 import java.awt.*;
@@ -18,10 +22,10 @@ public class GamePanel extends JPanel implements Runnable{
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16
     final int scale = 4; // 8 original value
-    final int playerScale = 6;
+    private int playerScale = 6;
 
     public final int tileSize = originalTileSize * scale; // 48x48
-    public final int playerSize = originalTileSize * playerScale;
+    public int playerSize = originalTileSize * playerScale;
     public int maxScreenCol = 24; // 16 initial value (tried for fullscreen)
     public int maxScreenRow = 13; // 12 initial value
     public int screenWidth = tileSize * maxScreenCol; // 768 px
@@ -58,6 +62,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
+    public Player mage = new Mage(this, keyH);
+    public Player warrior = new Warrior(this, keyH);
+    public Player ranger = new Ranger(this, keyH);
     public Entity[][] npc = new Entity[maxMap][20];
     public Entity[][] obj = new Entity[maxMap][20];
     public Entity[][] monster = new Entity[maxMap][20];
@@ -85,7 +92,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
-
     public void setupGame(){
         aSet.setObj();
         aSet.setNPC();
@@ -105,8 +111,8 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setObj();
         aSet.setNPC();
         aSet.setMonster();
-
     }
+
     public void setFullScreen(){
         //GET LOCAL SCREEN DEVICE
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -152,7 +158,6 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     public void update(){
-
         if (gameState == playState){
 
             //Player

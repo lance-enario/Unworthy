@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class Sound {
     Clip clip;
-    URL[] soundURL = new URL[30];
+    URL[] soundURL = new URL[50];
     FloatControl fc;
     int volumeScale = 3;
     float volume;
@@ -24,8 +24,11 @@ public class Sound {
         }
 
         soundURL[17] = getClass().getResource("/sound/cutscenes/bg.WAV");
-        soundURL[18] = getClass().getResource("/sound/mageattack.wav");
-        soundURL[19] = getClass().getResource("/sound/mageskill1.wav");
+        soundURL[18] = getClass().getResource("/sound/mageattack.wav");     //mage attack
+        soundURL[19] = getClass().getResource("/sound/mageskill1.wav");     //mage skill1
+        soundURL[20] = getClass().getResource("/sound/shield.wav");         //mage shield
+        soundURL[21] = getClass().getResource("/sound/slash.wav");          //warrior slash
+        soundURL[22] = getClass().getResource("/sound/npc_hit_1.wav");      //slime hit
     }
 
     public void setFile(int i){

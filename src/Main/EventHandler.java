@@ -117,7 +117,7 @@ public class EventHandler {
                 //1 to dungeon
                 else if (hit(1, 80, 90, "any") ||
                         hit(1, 79, 90, "any")) {
-                    teleport(3, 73, 14, gp.dialogueState, "Entering the dungeon");
+                    teleport(3, 74, 14, gp.dialogueState, "Entering the dungeon");
 
 
                 }

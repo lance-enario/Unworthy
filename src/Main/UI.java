@@ -50,7 +50,6 @@ public class UI {
 
 
     public UI(GamePanel gp){
-
         this.gp = gp;
         try{
             InputStream is = getClass().getResourceAsStream("/Font/x12y16pxMaruMonica.ttf");
@@ -87,16 +86,17 @@ public class UI {
         Sound narrate = new Sound();
         System.arraycopy(narrate.soundURL, 0, narrations, 0, narrations.length);
     }
+
     public void showMessage (String text){
         message.add(text);
         messageCounter.add(0);
     }
+
     public void draw (Graphics2D g2){
         this.g2 = g2;
 
         g2.setFont(maruMonica);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
         g2.setColor(Color.white);
 
         //title state
@@ -208,7 +208,6 @@ public class UI {
         drawInventory(gp.player, false);
         // DRAW NPC INVENTORY
         drawInventory(npc, true);
-
 
     }
 
@@ -457,7 +456,7 @@ public class UI {
         }
         else if(titleScreenState == 1) {
             rollCutScene();
-        }else if(titleScreenState == 2){
+        }else if(titleScreenState == 2) {
             //BACKGROUND
             g2.drawImage(charselect, 0, 0, gp.screenWidth, gp.screenHeight, null);
 
@@ -466,40 +465,41 @@ public class UI {
             g2.setFont(g2.getFont().deriveFont(42F));
 
             String text = "Warrior";
-            int x =getXforCenteredText(text) - 418;
-            int y = gp.tileSize*10;
+            int x = getXforCenteredText(text) - 418;
+            int y = gp.tileSize * 10;
             drawSubWindow(x - 41, y - 45, gp.tileSize * 3, gp.tileSize);
-            g2.drawString(text,x,y);
+            g2.drawString(text, x, y);
             g2.drawImage(warrior, 172, 220, 800, 450, null);
-            if(commandNum == 0){
-                g2.drawImage(warriorbutton, x-49, 520, 200, 200, null);
+            if (commandNum == 0) {
+                g2.drawImage(warriorbutton, x - 49, 520, 200, 200, null);
             }
 
             text = "Mage";
             x = getXforCenteredText(text);
             drawSubWindow(x - 53, y - 45, gp.tileSize * 3, gp.tileSize);
-            g2.drawString(text,x,y);
+            g2.drawString(text, x, y);
             g2.drawImage(mage, 590, 220, 800, 450, null);
-            if(commandNum == 1){
-                g2.drawImage(magebutton, x- 64, 520, 200, 200, null);
+            if (commandNum == 1) {
+                g2.drawImage(magebutton, x - 64, 520, 200, 200, null);
             }
 
             text = "Ranger";
-            x =getXforCenteredText(text) + 418;
+            x = getXforCenteredText(text) + 418;
             drawSubWindow(x - 48, y - 45, gp.tileSize * 3, gp.tileSize);
-            g2.drawString(text,x,y);
+            g2.drawString(text, x, y);
             g2.drawImage(ranger, gp.tileSize * 16, 220, 800, 450, null);
-            if(commandNum == 2){
-                g2.drawImage(rangerbutton, x-41, 520, 200, 200, null);
+            if (commandNum == 2) {
+                g2.drawImage(rangerbutton, x - 41, 520, 200, 200, null);
             }
 
             text = "         ";
             x = getXforCenteredText(text);
-            y += gp.tileSize*2 - 10;
-            g2.drawString(text,x,y);
-            if(commandNum == 3){
-                g2.drawImage(back, x - 100, 600, 300 , 300, null);
+            y += gp.tileSize * 2 - 10;
+            g2.drawString(text, x, y);
+            if (commandNum == 3) {
+                g2.drawImage(back, x - 100, 600, 300, 300, null);
             }
+
         }
     }
 
@@ -949,6 +949,7 @@ public class UI {
             }
         }
     }
+
     public int getItemIndexOnSlot(int slotCol, int slotRow){
         return slotCol + (slotRow*3);
     }

@@ -20,22 +20,6 @@ public class Player extends Entity {
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
 
-    //graphic images for player
-    BufferedImage[] walkFrames = new BufferedImage[6];
-    BufferedImage[] idleFrames = new BufferedImage[6];
-    BufferedImage[] bscAttackFrames = new BufferedImage[7];
-    BufferedImage[] shieldFrames = new BufferedImage[16];
-
-    //player skill counters
-    public int mageSkill1Counter = 180;
-    public int mageSkill2Counter = 600;
-    boolean skill2Pressed = false;
-
-    //shield sprite variables
-    public int shieldSpriteNum = 1;
-    public int shieldSpriteCounter = 0;
-    public int shieldCtr = 1;
-
     public Player(GamePanel gp, KeyHandler keyH) {
 
         super(gp);          // setter for gp
@@ -45,17 +29,10 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         // (30, 75, 45, 40)
-        DialogueArea = new Rectangle(13, 40, 100, 100);
-        solidArea = new Rectangle(45,95, 33, 32);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-
-        attackArea.width = 50;
-        attackArea.height = 24;
-
-        setDefaultValues();
-        getPlayerImage();
-        setItems();
+        //DialogueArea = new Rectangle(13, 40, 100, 100);
+        //solidArea = new Rectangle(40,80, 33, 32);
+        //solidAreaDefaultX = solidArea.x;
+        //solidAreaDefaultY = solidArea.y;
     }
 
     public void setDefaultValues() {
@@ -87,8 +64,7 @@ public class Player extends Entity {
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new obj_Key(gp));
-
+        inventory.add(new obj_Potion(gp));
     }
 
     public int getAttack(){
@@ -99,24 +75,7 @@ public class Player extends Entity {
         return defense = dexterity * currentShield.defenseValue;
     }
 
-    public void getPlayerImage() {
-
-        try {
-            for (int i = 0; i < 6; i++) {
-                walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/walk/" + (i + 1) + ".png")));
-                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/idle/Idle" + (i + 1) + ".png")));
-            }
-            for (int i = 0; i < 7; i++) {
-                bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/bscAttack/" + (i + 1) + ".png")));
-            }
-            for (int i = 0; i < 16; i++) {
-                shieldFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/skill2/" + "shield"+ (i + 1) + ".png")));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+    public void getPlayerImage() {}
 
     //@Override
     public void update() {
@@ -134,17 +93,6 @@ public class Player extends Entity {
                 attackCounter = 0;
             }
         }  else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-
-            //SKILLS
-            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
-                mageSkill1();
-                mageSkill1Counter = 0;
-            } else if (keyH.skill2Pressed && mageSkill2Counter == 600){
-                mageSkill2();
-                mageSkill2Counter = 0;
-            } else if (keyH.skill3Pressed){
-                mageSkill3();
-            }
 
             //MOVEMENT
             if (keyH.upPressed) {
@@ -208,17 +156,6 @@ public class Player extends Entity {
 
             gp.keyH.enterPressed = false;
 
-        } else if (keyH.skill1Pressed || keyH.skill2Pressed || keyH.skill3Pressed){
-            if (keyH.skill1Pressed && mageSkill1Counter == 180) {
-                mageSkill1();
-                mageSkill1Counter = 0;
-            } else if (keyH.skill2Pressed && mageSkill2Counter == 600){
-                mageSkill2();
-                mageSkill2Counter = 0;
-            } else {
-                mageSkill3();
-            }
-
         } else {
 
             int npcDialogue = gp.cChecker.checkDialogue(this, gp.npc[gp.currentMap]);
@@ -227,59 +164,7 @@ public class Player extends Entity {
             gp.keyH.enterPressed = false;
         }
 
-        //HANDLES SPRITE FRAME BY FRAME CHANGES FOR PLAYER
-        spriteCounter++;
-
-            if (isAttacking){
-                spriteNum = 5;
-            }
-
-            if (spriteCounter > 6) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 3;
-                } else if (spriteNum == 3) {
-                    spriteNum = 4;
-                } else if (spriteNum == 4) {
-                    spriteNum = 5;
-                } else if (spriteNum == 5) {
-                    spriteNum = 6;
-                } else {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
-
-        //System.out.println("shieldSpriteNum = " + shieldSpriteNum + " " + "shieldCtr = " + shieldCtr);
-        if (shieldSpriteCounter > 1) {
-            if (shieldSpriteNum == shieldCtr && shieldSpriteNum < 16){
-                    shieldSpriteNum++;
-                    shieldCtr++;
-            } else {
-                shieldSpriteNum = 16;
-            }
-            shieldSpriteCounter = 0;
-        }
-
-        //HANDLES SHIELD FRAMES FOR PLAYER
-        if (skill2Pressed) {
-            invincibleCounter++;
-            if(invincibleCounter == 30){
-                isInvincible = true;
-            }
-            shieldSpriteCounter++;
-        }
-
-        // this code snippet handles invincibility
-        if (isInvincible && skill2Pressed) {
-            invincibleCounter++;
-            if (invincibleCounter > 300) {
-                isInvincible = false;
-                skill2Pressed = false;
-                invincibleCounter = 0;
-            }
-        } else if (isInvincible){
+        if (isInvincible){
             invincibleCounter++;
             if (invincibleCounter > 60) {
                 isInvincible = false;
@@ -290,43 +175,6 @@ public class Player extends Entity {
         if(shotAvailableCounter < 30){
             shotAvailableCounter++;
         }
-
-        if(mageSkill1Counter < 180){
-            mageSkill1Counter++;
-        }
-
-        if(mageSkill2Counter < 600){
-            mageSkill2Counter++;
-        }
-
-        if(life > maxLife){
-            life = maxLife;
-        }
-        if(life <= 0){
-            gp.gameState = gp.gameOverState;
-            //NEED ANIMATION WHEN DYING
-        }
-    }
-
-    public void mageSkill1() {
-        String[] directions = {"up", "down", "left", "right", "upleft", "upright", "downleft", "downright"};
-        for (int i = 0; i < directions.length; i++) {
-            Projectile proj = new obj_MageSkill1(gp);
-            proj.set(worldX, worldY, directions[i], true, this);
-            gp.projectileList.add(proj);
-        }
-        gp.playSE(19);
-    }
-
-    public void mageSkill2(){
-        //isInvincible = true;
-        skill2Pressed = true;
-        shieldCtr = 1;
-        shieldSpriteNum = 1;
-    }
-
-    public void mageSkill3(){
-
     }
 
     public void attacking(){
@@ -424,7 +272,7 @@ public class Player extends Entity {
     public void damageMonster(int i, int attack){
         if (i != 999){
             if(!gp.monster[gp.currentMap][i].isInvincible){
-
+                gp.playSE(22);
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
                 if(damage < 0){
                     damage = 0;
@@ -483,55 +331,9 @@ public class Player extends Entity {
             }
         }
     }
+
     public void draw (Graphics2D g2) {
-        //BufferedImage image = idleFrames[0];
-        BufferedImage shieldImage;
-        shieldImage = shieldFrames[(shieldSpriteNum - 1) % shieldFrames.length];
 
-        if (isAttacking) {
-            image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
-        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
-            image = switch (direction) {
-                case "left", "right", "up", "down" ->
-                        walkFrames[(spriteNum - 1) % walkFrames.length]; // Walk animation frame
-                default -> idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
-            };
-        } else {
-            image = idleFrames[(spriteNum - 1) % idleFrames.length];// Idle animation frame
-        }
-
-        if (skill2Pressed){
-            g2.drawImage(shieldImage, screenX + 3, screenY + 25, gp.playerSize+30, gp.playerSize+30, null);
-        }
-
-        // visual confirmation of invincible state
-        if (isInvincible){
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
-        }
-
-        boolean shouldFlip = false;
-
-        if (direction.equals("left") ||
-            (direction.equals("up") && maintain.equals("left")) ||
-            (direction.equals("down") && maintain.equals("left")) ||
-            (direction.equals("default") && maintain.equals("left")))
-        {
-            shouldFlip = true;
-        }
-
-        if (shouldFlip)
-            g2.drawImage(image, (screenX + gp.playerSize+30), screenY, -(gp.playerSize+30), gp.playerSize+30, null);
-        else
-            g2.drawImage(image, screenX, screenY, gp.playerSize+30, gp.playerSize+30, null);
-
-        // reset composite
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-        //visible collision checker, just cross out if not needed
-        g2.setColor(Color.green);
-        g2.drawRect(screenX + DialogueArea.x,screenY + DialogueArea.y, DialogueArea.width, DialogueArea.height);
-        g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }
 
