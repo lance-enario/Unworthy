@@ -1,0 +1,57 @@
+package Entity;
+import Main.GamePanel;
+import objects.obj_Coin;
+import objects.obj_Potion;
+import objects.obj_Wand;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.function.Supplier;
+
+public class npc_merchant extends Entity{
+        public npc_merchant(GamePanel gp){
+            super(gp);
+
+            direction = "down";
+            speed = 1;
+
+            solidArea = new Rectangle();
+            solidArea.x = 8;
+            solidArea.y = 16;
+            solidAreaDefaultX = solidArea.x;
+            solidAreaDefaultY = solidArea.y;
+            solidArea.width = 32;
+            solidArea.height = 32;
+
+            getImage();
+            setDialogue();
+        }
+
+        public void getImage(){
+            up1 = setup("/npc/farmer2_1");
+            up2 = setup("/npc/farmer2_2");
+            down1 = setup("/npc/farmer2_3");
+            down2 = setup("/npc/farmer2_1");
+            left1 = setup("/npc/farmer2_2");
+            left2 = setup("/npc/farmer2_3");
+
+        }
+
+        public void setDialogue(){
+            dialogue[0] = "Hey there!\n I have some good stuff.\n Do you want to buy?";
+
+        }
+
+        public void setItems(){
+            inventory.add(new obj_Potion(gp));
+            inventory.add(new obj_Wand(gp));
+            //add more for inventory
+        }
+
+        public void speak(){
+            super.speak();
+            gp.gameState = gp.buyState;
+            gp.ui.npc = this;
+
+        }
+}

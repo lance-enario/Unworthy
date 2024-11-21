@@ -33,6 +33,8 @@ public class AssetSetter {
 
         // Map 1 Village
         mapNum = 1;
+        i = 0;
+        gp.obj[mapNum][i] = new npc_merchant(gp);
         gp.obj[mapNum][i] = new obj_guard(gp);
         gp.obj[mapNum][i].worldX = 49 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 22 * gp.tileSize;

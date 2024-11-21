@@ -1,5 +1,6 @@
 package Main;
 
+import Entity.Entity;
 import Tiles.TileManager;
 
 import java.awt.*;
@@ -124,6 +125,8 @@ public class EventHandler {
                 if (hit(0, 5, 5, "any")) {
                     damagePit(gp.dialogueState);
                 }
+
+                else if(hit(1,12,9, "up") == true) {speak(gp.npc[1][0]);}
             }
         }
     }
@@ -170,5 +173,12 @@ public class EventHandler {
         gp.ui.currentDialogue = "You fell in a hole and took damage! \nYou climb up the hole."; // depending on the dialogue
         gp.player.life -= 1;
         canTouchEvent = false;
+    }
+
+    public void speak(Entity entity){
+        if(gp.keyH.enterPressed == true){
+            gp.gameState = gp.dialogueState;
+            entity.speak();
+        }
     }
 }

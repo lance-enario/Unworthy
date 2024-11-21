@@ -3,6 +3,7 @@ package Entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import Main.GamePanel;
@@ -72,6 +73,8 @@ public class Entity {
     public Entity currentShield;
 
     // ITEM ATTRIBUTES
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public  final int maxInventorySize = 20;
     public int attackValue;
     public int defenseValue;
     public String description = "";
