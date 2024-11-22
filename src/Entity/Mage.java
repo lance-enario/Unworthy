@@ -17,12 +17,33 @@ public class Mage extends Player{
     BufferedImage[] walkFrames = new BufferedImage[6];
     BufferedImage[] idleFrames = new BufferedImage[6];
     BufferedImage[] bscAttackFrames = new BufferedImage[7];
+
+    //ult frames for player
+    BufferedImage[] ultWalkFrames = new BufferedImage[6];
+    BufferedImage[] ultIdleFrames = new BufferedImage[6];
+    BufferedImage[] ultBscAttackFrames = new BufferedImage[7];
+
+    BufferedImage[] tempWalkFrames = new BufferedImage[6];
+    BufferedImage[] tempIdleFrames = new BufferedImage[6];
+    BufferedImage[] tempBscAttackFrames = new BufferedImage[7];
+
     BufferedImage[] shieldFrames = new BufferedImage[18];
 
-    //player skill counters
+    //boolean
+    boolean skill3Pressed = false;
+    boolean skill2Pressed = false;
+    boolean resetFrames = false;
+
+    //mage cooldowns
     public int mageSkill1Counter = 180;
     public int mageSkill2Counter = 600;
-    boolean skill2Pressed = false;
+    public int mageSkill3Counter = 1500;
+
+    //ult duration
+    private int ultCounter = 0;
+    private int transformationSpriteNum = 1;
+    private int transformationSpriteCounter = 0;
+    private int frameCtr = 1;
 
     //shield sprite variables
     public int shieldSpriteNum = 1;
@@ -30,7 +51,6 @@ public class Mage extends Player{
     public int shieldCtr = 1;
 
     public Mage(GamePanel gp, KeyHandler keyH) {
-
         super(gp, keyH);          // setter for gp
 
         DialogueArea = new Rectangle(13, 40, 100, 100);
@@ -80,22 +100,25 @@ public class Mage extends Player{
     }
 
     public void getPlayerImage() {
-        try {
-            for (int i = 0; i < 6; i++) {
-                walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/walk/" + (i + 1) + ".png")));
-                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/idle/Idle" + (i + 1) + ".png")));
+            try {
+                for (int i = 0; i < 6; i++) {
+                    walkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/walk/" + (i + 1) + ".png")));
+                    idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/idle/Idle" + (i + 1) + ".png")));
+                    ultWalkFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/ult/walk ulted/mage_ult_walk" + (i + 1) + ".png")));
+                    ultIdleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/ult/idle ulted/mage_ult_idle" + (i + 1) + ".png")));
+                }
+                for (int i = 0; i < 7; i++) {
+                    bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/bscAttack/" + (i + 1) + ".png")));
+                    ultBscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/ult/bsc attack ulted/mage_ult_basic_attack" + (i + 1) + ".png")));
+                }
+                for (int i = 0; i < 16; i++) {
+                    shieldFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/skill2/" + "shield" + (i + 1) + ".png")));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            for (int i = 0; i < 7; i++) {
-                bscAttackFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/bscAttack/" + (i + 1) + ".png")));
-            }
-            for (int i = 0; i < 16; i++) {
-                shieldFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/skill2/" + "shield"+ (i + 1) + ".png")));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
+
 
     @Override
     public void update() {
@@ -118,7 +141,8 @@ public class Mage extends Player{
             } else if (keyH.skill2Pressed && mageSkill2Counter == 600){ //If 10 seconds have passed, skill becomes available
                 mageSkill2();
                 mageSkill2Counter = 0;
-            } else if (keyH.skill3Pressed){
+            } else if (keyH.skill3Pressed && mageSkill3Counter == 1500){
+                mageSkill3Counter = 0;
                 mageSkill3();
             }
 
@@ -191,7 +215,8 @@ public class Mage extends Player{
             } else if (keyH.skill2Pressed && mageSkill2Counter == 600){
                 mageSkill2();
                 mageSkill2Counter = 0;
-            } else {
+            } else if (keyH.skill3Pressed && mageSkill3Counter == 1500){
+                mageSkill3Counter = 0;
                 mageSkill3();
             }
 
@@ -263,6 +288,28 @@ public class Mage extends Player{
             }
         }
 
+        if (skill3Pressed){
+            ultCounter++;
+
+            if (ultCounter == 1){
+                tempWalkFrames = walkFrames;
+                tempIdleFrames = idleFrames;
+                tempBscAttackFrames = bscAttackFrames;
+
+                walkFrames = ultWalkFrames;
+                idleFrames = ultIdleFrames;
+                bscAttackFrames = ultBscAttackFrames;
+            } else if (ultCounter > 600){
+                skill3Pressed = false;
+                walkFrames = tempWalkFrames;
+                idleFrames = tempIdleFrames;
+                bscAttackFrames = tempBscAttackFrames;
+                ultCounter = 0;
+            }
+        }
+
+
+
         if(shotAvailableCounter < 30){
             shotAvailableCounter++;
         }
@@ -273,6 +320,10 @@ public class Mage extends Player{
 
         if(mageSkill2Counter < 600){
             mageSkill2Counter++;
+        }
+
+        if(mageSkill3Counter < 1500){
+            mageSkill3Counter++;
         }
 
     }
@@ -296,49 +347,26 @@ public class Mage extends Player{
     }
 
     public void mageSkill3(){
-
+            skill3Pressed = true;
     }
 
+    @Override
     public void attacking(){
-        int currentWorldX = worldX;
-        int currentWorldY = worldY;
-        int solidAreaWidth = solidArea.width;
-        int solidAreaHeight = solidArea.height;
 
-        switch(direction){
-            case "up":
-                worldY -= attackArea.height;
-                break;
-            case "down":
-                worldY += attackArea.height;
-                break;
-            case "left":
-                worldX -= attackArea.width;
-                break;
-            case "right":
-                worldX += attackArea.width;
-                break;
-        }
-
-        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30) {
+        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30 && !skill3Pressed) {
             Projectile newProjectile = new obj_MageAttack(gp);
+            newProjectile.set(worldX, worldY, direction, true, this);
+            shotAvailableCounter = 0;
+            gp.projectileList.add(newProjectile);
+            gp.playSE(18);
+        } else if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30 && skill3Pressed) {
+            Projectile newProjectile = new obj_MageSkill1(gp);
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
             gp.projectileList.add(newProjectile);
             gp.playSE(18);
         }
 
-        solidArea.width = attackArea.width;
-        solidArea.height = attackArea.height;
-
-        //check monster collision on hit
-        int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex, attack);
-
-        worldX = currentWorldX;
-        worldY = currentWorldY;
-        solidArea.width = solidAreaWidth;
-        solidArea.height = solidAreaHeight;
     }
 
     public void draw (Graphics2D g2) {

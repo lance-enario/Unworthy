@@ -49,7 +49,7 @@ public class Ranger extends Player{
         speed = 15; // 3 default but increased just for testing
 
         // PLAYER STATUS
-        maxLife = 20;
+        maxLife = 10;
         life = maxLife;
         level = 1;
         strength = 1;   // the more strength he has, the more damage he gives
@@ -312,8 +312,6 @@ public class Ranger extends Player{
         {
             shouldFlip = true;
         }
-
-
 
         if (shouldFlip)
             g2.drawImage(image, (screenX + gp.playerSize), screenY + 48, -(gp.playerSize - 16), gp.playerSize - 16, null);

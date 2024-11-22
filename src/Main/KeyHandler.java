@@ -186,19 +186,15 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
 
-        if (code == KeyEvent.VK_P) {
-            gp.gameState = gp.pauseState;
-        }
-
         if(code == KeyEvent.VK_ESCAPE){
             gp.gameState = gp.optionState;
         }
     }
 
     public void pauseState(int code){
-        if (code == KeyEvent.VK_P){
-            gp.gameState = gp.playState;
-        }
+//        if (code == KeyEvent.VK_P){
+//            gp.gameState = gp.playState;
+//        }
     }
 
     public void dialogueState(int code){
