@@ -347,26 +347,44 @@ public class Mage extends Player{
     }
 
     public void mageSkill3(){
-            skill3Pressed = true;
+        skill3Pressed = true;
     }
 
     @Override
     public void attacking(){
 
-        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30 && !skill3Pressed) {
+        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30) {
             Projectile newProjectile = new obj_MageAttack(gp);
-            newProjectile.set(worldX, worldY, direction, true, this);
-            shotAvailableCounter = 0;
-            gp.projectileList.add(newProjectile);
-            gp.playSE(18);
-        } else if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30 && skill3Pressed) {
-            Projectile newProjectile = new obj_MageSkill1(gp);
+            if (skill3Pressed){
+                Projectile sideproj1 = new obj_MageAttack(gp);
+                Projectile sideproj2 = new obj_MageAttack(gp);
+
+                switch(direction){
+                    case "up":
+                        sideproj1.set(worldX, worldY, "upleftleft", true, this);
+                        sideproj2.set(worldX, worldY, "uprightright", true, this);
+                        break;
+                    case "down":
+                        sideproj1.set(worldX, worldY, "downleftleft", true, this);
+                        sideproj2.set(worldX, worldY, "downrightright", true, this);
+                        break;
+                    case "left":
+                        sideproj1.set(worldX, worldY, "leftupleft", true, this);
+                        sideproj2.set(worldX, worldY, "leftdownleft", true, this);
+                        break;
+                    case "right":
+                        sideproj1.set(worldX, worldY, "rightdownright", true, this);
+                        sideproj2.set(worldX, worldY, "rightupright", true, this);
+                        break;
+                }
+                gp.projectileList.add(sideproj1);
+                gp.projectileList.add(sideproj2);
+            }
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
             gp.projectileList.add(newProjectile);
             gp.playSE(18);
         }
-
     }
 
     public void draw (Graphics2D g2) {
