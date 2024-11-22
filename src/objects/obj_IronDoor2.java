@@ -11,14 +11,14 @@ import java.util.Objects;
 
 public class obj_IronDoor2 extends Entity{
     GamePanel gp;
-    public static final String objName = "Iron_Door";
+    public static final String objName = "Iron_Door2";
 
     public obj_IronDoor2(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
         type = type_obstacle;
-        name = "Iron_Door";
+        name = "Iron_Door2";
         up1 = setup("/objects/iron_door1");
         collision = true;
 

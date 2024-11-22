@@ -31,13 +31,19 @@ public class obj_Key extends Entity {
         if (objIndex != 999) {
             gp.ui.currentDialogue = "You use the " + name + " and open the door.";
             System.out.println(objIndex);
-            if(objIndex == 7){
+
                 gp.obj[gp.currentMap][objIndex] = null;
                 gp.obj[gp.currentMap][objIndex-1] = null;
-            }else {
-                gp.obj[gp.currentMap][objIndex+1] = null;
-                gp.obj[gp.currentMap][objIndex] = null;
-            }return true;
+                return true;
+        }
+        objIndex = getDetected(entity, gp.obj, "Iron_Door2");
+        if (objIndex != 999) {
+            gp.ui.currentDialogue = "You use the " + name + " and open the door.";
+            System.out.println(objIndex);
+
+            gp.obj[gp.currentMap][objIndex] = null;
+            gp.obj[gp.currentMap][objIndex+1] = null;
+            return true;
         }
 
 
