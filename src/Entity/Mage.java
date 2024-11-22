@@ -23,10 +23,13 @@ public class Mage extends Player{
     BufferedImage[] ultIdleFrames = new BufferedImage[6];
     BufferedImage[] ultBscAttackFrames = new BufferedImage[7];
 
+    //temporary frames
     BufferedImage[] tempWalkFrames = new BufferedImage[6];
     BufferedImage[] tempIdleFrames = new BufferedImage[6];
     BufferedImage[] tempBscAttackFrames = new BufferedImage[7];
 
+    //other frames
+    BufferedImage[] ultTransformFrames = new BufferedImage[25];
     BufferedImage[] shieldFrames = new BufferedImage[18];
 
     //boolean
@@ -113,6 +116,9 @@ public class Mage extends Player{
                 }
                 for (int i = 0; i < 16; i++) {
                     shieldFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/skill2/" + "shield" + (i + 1) + ".png")));
+                }
+                for (int i = 0; i < 25; i++) {
+                    ultTransformFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Mage/ult/transformation ulted/transformation" + (i + 1) + ".png")));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -252,7 +258,16 @@ public class Mage extends Player{
             spriteCounter = 0;
         }
 
-        System.out.println("shieldSpriteNum = " + shieldSpriteNum + " " + "shieldCtr = " + shieldCtr);
+        if (transformationSpriteCounter > 3) {
+            if (transformationSpriteNum == frameCtr){
+                transformationSpriteNum++;
+                frameCtr++;
+            } else {
+                transformationSpriteNum = 25;
+            }
+            transformationSpriteCounter = 0;
+        }
+
         if (shieldSpriteCounter > 1) {
             if (shieldSpriteNum == shieldCtr && shieldSpriteNum < 16){
                 shieldSpriteNum++;
@@ -288,9 +303,9 @@ public class Mage extends Player{
             }
         }
 
-        if (skill3Pressed){
+        if (skill3Pressed){ //change sprite for player while ult is occurring
+            transformationSpriteCounter++;
             ultCounter++;
-
             if (ultCounter == 1){
                 tempWalkFrames = walkFrames;
                 tempIdleFrames = idleFrames;
@@ -299,6 +314,7 @@ public class Mage extends Player{
                 walkFrames = ultWalkFrames;
                 idleFrames = ultIdleFrames;
                 bscAttackFrames = ultBscAttackFrames;
+
             } else if (ultCounter > 600){
                 skill3Pressed = false;
                 walkFrames = tempWalkFrames;
@@ -307,8 +323,6 @@ public class Mage extends Player{
                 ultCounter = 0;
             }
         }
-
-
 
         if(shotAvailableCounter < 30){
             shotAvailableCounter++;
@@ -335,7 +349,7 @@ public class Mage extends Player{
             proj.set(worldX, worldY, directions[i], true, this);
             for(int j = 0; j < gp.projectile[1].length; j++){
                 if(gp.projectile[gp.currentMap][j] == null){
-                    gp.projectile[gp.currentMap][j] = projectile;
+                    gp.projectile[gp.currentMap][j] = proj;
                     break;
                 }
             }
@@ -353,6 +367,8 @@ public class Mage extends Player{
 
     public void mageSkill3(){
         skill3Pressed = true;
+        frameCtr = 1;
+        transformationSpriteNum = 1;
     }
 
     @Override
@@ -382,8 +398,20 @@ public class Mage extends Player{
                         sideproj2.set(worldX, worldY, "rightupright", true, this);
                         break;
                 }
-                gp.projectileList.add(sideproj1);
-                gp.projectileList.add(sideproj2);
+
+                for(int i = 0; i < gp.projectile[1].length; i++){
+                    if(gp.projectile[gp.currentMap][i] == null){
+                        gp.projectile[gp.currentMap][i] = sideproj1;
+                        break;
+                    }
+                }
+
+                for(int i = 0; i < gp.projectile[1].length; i++){
+                    if(gp.projectile[gp.currentMap][i] == null){
+                        gp.projectile[gp.currentMap][i] = sideproj2;
+                        break;
+                    }
+                }
             }
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
@@ -391,7 +419,7 @@ public class Mage extends Player{
 
             for(int i = 0; i < gp.projectile[1].length; i++){
                 if(gp.projectile[gp.currentMap][i] == null){
-                    gp.projectile[gp.currentMap][i] = projectile;
+                    gp.projectile[gp.currentMap][i] = newProjectile;
                     break;
                 }
             }
@@ -404,7 +432,9 @@ public class Mage extends Player{
         BufferedImage shieldImage;
         shieldImage = shieldFrames[(shieldSpriteNum - 1) % shieldFrames.length];
 
-        if (isAttacking) {
+        if (skill3Pressed && transformationSpriteNum < 25) {
+            image = ultTransformFrames[transformationSpriteNum % ultTransformFrames.length];
+        } else if (isAttacking) {
             image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
         } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             image = switch (direction) {
