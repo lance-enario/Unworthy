@@ -62,7 +62,12 @@ public class Bandit2 extends Entity {
             int i = new Random().nextInt(100)+1;
             if(i > 99 && !projectile.isAlive && shotAvailableCounter == 30){
                 projectile.set(worldX, worldY, direction, true, this);
-                gp.projectileList.add(projectile);
+                for(int j = 0; j < gp.projectile[1].length; j++){
+                    if(gp.projectile[gp.currentMap][j] == null){
+                        gp.projectile[gp.currentMap][j] = projectile;
+                        break;
+                    }
+                }
                 shotAvailableCounter = 0;
             }
         } else {

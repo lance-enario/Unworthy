@@ -259,7 +259,12 @@ public class Ranger extends Player{
         for (int i = 0; i < directions.length; i++) {
             Projectile proj = new obj_MageSkill1(gp);
             proj.set(worldX, worldY, directions[i], true, this);
-            gp.projectileList.add(proj);
+            for(int j = 0; j < gp.projectile[1].length; j++){
+                if(gp.projectile[gp.currentMap][j] == null){
+                    gp.projectile[gp.currentMap][j] = projectile;
+                    break;
+                }
+            }
         }
         gp.playSE(19);
     }
@@ -278,7 +283,12 @@ public class Ranger extends Player{
             Projectile newProjectile = new obj_RangerBasicArrow(gp);
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
-            gp.projectileList.add(newProjectile);
+            for(int j = 0; j < gp.projectile[1].length; j++){
+                if(gp.projectile[gp.currentMap][j] == null){
+                    gp.projectile[gp.currentMap][j] = projectile;
+                    break;
+                }
+            }
             gp.playSE(23);
         }
     }

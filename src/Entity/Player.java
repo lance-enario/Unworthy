@@ -206,7 +206,14 @@ public class Player extends Entity {
             Projectile newProjectile = new obj_MageAttack(gp);
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
-            gp.projectileList.add(newProjectile);
+
+            // CHECK VACANCY
+            for(int i = 0; i < gp.projectile[1].length; i++){
+                if(gp.projectile[gp.currentMap][i] == null){
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
             gp.playSE(18);
         }
 
@@ -216,6 +223,9 @@ public class Player extends Entity {
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
         damageMonster(monsterIndex, attack);
+
+        int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+        damageProjectile(projectileIndex);
 
         worldX = currentWorldX;
         worldY = currentWorldY;
@@ -310,6 +320,16 @@ public class Player extends Entity {
             }
         }
     }
+
+    public void damageProjectile(int i){
+        if(i != 999){
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.isAlive = false;
+            //generateParticle(projectile, projectile);
+        }
+    }
+
+
 
     public void checkLevelUp(){
         if(exp >= nextLevelExp){

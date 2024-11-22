@@ -59,7 +59,14 @@ public class Slime extends Entity {
             int i = new Random().nextInt(100)+1;
             if(i > 99 && !projectile.isAlive && shotAvailableCounter == 30){
                 projectile.set(worldX, worldY, direction, true, this);
-                gp.projectileList.add(projectile);
+                //gp.projectileList.add(projectile);
+
+                for(int ii = 0; ii < gp.projectile[1].length; ii++){
+                    if(gp.projectile[gp.currentMap][ii] == null){
+                        gp.projectile[gp.currentMap][ii] = projectile;
+                        break;
+                    }
+                }
                 shotAvailableCounter = 0;
             }
         } else {
