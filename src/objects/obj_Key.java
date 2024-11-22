@@ -16,6 +16,8 @@ public class obj_Key extends Entity {
         name = "Key";
         up1 = setup("/objects/key");
         down1 = setup("/objects/key");
+        price = 100;
+        stackable = true;
     }
     public boolean use(Entity entity) {
         gp.gameState = gp.dialogueState;

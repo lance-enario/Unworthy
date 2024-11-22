@@ -51,6 +51,8 @@ public class Mage extends Player{
     //shield sprite variables
     public int shieldSpriteNum = 1;
     public int shieldSpriteCounter = 0;
+
+
     public int shieldCtr = 1;
 
     public Mage(GamePanel gp, KeyHandler keyH) {

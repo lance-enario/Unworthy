@@ -3,6 +3,8 @@ package objects;
 import Entity.Projectile;
 import Main.GamePanel;
 
+import java.awt.*;
+
 public class obj_MageAttack extends Projectile{
     public obj_MageAttack(GamePanel gp){
         super(gp);
@@ -21,5 +23,25 @@ public class obj_MageAttack extends Projectile{
 
     public void getImage(){
         up1 = setup("/projectile/mageproj1");
+    }
+
+    public Color getParticleColor(){
+        Color color = new Color(240,50,0);
+        return color;
+    }
+
+    public int getParticleSize(){
+        int size = 10;
+        return size;
+    }
+
+    public int getParticleSpeed(){
+        int speed = 1;
+        return speed;
+    }
+
+    public int getParticleMaxLife(){
+        int maxLife = 20;
+        return maxLife;
     }
 }

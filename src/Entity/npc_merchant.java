@@ -1,8 +1,7 @@
 package Entity;
 import Main.GamePanel;
-import objects.obj_Coin;
+import objects.obj_Key;
 import objects.obj_Potion;
-import objects.obj_Wand;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -45,6 +44,7 @@ public class npc_merchant extends Entity{
 
         public void setItems(){
             inventory.add(new obj_Potion(gp));
+            inventory.add(new obj_Key(gp));
             //add more for inventory
         }
 

@@ -18,6 +18,7 @@ public class obj_Potion extends Entity {
         down1 = setup("/objects/potion");
         up1 = setup("/objects/potion");
         description = "[" + name + "]\nA magical salve that\ncan mend even the\ndeepest of wounds.";
+        stackable = true;
     }
     public boolean use(Entity e){
         gp.gameState = gp.dialogueState;

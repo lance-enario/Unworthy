@@ -62,7 +62,6 @@ public class Player extends Entity {
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new obj_Potion(gp));
     }
 
     public int getAttack(){
@@ -237,6 +236,7 @@ public class Player extends Entity {
         if(i != 999){
             if(gp.obj[gp.currentMap][i].type == type_pickUpOnly){
                 gp.obj[gp.currentMap][i].use(this);
+                gp.obj[gp.currentMap][i] = null;
             }
             // para OBSTACLE
             if(gp.obj[gp.currentMap][i].type == type_obstacle){
@@ -247,8 +247,7 @@ public class Player extends Entity {
             // para INVENTORY
             else {
                 String text;
-                if(inventory.size() != maxInventorySize){
-                    inventory.add(gp.obj[gp.currentMap][i]);
+                if(canObtainItem(gp.obj[gp.currentMap][i])){
                     // Need sounds
                     text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
                 } else{
@@ -261,7 +260,7 @@ public class Player extends Entity {
         }
     }
 
-        public void interactNPC(int i) {
+    public void interactNPC(int i) {
              if(i!=999){
                  if(gp.keyH.enterPressed){
                      gp.gameState = gp.dialogueState;
@@ -281,7 +280,7 @@ public class Player extends Entity {
         gp.keyH.enterPressed = false;
     }
 
-        public void contactMonster(int i){
+    public void contactMonster(int i){
             if(i!=999){
                 if (!isInvincible){
 
@@ -347,6 +346,7 @@ public class Player extends Entity {
             gp.ui.currentDialogue = "You leveled up to " + level + "!\n" + "You are now stronger than you are before";
         }
     }
+
     public void selectItem(){
         int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
 
@@ -363,10 +363,54 @@ public class Player extends Entity {
             }
             if(selectedItem.type == type_consumable){
                 if(selectedItem.use(this)) {
-                    inventory.remove(itemIndex);
+                    if(selectedItem.amount > 1){
+                        selectedItem.amount--;
+                    }
+                    else {
+                        inventory.remove(itemIndex);
+                    }
                 }
             }
         }
+    }
+
+    public int searchItemInInventory(String itemName){
+        int itemIndex = 999;
+
+        for(int i = 0 ; i < inventory.size(); i++){
+            if(inventory.get(i).name.equals(itemName)){
+                itemIndex = i;
+                break;
+            }
+        }
+        return itemIndex;
+    }
+
+    public boolean canObtainItem(Entity item){
+
+        boolean isObtain = false;
+
+        //CHECK IF STACKABLE
+        if(item.stackable == true){
+            int index = searchItemInInventory(item.name);
+
+            if(index != 999){
+                inventory.get(index).amount++;
+                isObtain = true;
+            } else { // New item so need to check vacancy
+                if(inventory.size() != maxInventorySize){
+                    inventory.add(item);
+                    isObtain = true;
+                }
+            }
+        }
+        else{ // NOT STACKABLE so check vacancy
+            if(inventory.size() != maxInventorySize){
+                inventory.add(item);
+                isObtain = true;
+            }
+        }
+        return isObtain;
     }
 
     public void draw (Graphics2D g2) {

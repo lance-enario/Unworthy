@@ -22,7 +22,6 @@ public class obj_Coin extends Entity{
         //NEED SE
         gp.ui.showMessage("Coin +" + value);
         gp.player.coins += value;
-
         return true;
     }
 }

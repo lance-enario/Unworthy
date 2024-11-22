@@ -81,6 +81,8 @@ public class Entity {
     public String description = "";
     public int value;
     public int price;
+    public boolean stackable = false;
+    public int amount = 1;
 
     //TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
@@ -179,6 +181,42 @@ public class Entity {
                 gp.player.isInvincible = true;
             }
         }
+    }
+
+    public Color getParticleColor(){
+        Color color = null;
+        return color;
+    }
+
+    public int getParticleSize(){
+        int size = 0;
+        return size;
+    }
+
+    public int getParticleSpeed(){
+        int speed = 0;
+        return speed;
+    }
+
+    public int getParticleMaxLife(){
+        int maxLife = 0;
+        return maxLife;
+    }
+
+    public void generateParticle(Entity generator, Entity target){
+        Color color = generator.getParticleColor();
+        int size = generator.getParticleSize();
+        int speed = generator.getParticleSpeed();
+        int maxLife = generator.getParticleMaxLife();
+
+        Particle p1 = new Particle(gp, generator,color,size,speed,maxLife,-2,-1);
+        Particle p2 = new Particle(gp, generator,color,size,speed,maxLife,2,-1);
+        Particle p3 = new Particle(gp, generator,color,size,speed,maxLife,-2,1);
+        Particle p4 = new Particle(gp, generator,color,size,speed,maxLife,2,1);
+        gp.particleList.add(p1);
+        gp.particleList.add(p2);
+        gp.particleList.add(p3);
+        gp.particleList.add(p4);
     }
 
     public void update() {
