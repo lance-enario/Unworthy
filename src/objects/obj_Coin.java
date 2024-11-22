@@ -15,6 +15,7 @@ public class obj_Coin extends Entity{
         name = "Gold Coin";
         value = 1;
         up1 = setup("/objects/Coin");
+        down1 = setup("/objects/Coin");
     }
 
     public boolean use(Entity e){

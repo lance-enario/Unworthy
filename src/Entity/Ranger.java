@@ -274,16 +274,13 @@ public class Ranger extends Player{
     }
 
     public void attacking(){
-        gp.playSE(21);
-
         if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30){
             Projectile newProjectile = new obj_RangerBasicArrow(gp);
             newProjectile.set(worldX, worldY, direction, true, this);
             shotAvailableCounter = 0;
             gp.projectileList.add(newProjectile);
-            gp.playSE(18);
+            gp.playSE(23);
         }
-
     }
 
     public void draw (Graphics2D g2) {

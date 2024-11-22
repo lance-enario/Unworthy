@@ -11,7 +11,7 @@ public class Projectile extends Entity{
     }
 
     public void set (int worldX, int worldY, String direction, boolean isAlive, Entity user){
-        this.worldX = worldX + 45;
+        this.worldX = worldX + 15;
         this.worldY = worldY + 50;
         this.direction = direction;
         this.isAlive = isAlive;

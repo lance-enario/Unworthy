@@ -6,7 +6,7 @@ import Main.GamePanel;
 public class obj_MageAttack extends Projectile{
     public obj_MageAttack(GamePanel gp){
         super(gp);
-        type = 9;
+        type = 11;
         solidArea.width = 32;
         solidArea.height = 32;
 

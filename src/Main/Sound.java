@@ -29,6 +29,7 @@ public class Sound {
         soundURL[20] = getClass().getResource("/sound/shield.wav");         //mage shield
         soundURL[21] = getClass().getResource("/sound/slash.wav");          //warrior slash
         soundURL[22] = getClass().getResource("/sound/npc_hit_1.wav");      //slime hit
+        soundURL[23] = getClass().getResource("/sound/ranger_shoot.wav");      //slime hit
     }
 
     public void setFile(int i){

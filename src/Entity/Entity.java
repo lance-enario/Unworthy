@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import Main.GamePanel;
 import Main.UtilityTool;
+import objects.obj_MageAttack;
 
 import javax.imageio.ImageIO;
 
@@ -348,7 +349,7 @@ public class Entity {
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left"));
 
-            if (type == 9) { //projectile size
+            if (type == 11) { //projectile size
                 if (shouldFlip) {
                     g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
                 } else {
@@ -356,7 +357,7 @@ public class Entity {
                 }
             } else if(type == 10){
                 g2.drawImage(image, screenX, screenY - 22, gp.tileSize, gp.tileSize + 20, null);
-            }else {
+            } else {
                 if (shouldFlip) {
                     g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize, gp.tileSize, null);
                 } else {

@@ -1,5 +1,6 @@
 package objects;
 
+import Entity.Entity;
 import Entity.Projectile;
 import Main.GamePanel;
 
