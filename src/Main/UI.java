@@ -30,7 +30,7 @@ public class UI {
 
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
-    public BufferedImage warrior, mage, ranger, title, charselect, back, warriorbutton, magebutton, rangerbutton;
+    public BufferedImage warrior, mage, ranger, title, charselect, back, warriorbutton, magebutton, rangerbutton, dialogueBanner, outskirtsBanner,villageBanner, castleBanner, dungeonBanner;
     public int playerSlotCol = 0;
     public int playerSlotRow = 0;
     public int npcSlotCol = 0;
@@ -83,6 +83,12 @@ public class UI {
         ranger= Asset.image7;
         warrior = Asset.image8;
         mage = Asset.image9;
+        dialogueBanner = Asset.banner;
+        outskirtsBanner = Asset.outskirts;
+        villageBanner = Asset.village;
+        castleBanner = Asset.castle;
+        dungeonBanner = Asset.dungeon;
+
 
         //CREATE HUD OBJECT
         Entity heart = new obj_Heart(gp);
@@ -150,7 +156,8 @@ public class UI {
         // TRANSITION STATE
         if(gp.gameState == gp.transitionState){
             drawTransition();
-            drawDialogueScreen();
+            //drawDialogueScreen();
+            drawMapRegion();
         }
         // GAME OVER STATE
         if(gp.gameState == gp.gameOverState){
@@ -563,6 +570,18 @@ public class UI {
                 g2.drawImage(back, x - 100, 600, 300, 300, null);
             }
 
+        }
+    }
+
+    public void drawMapRegion(){
+        if(gp.currentMap == 0){
+            g2.drawImage(villageBanner,gp.tileSize *3,40, 1200, 600, null);
+        }else if(gp.currentMap == 1){
+            g2.drawImage(outskirtsBanner,gp.tileSize *3,40, 1200, 600, null);
+        }else if(gp.currentMap == 2){
+            g2.drawImage(dungeonBanner,gp.tileSize *3,40, 1200, 600, null);
+        }else if(gp.currentMap == 3){
+            g2.drawImage(castleBanner,gp.tileSize *3,40, 1200, 600, null);
         }
     }
 
@@ -1039,11 +1058,16 @@ public class UI {
     }
 
     public void drawSubWindow(int x, int y, int width, int height){
-        Color c = new Color(0,0,0, 210);
-        g2.setColor(c);
-        g2.fillRoundRect(x, y, width, height, 25, 25);
+//        Color c = new Color(0,0,0, 210);
+//        g2.setColor(c);
+//        g2.fillRoundRect(x, y, width, height, 25, 25);
+        //dialogueBanner.createGraphics();
+        TexturePaint tp = new TexturePaint(dialogueBanner, new Rectangle(0, 0, 128,128 ));
+        g2.setPaint (tp);
+        g2.fillRoundRect (x, y,width,height, 25, 25);
 
-        c = new Color(255,255,255);
+
+        Color c = new Color(255,255,255);
         g2.setColor(c);
         g2.setStroke( new BasicStroke(5) );
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
