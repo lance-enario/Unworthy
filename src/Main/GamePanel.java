@@ -10,18 +10,22 @@ import Entity.Ranger;
 import Tiles.TileManager;
 
 import java.awt.*;
+import java.awt.Component;
+import java.awt.image.*;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
 import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends Canvas implements Runnable{
 
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16
     final int scale = 4; // 8 original value
     private int playerScale = 6;
+    private BufferStrategy bufferStrategy;
 
     public final int tileSize = originalTileSize * scale; // 48x48
     public int playerSize = originalTileSize * playerScale;
@@ -60,7 +64,6 @@ public class GamePanel extends JPanel implements Runnable{
     Config config = new Config(this);
     public Pathfinder pFinder = new Pathfinder(this);
 
-
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
     public Player mage = new Mage(this, keyH);
@@ -74,7 +77,6 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity projectile[][] = new Entity[maxMap][20];
     //public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
-
 
     // GAME STATE
     public int gameState;
@@ -92,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable{
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
-        this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
     }
@@ -139,31 +140,86 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
 
+//    @Override
+//    public void run() {
+//
+//        double drawInterval = 1000000000.0/FPS; // 0.01666 seconds
+//        double delta = 0;
+//        long lastTime = System.nanoTime();
+//        long currentTime;
+//
+//        while (gameThread != null){
+//
+//            currentTime = System.nanoTime();
+//            delta += (currentTime - lastTime) / drawInterval;
+//            lastTime = currentTime;
+//
+//            if (delta >= 1){
+//                update(); // keeps track of key presses during gameplay and updates values
+//                drawToTempScreen(); // draw everything to the buffered image
+//                //repaint(); // draw the buffered image to the screen
+//                drawToScreen();
+//                delta--;
+//            }
+//
+//        }
+//    }
+
     @Override
     public void run() {
-
-        double drawInterval = 1000000000.0/FPS; // 0.01666 seconds
+        double drawInterval = 1000000000.0 / FPS; // 0.01666 seconds per frame
         double delta = 0;
         long lastTime = System.nanoTime();
-        long currentTime;
+        long timer = 0;
+        int drawCount = 0;
 
-        while (gameThread != null){
-
-            currentTime = System.nanoTime();
+        while (gameThread != null) {
+            long currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
+            timer += (currentTime - lastTime);
             lastTime = currentTime;
 
-            if (delta >= 1){
-                update(); // keeps track of key presses during gameplay and updates values
-                drawToTempScreen(); // draw everything to the buffered image
-                //repaint(); // draw the buffered image to the screen
-                drawToScreen();
+            while (delta >= 1) {
+                update(); // Update game logic
                 delta--;
             }
 
+            render(); // Render everything on-screen
+            drawCount++;
+
+            // Print FPS to console (for debugging purposes)
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
+            }
         }
     }
 
+    /**
+     * Handles rendering with active rendering technique.
+     */
+    public void render() {
+        if (bufferStrategy == null) return;
+
+        Graphics2D g2 = (Graphics2D) bufferStrategy.getDrawGraphics();
+
+        drawToTempScreen(); // Render the game to the temp screen
+        g2.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+
+        g2.dispose();
+        bufferStrategy.show();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(screenWidth, screenHeight);
+    }
+
+    public void initBufferStrategy() {
+        this.createBufferStrategy(2); // Double buffering
+        bufferStrategy = this.getBufferStrategy();
+    }
 
     public void update(){
         if (gameState == playState){
@@ -221,22 +277,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (gameState == pauseState){
         }
-    }
-
-    public void drawToScreen(){
-        repaint();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        if (tempScreen != null) {
-            // Draw with integer scaling for sharp pixels
-            //scaleFactor = screenWidth2 / screenWidth; // Example: 4x scaling
-            g2.drawImage(tempScreen, 0, 0, screenWidth, screenHeight, null);
-        }
-        g2.dispose();
     }
 
     public void drawToTempScreen(){
