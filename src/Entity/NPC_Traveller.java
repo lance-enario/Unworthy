@@ -20,6 +20,7 @@ public class NPC_Traveller extends Entity {
         left1 = setup("/NPC_Traveller/wanderingTraveller4");
         left2 = setup("/NPC_Traveller/wanderingTraveller5");
         right1 = setup("/NPC_Traveller/wanderingTraveller6");
+        right1 = setup("/NPC_Traveller/wanderingTraveller6");
     }
 
     public void setDialogue(){

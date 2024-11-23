@@ -26,11 +26,12 @@ public class Orc extends Entity{
         attack = 2;
         defense = 1;
         exp = 5;
-        solidArea = new Rectangle(10, 20, 50, 60);
+        solidArea = new Rectangle(10, 50, 50, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
         getImage();
+        getAttackImage();
     }
 
     public void getImage(){
@@ -43,84 +44,48 @@ public class Orc extends Entity{
         right1 = setup("/monster/orc/walk/orc_walking_2");
         right2 = setup("/monster/orc/walk/orc_walking_3");
     }
+
     public void getAttackImage(){
-//        attackUp1 = setup("/monster/orc/walk/orc_attack_3");
-//        attackUp1 = setup("/monster/orc/walk/orc_attack_3");
-//        attackDown1 = setup("/monster/orc/walk/orc_attack_3");
-//        attackDown2 = setup("/monster/orc/walk/orc_attack_3");
-//        attackLeft1 = setup("/monster/orc/walk/orc_attack_3");
-//        attackLeft2 = setup("/monster/orc/walk/orc_attack_3");
-//        attackRight1 = setup("/monster/orc/walk/orc_attack_3");
-//        attackRight2 = setup("/monster/orc/walk/orc_attack_3");
+        attackUp1 = setup("/monster/orc/walk/attack/orc_attack_0");
+        attackUp2 = setup("/monster/orc/walk/attack/orc_attack_1");
+        attackDown1 = setup("/monster/orc/walk/attack/orc_attack_2");
+        attackDown2 = setup("/monster/orc/walk/attack/orc_attack_3");
+        attackLeft1 = setup("/monster/orc/walk/attack/orc_attack_4");
+        attackLeft2 = setup("/monster/orc/walk/attack/orc_attack_5");
+        attackRight1 = setup("/monster/orc/walk/attack/orc_attack_6");
+        attackRight2 = setup("/monster/orc/walk/attack/orc_attack_7");
     }
 
     @Override
     public void setAction() {
-        if(onPath){
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-            searchPath(goalCol,goalRow);
+
+        if(onPath) {
+            //check if it stops chasing
+            checkStopChasingOrNot(gp.player,15,100);
+
+            //search direction to go
+            searchPath(getGoalCol(gp.player),getGoalRow(gp.player));
+
         } else {
-            if(onPath){
-//            int goalCol = 78;
-//            int goalRow = 22;
+            //check if it starts chasing
+            checkStartChasingOrNot(gp.player,5,100);
+            //get a random direction
+            getRandomDirection();
 
-                int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-                int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-                searchPath(goalCol,goalRow);
-            } else {
-                actionLockCounter++;
-
-                if(actionLockCounter == 40){
-                    Random rand = new Random();
-                    int i = rand.nextInt(100) + 1;
-                    if(i <= 25){
-                        direction = "up";
-                    }
-                    if ( i > 25 && i <= 50){
-                        direction = "down";
-                    }
-                    if(i > 50 && i <=75 ){
-                        direction = "left"; // left
-                    }
-                    if(i > 75 && i <= 100 ){
-                        direction = "right"; // right
-                    }
-                    actionLockCounter = 0;
-                }
-            }
         }
 
-//        if(isAttacking){
-//            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
-//        }
+        if(!isAttacking){
+            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
+        }
 
     }
 
-    @Override
     public void damageReaction(){
         actionLockCounter = 0;
         //direction = gp.player.direction;
         onPath = true;
     }
 
-    @Override
-    public void update() {
-        super.update();
-
-        int xDistance = Math.abs(worldX-gp.player.worldX);
-        int yDistance = Math.abs(worldY-gp.player.worldY);
-        int tileDistance = (xDistance+yDistance)/gp.tileSize;
-
-        if(!onPath && tileDistance < 5){
-            int i = new Random().nextInt(100)+1;
-            if(i > 50) onPath = true;
-        }
-
-        if(onPath && tileDistance > 20) onPath = false;
-        setAction();
-        collisionOn = false;
-    }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;
         if(i < 50){
@@ -130,9 +95,9 @@ public class Orc extends Entity{
             dropItem(new obj_Coin(gp));
         }
     }
-
-
+    @Override
     public void draw(Graphics2D g2) {
+
         BufferedImage image = null;
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -143,14 +108,68 @@ public class Orc extends Entity{
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
                 case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
-                    if(spriteNum == 1) image = up1;
-                    if(spriteNum == 2) image = up2;
-                    if(spriteNum == 3) image = down1;
-                    if(spriteNum == 4) image = down2;
-                    if(spriteNum == 5) image = left1;
-                    if(spriteNum == 6) image = left2;
-                    if(spriteNum == 7) image = right1;
-                    if(spriteNum == 8) image = right2;
+                    if (spriteNum == 1) {
+                        if (isAttacking) {
+                            image = attackUp1;
+                        } if(!isAttacking) {
+                            image = up1;
+                        }
+
+                    }
+                    if (spriteNum == 2) {
+                        if (isAttacking) {
+                            image = attackUp2;
+                        } if(!isAttacking) {
+                            image = up2;
+                        }
+
+                    }
+                    if (spriteNum == 3) {
+                        if (isAttacking) {
+                            image = attackDown1;
+                        } if(!isAttacking) {
+                            image = down1;
+                        }
+
+                    }
+                    if(spriteNum == 4) {
+                        if (isAttacking) {
+                            image = attackDown2;
+                        } if(!isAttacking) {
+                            image = down2;
+                        }
+
+                    }
+                    if(spriteNum == 5) {
+                        if (isAttacking) {
+                            image = attackLeft1;
+                        } if(!isAttacking) {
+                            image = left1;
+                        }
+
+                    }
+                    if(spriteNum == 6) {
+                        if (isAttacking) {
+                            image = attackLeft2;
+                        } if(!isAttacking) {
+                            image = left2;
+                        }
+
+                    }
+                    if(spriteNum == 7) {
+                        if (isAttacking) {
+                            image = attackRight1;
+                        } if(!isAttacking) {
+                            image = right1;
+                        }
+                    }
+                    if(spriteNum == 8) {
+                        if (isAttacking) {
+                            image = attackRight2;
+                        } if(!isAttacking) {
+                            image = right2;
+                        }
+                    }
                     break;
             }
 
@@ -187,9 +206,21 @@ public class Orc extends Entity{
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left"));
 
-
-            if (shouldFlip) g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize-40, gp.tileSize+40, null);
-            else g2.drawImage(image, screenX, screenY, gp.tileSize+40, gp.tileSize+40, null);
+            if (type == 11) { //projectile size
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+                }
+            } else if(type == 10){
+                g2.drawImage(image, screenX, screenY - 22, gp.tileSize, gp.tileSize + 20, null);
+            } else {
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + gp.tileSize), screenY, -gp.tileSize*2, gp.tileSize*2, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize*2, null);
+                }
+            }
 
             changeAlpha(g2,1.0f);
 
@@ -197,5 +228,4 @@ public class Orc extends Entity{
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
-
 }

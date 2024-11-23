@@ -186,7 +186,7 @@ public class AssetSetter {
         int mapNum = 0;
 
         //testing
-        gp.monster[mapNum][i] = new Bandit2(gp);
+        gp.monster[mapNum][i] = new Orc(gp);
         gp.monster[mapNum][i].worldX = 26 * gp.tileSize;
         gp.monster[mapNum][i].worldY = 40 * gp.tileSize;
         i++;

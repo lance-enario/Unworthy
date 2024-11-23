@@ -23,6 +23,7 @@ public class npc_guardr extends Entity {
         left1 = setup("/NPC/npc_guardr/knight1_1");
         left2 = setup("/NPC/npc_guardr/knight1_2");
         right1 = setup("/NPC/npc_guardr/knight1_0");
+        right2 = setup("/NPC/npc_guardr/knight1_0");
     }
 
     public void setDialogue() {

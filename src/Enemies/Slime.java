@@ -34,6 +34,7 @@ public class Slime extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
+        getAttackImage();
     }
 
     public void getImage(){
@@ -46,70 +47,40 @@ public class Slime extends Entity {
         right1 = setup("/monster/slime/walk/slime_walk_6");
         right2 = setup("/monster/slime/walk/slime_walk_7");
     }
-
-    @Override
-    public void setAction() {
-        if(onPath){
-//            int goalCol = 78;
-//            int goalRow = 22;
-
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-            searchPath(goalCol,goalRow);
-
-            int i = new Random().nextInt(100)+1;
-            if(i > 99 && !projectile.isAlive && shotAvailableCounter == 30){
-                projectile.set(worldX, worldY, direction, true, this);
-                //gp.projectileList.add(projectile);
-
-                for(int ii = 0; ii < gp.projectile[1].length; ii++){
-                    if(gp.projectile[gp.currentMap][ii] == null){
-                        gp.projectile[gp.currentMap][ii] = projectile;
-                        break;
-                    }
-                }
-                shotAvailableCounter = 0;
-            }
-        } else {
-            actionLockCounter++;
-            if(actionLockCounter == 40){
-                Random rand = new Random();
-                int i = rand.nextInt(100) + 1;
-
-                if(i<=25) {
-                    direction = "up"; //up
-                }
-                if(i > 25 && i <=50){
-                    direction = "down"; //down
-                }
-                if(i > 50 && i <= 75){
-                    direction = "left"; // left
-                }
-                if(i > 75){
-                    direction = "right"; // right
-                }
-                actionLockCounter = 0;
-            }
-        }
-
+    public void getAttackImage(){
+        attackUp2 = setup("/monster/slime/walk/attack/slime_attack_0");
+        attackUp1 = setup("/monster/slime/walk/attack/slime_attack_1");
+        attackDown1 = setup("/monster/slime/walk/attack/slime_attack_2");
+        attackDown2 = setup("/monster/slime/walk/attack/slime_attack_3");
+        attackLeft1 = setup("/monster/slime/walk/attack/slime_attack_4");
+        attackLeft2 = setup("/monster/slime/walk/attack/slime_attack_5");
+        attackRight1 = setup("/monster/slime/walk/attack/slime_attack_6");
+        attackRight2 = setup("/monster/slime/walk/attack/slime_attack_7");
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void setAction() {
 
-        int xDistance = Math.abs(worldX-gp.player.worldX);
-        int yDistance = Math.abs(worldY-gp.player.worldY);
-        int tileDistance = (xDistance+yDistance)/gp.tileSize;
+        if(onPath) {
+            //check if it stops chasing
+            checkStopChasingOrNot(gp.player,15,100);
 
-        if(!onPath && tileDistance < 5){
-            int i = new Random().nextInt(100)+1;
-            if(i > 50) onPath = true;
+            //search direction to go
+            searchPath(getGoalCol(gp.player),getGoalRow(gp.player));
+
+            //check if it shoots projectile
+            checkShootOrNot(200,30);
+        } else {
+            //check if it starts chasing
+            checkStartChasingOrNot(gp.player,5,100);
+
+            //get a random direction
+            getRandomDirection();
+
         }
-
-        if(onPath && tileDistance > 20) onPath = false;
-        setAction();
-        collisionOn = false;
+        if(!isAttacking){
+            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
+        }
     }
 
     public void damageReaction(){

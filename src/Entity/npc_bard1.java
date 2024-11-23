@@ -24,6 +24,7 @@ npc_bard1 extends Entity {
         left1 = setup("/NPC/bard1/bard_0");
         left2 = setup("/NPC/bard1/bard_1");
         right1 = setup("/NPC/bard1/bard_0");
+        right2 = setup("/NPC/bard1/bard_0");
     }
 
     public void setDialogue(){

@@ -34,6 +34,8 @@ public class npc_merchant extends Entity{
             down2 = setup("/NPC/farmer2/farmer2_1");
             left1 = setup("/NPC/farmer2/farmer2_2");
             left2 = setup("/NPC/farmer2/farmer2_3");
+            right1 = setup("/NPC/farmer2/farmer2_3");
+            right2 = setup("/NPC/farmer2/farmer2_3");
 
         }
 

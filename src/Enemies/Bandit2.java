@@ -35,11 +35,12 @@ public class Bandit2 extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         getImage();
+        getAttackImage();
     }
 
 
 
-    public void getImage(){
+    public void getImage() {
         up1 = setup("/Enemies/Bandit2/bandit2_walk_0");
         up2 = setup("/Enemies/Bandit2/bandit2_walk_1");
         down1 = setup("/Enemies/Bandit2/bandit2_walk_2");
@@ -50,91 +51,89 @@ public class Bandit2 extends Entity {
         right2 = setup("/Enemies/Bandit2/bandit2_walk_7");
     }
 
+    public void getAttackImage() {
+        attackUp1 = setup("/Enemies/Bandit2/attack/bandit2_attack_0");
+        attackUp2 = setup("/Enemies/Bandit2/attack/bandit2_attack_1");
+        attackDown1 = setup("/Enemies/Bandit2/attack/bandit2_attack_2");
+        attackDown2 = setup("/Enemies/Bandit2/attack/bandit2_attack_3");
+        attackLeft1 = setup("/Enemies/Bandit2/attack/bandit2_attack_4");
+        attackLeft2 = setup("/Enemies/Bandit2/attack/bandit2_attack_5");
+        attackRight1 = setup("/Enemies/Bandit2/attack/bandit2_attack_6");
+        attackRight2 = setup("/Enemies/Bandit2/attack/bandit2_attack_7");
+    }
+
     @Override
     public void setAction() {
-        if(onPath){
-//            int goalCol = 78;
-//            int goalRow = 22;
+        int xDistance = Math.abs(worldX - gp.player.worldX);
+        int yDistance = Math.abs(worldY - gp.player.worldY);
+        int totalDistance = Math.max(xDistance, yDistance);
 
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-            searchPath(goalCol,goalRow);
+        // Define the desired range (3–4 tiles)
+        int minDistance = gp.tileSize * 3;
+        int maxDistance = gp.tileSize * 4;
 
-            int i = new Random().nextInt(100)+1;
-            if(i > 99 && !projectile.isAlive && shotAvailableCounter == 30){
-                projectile.set(worldX, worldY, direction, true, this);
-                for(int j = 0; j < gp.projectile[1].length; j++){
-                    if(gp.projectile[gp.currentMap][j] == null){
-                        gp.projectile[gp.currentMap][j] = projectile;
-                        break;
-                    }
-                }
-                shotAvailableCounter = 0;
+        if (onPath) {
+            // Stop chasing if too far
+            checkStopChasingOrNot(gp.player, 15, 100);
+
+            if (totalDistance < minDistance) {
+                // Move away from the player
+                moveAwayFromPlayer();
+            } else if (totalDistance > maxDistance) {
+                // Move closer to the player
+                searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
             }
+
+            checkShootOrNot(200, 30);
         } else {
-            actionLockCounter++;
-            if(actionLockCounter == 40){
-                Random rand = new Random();
-                int i = rand.nextInt(100) + 1;
+            // Start chasing if within a specific range
+            checkStartChasingOrNot(gp.player, 5, 100);
 
-                if(i<=25) {
-                    direction = "up"; //up
-                }
-                if(i > 25 && i <=50){
-                    direction = "down"; //down
-                }
-                if(i > 50 && i <= 75){
-                    direction = "left"; // left
-                }
-                if(i > 75){
-                    direction = "right"; // right
-                }
-                actionLockCounter = 0;
-            }
+            // If not on a path, choose random directions and occasionally shoot
+            getRandomDirection();
+            checkShootOrNot(200, 30);
         }
 
+        if (!isAttacking) {
+            checkAttackOrNot(30, gp.tileSize * 7, gp.tileSize);
+        }
     }
 
-    @Override
-    public void update() {
-        super.update();
 
-        int xDistance = Math.abs(worldX-gp.player.worldX);
-        int yDistance = Math.abs(worldY-gp.player.worldY);
-        int tileDistance = (xDistance+yDistance)/gp.tileSize;
+    private void moveAwayFromPlayer() {
+        int xDirection = 0;
+        int yDirection = 0;
 
-        if(onPath && tileDistance > 10){
-            onPath = false;
+        if (!collisionOn) {
+            if (worldX < gp.player.worldX) xDirection = -1;
+            else if (worldX > gp.player.worldX) xDirection = 1;
+
+            if (worldY < gp.player.worldY) yDirection = -1;
+            else if (worldY > gp.player.worldY) yDirection = 1;
         }
 
-        if(!onPath && tileDistance < 5){
-            int i = new Random().nextInt(100)+1;
-            if(i > 50) onPath = true;
-        }
+        worldX += xDirection * 1;
+        worldY += yDirection * 1;
 
-        if(onPath && tileDistance > 20) onPath = false;
-        setAction();
-        collisionOn = false;
+        if (xDirection == -1) direction = "left";
+        if (xDirection == 1) direction = "right";
+        if (yDirection == -1) direction = "up";
+        if (yDirection == 1) direction = "down";
     }
 
-    public void damageReaction(){
+    public void damageReaction() {
         actionLockCounter = 0;
-        //direction = gp.player.direction;
         onPath = true;
     }
 
-    public void checkDrop(){
-        int i = new Random().nextInt(100)+1;
-        if(i < 50){
-            dropItem(new obj_Potion(gp));
-        }
-        if(i > 50){
-            dropItem(new obj_Coin(gp));
-        }
+    public void checkDrop() {
+        int i = new Random().nextInt(100) + 1;
+        if (i < 50) dropItem(new obj_Potion(gp));
+        else dropItem(new obj_Coin(gp));
     }
-
     @Override
     public void draw(Graphics2D g2) {
+
         BufferedImage image = null;
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -144,17 +143,66 @@ public class Bandit2 extends Entity {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
-                case "default", "up", "down", "left", "right":
-                    if(spriteNum == 1) image = up1;
-                    if(spriteNum == 2) image = up2;
-                    if(spriteNum == 3) image = down1;
-                    if(spriteNum == 4) image = down2;
-                    if(spriteNum == 5) image = left1;
-                    if(spriteNum == 6) image = left2;
-                    if(spriteNum == 7) image = right1;
-                    if(spriteNum == 8) image = right2;
+                case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
+                    if (spriteNum == 1) {
+                        if (isAttacking) {
+                            image = attackUp1;
+                        } if(!isAttacking) {
+                            image = up1;
+                        }
+                    }
+                    if (spriteNum == 2) {
+                        if (isAttacking) {
+                            image = attackUp2;
+                        } if(!isAttacking) {
+                            image = up2;
+                        }
+                    }
+                    if (spriteNum == 3) {
+                        if (isAttacking) {
+                            image = attackDown1;
+                        } if(!isAttacking) {
+                            image = down1;
+                        }
+                    }
+                    if(spriteNum == 4) {
+                        if (isAttacking) {
+                            image = attackDown2;
+                        } if(!isAttacking) {
+                            image = down2;
+                        }
+                    }
+                    if(spriteNum == 5) {
+                        if (isAttacking) {
+                            image = attackLeft1;
+                        } if(!isAttacking) {
+                            image = left1;
+                        }
+                    }
+                    if(spriteNum == 6) {
+                        if (isAttacking) {
+                            image = attackLeft2;
+                        } if(!isAttacking) {
+                            image = left2;
+                        }
+                    }
+                    if(spriteNum == 7) {
+                        if (isAttacking) {
+                            image = attackRight1;
+                        } if(!isAttacking) {
+                            image = right1;
+                        }
+                    }
+                    if(spriteNum == 8) {
+                        if (isAttacking) {
+                            image = attackRight2;
+                        } if(!isAttacking) {
+                            image = right2;
+                        }
+                    }
                     break;
             }
+
             //Enemies HP BAR
             if(type == 2 && hpBarOn) {
                 double oneScale = (double)gp.tileSize/maxLife;
@@ -168,7 +216,7 @@ public class Bandit2 extends Entity {
 
                 hpBarCounter++;
 
-                if(hpBarCounter > 600) {
+                if(hpBarCounter > 300) {
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }
@@ -179,24 +227,32 @@ public class Bandit2 extends Entity {
                 hpBarCounter = 0;
                 changeAlpha(g2,0.4f);
             }
+
             if(isDying){
                 dyingAnimation(g2);
             }
 
-
-
             boolean shouldFlip = direction.equals("left") ||
                     (direction.equals("up") && maintain.equals("left")) ||
-                    (direction.equals("down") && maintain.equals("left")) ||
-                    (direction.equals("default") && maintain.equals("left"));
+                    (direction.equals("down") && maintain.equals("left"));
 
-            if (shouldFlip) {
-                g2.drawImage(image, screenX + gp.tileSize, screenY, -gp.tileSize-30, gp.tileSize+30, null);
+            if (type == 11) { //projectile size
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize-32, gp.tileSize-32, null);
+                }
+            } else if(type == 10){
+                g2.drawImage(image, screenX, screenY - 22, gp.tileSize, gp.tileSize + 20, null);
             } else {
-                g2.drawImage(image, screenX, screenY, gp.tileSize+30, gp.tileSize+30, null);
+                if (shouldFlip) {
+                    g2.drawImage(image, screenX  + gp.tileSize + 5, screenY, -gp.tileSize - 40, gp.tileSize+40, null);
+                } else {
+                    g2.drawImage(image, screenX - 29,  screenY, gp.tileSize+40, gp.tileSize+40, null);
+                }
             }
 
-            changeAlpha(g2,1f);
+            changeAlpha(g2,1.0f);
 
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
@@ -204,5 +260,5 @@ public class Bandit2 extends Entity {
     }
 
 
-}
 
+}

@@ -23,6 +23,7 @@ public class npc_child2 extends Entity {
         left1 = setup("/NPC/child2/child2_2");
         left2 = setup("/NPC/child2/child2_3");
         right1 = setup("/NPC/child2/child2_2");
+        right2 = setup("/NPC/child2/child2_2");
     }
 
     public void setDialogue(){
