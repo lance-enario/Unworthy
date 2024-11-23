@@ -40,7 +40,7 @@ public class npc_merchant extends Entity{
         }
 
         public void setDialogue(){
-            dialogue[0] = "Hey there!\n I have some good stuff.\nDo you want to buy?";
+            dialogue[0] = "Hey there!\nI have some good stuff.\nDo you want to buy?";
 
         }
 

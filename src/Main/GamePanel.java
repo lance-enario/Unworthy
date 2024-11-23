@@ -40,7 +40,7 @@ public class GamePanel extends Canvas implements Runnable{
     public  int maxWorldRow;
     public boolean fullScreenOn = false;
     public final int maxMap = 5;
-    public int currentMap = 0;
+    public int currentMap = 1;
 
     //FULL SCREEN
     int screenWidth2 = screenWidth;
