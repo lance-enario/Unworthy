@@ -30,6 +30,11 @@ public class Sound {
         soundURL[21] = getClass().getResource("/sound/slash.wav");          //warrior slash
         soundURL[22] = getClass().getResource("/sound/npc_hit_1.wav");      //slime hit
         soundURL[23] = getClass().getResource("/sound/ranger_shoot.wav");      //slime hit
+        soundURL[24] = getClass().getResource("/sound/dirtstep1.wav");
+        soundURL[25] = getClass().getResource("/sound/dirtstep2.wav");
+        soundURL[26] = getClass().getResource("/sound/dirtstep3.wav");
+        soundURL[27] = getClass().getResource("/sound/dirtstep4.wav");
+        soundURL[28] = getClass().getResource("/sound/transformation.wav");
     }
 
     public void setFile(int i){

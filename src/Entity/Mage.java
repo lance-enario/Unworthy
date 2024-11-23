@@ -318,6 +318,7 @@ public class Mage extends Player{
 
             } else if (ultCounter > 600){
                 skill3Pressed = false;
+                gp.stopMusic();
                 walkFrames = tempWalkFrames;
                 idleFrames = tempIdleFrames;
                 bscAttackFrames = tempBscAttackFrames;
@@ -368,6 +369,7 @@ public class Mage extends Player{
 
     public void mageSkill3(){
         skill3Pressed = true;
+        gp.playMusic(28);
         frameCtr = 1;
         transformationSpriteNum = 1;
     }

@@ -177,7 +177,7 @@ public class Warrior extends Player{
                 }
             }
 
-            if(audioCounter < 20){
+            if(audioCounter < 30){
                 audioCounter++;
             } else {
                 gp.playSE(1);

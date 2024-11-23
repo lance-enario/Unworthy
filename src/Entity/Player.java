@@ -5,12 +5,16 @@ import Main.KeyHandler;
 import objects.*;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Player extends Entity {
 
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
+
+    Random rand = new Random();
+    int max=4,min=1;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -45,7 +49,7 @@ public class Player extends Entity {
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.
 
-        direction = "left";
+        direction = "right";
         maintain = "right";
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
@@ -140,10 +144,25 @@ public class Player extends Entity {
                 }
             }
 
-            if(audioCounter < 20){
+            if(audioCounter < 60){
                 audioCounter++;
             } else {
-                gp.playSE(1);
+                int num = rand.nextInt((max - min + 1) + min);
+
+                switch(num){
+                    case 1:
+                        gp.playSE(24);
+                        break;
+                    case 2:
+                        gp.playSE(25);
+                        break;
+                    case 3:
+                        gp.playSE(26);
+                        break;
+                    case 4:
+                        gp.playSE(27);
+                        break;
+                }
                 audioCounter = 0;
             }
 
@@ -166,10 +185,6 @@ public class Player extends Entity {
                 isInvincible = false;
                 invincibleCounter = 0;
             }
-        }
-
-        if(shotAvailableCounter < 30){
-            shotAvailableCounter++;
         }
     }
 

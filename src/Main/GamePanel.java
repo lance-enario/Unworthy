@@ -189,16 +189,13 @@ public class GamePanel extends Canvas implements Runnable{
 
             // Print FPS to console (for debugging purposes)
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                System.out.println("FPS: " + delta);
                 drawCount = 0;
                 timer = 0;
             }
         }
     }
 
-    /**
-     * Handles rendering with active rendering technique.
-     */
     public void render() {
         if (bufferStrategy == null) return;
 
@@ -280,12 +277,6 @@ public class GamePanel extends Canvas implements Runnable{
     }
 
     public void drawToTempScreen(){
-
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-//        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-//        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-//        System.out.println("Drawing to temp screen...");
-//        System.out.println("Repainting screen...");
 
         //tile screen
         if(gameState == titleState){

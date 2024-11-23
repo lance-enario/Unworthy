@@ -238,6 +238,12 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldX = 50 * gp.tileSize;
         gp.monster[mapNum][i].worldY = 20 * gp.tileSize;
         i++;
+
+        gp.monster[mapNum][i] = new General_Lich(gp);
+        gp.monster[mapNum][i].worldX = 50 * gp.tileSize;
+        gp.monster[mapNum][i].worldY = 64 * gp.tileSize;
+        i++;
+
     }
 
 }

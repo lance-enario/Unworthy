@@ -25,8 +25,6 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
 
-
-
     //STATE
     public boolean hpBarOn = false;
     public boolean onPath = false;
@@ -47,15 +45,13 @@ public class Entity {
     public int invincibleCounter = 0;
     public int actionLockCounter = 0;
     public int hpBarCounter = 0;
-    public int attackCounter = 0;
+    public int attackCounter = 30;
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int knockbackCounter = 0;
 
 
-
     public String[] dialogue = new String[20];
-
     int dialogueIndex = 0;
     public BufferedImage image, image2, image3;
     public String name;
@@ -502,6 +498,22 @@ public class Entity {
         }
         return image;
     }
+
+    public BufferedImage setup(String imagePath, int widthScale, int heightScale) {
+
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
+            image = uTool.scaleImage(image, gp.tileSize * widthScale, gp.tileSize * heightScale);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return image;
+    }
+
 
     public int getDetected(Entity user, Entity target[][], String targetName) {
         int index = 999;
