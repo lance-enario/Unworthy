@@ -29,7 +29,7 @@ public class CollisionChecker {
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                    entity.CollisionOn = true;
+                    entity.collisionOn = true;
                 }
                 break;
             case "down":
@@ -37,7 +37,7 @@ public class CollisionChecker {
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                    entity.CollisionOn = true;
+                    entity.collisionOn = true;
                 }
                 break;
             case "left":
@@ -45,7 +45,7 @@ public class CollisionChecker {
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                    entity.CollisionOn = true;
+                    entity.collisionOn = true;
                 }
                 break;
             case "right":
@@ -53,7 +53,7 @@ public class CollisionChecker {
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                    entity.CollisionOn = true;
+                    entity.collisionOn = true;
                 }
                 break;
         }
@@ -78,7 +78,7 @@ public class CollisionChecker {
                         entity.solidArea.y -= entity.speed;
                         if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
                             if(gp.obj[gp.currentMap][i].collision){
-                                entity.CollisionOn = true;
+                                entity.collisionOn = true;
                             }
                             if(player){
                                 index = i;
@@ -89,7 +89,7 @@ public class CollisionChecker {
                         entity.solidArea.y += entity.speed;
                         if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
                             if(gp.obj[gp.currentMap][i].collision){
-                                entity.CollisionOn = true;
+                                entity.collisionOn = true;
                             }
                             if(player){
                                 index = i;
@@ -100,7 +100,7 @@ public class CollisionChecker {
                         entity.solidArea.x -= entity.speed;
                         if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
                             if(gp.obj[gp.currentMap][i].collision){
-                                entity.CollisionOn = true;
+                                entity.collisionOn = true;
                             }
                             if(player){
                                 index = i;
@@ -111,7 +111,7 @@ public class CollisionChecker {
                         entity.solidArea.x += entity.speed;
                         if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
                             if(gp.obj[gp.currentMap][i].collision){
-                                entity.CollisionOn = true;
+                                entity.collisionOn = true;
                             }
                             if(player){
                                 index = i;
@@ -165,7 +165,7 @@ public class CollisionChecker {
                 // Check for collision without considering direction
                 if (entity.solidArea.intersects(target[gp.currentMap][i].solidArea)) {
                     if(target[gp.currentMap][i] != entity){
-                        entity.CollisionOn = true;
+                        entity.collisionOn = true;
                         index = i;
                     }
                 }
@@ -237,7 +237,7 @@ public class CollisionChecker {
 
         // Check for collision without considering direction
         if (entity.solidArea.intersects(gp.player.solidArea)) {
-            entity.CollisionOn = true;
+            entity.collisionOn = true;
             contactPlayer = true;
         }
 

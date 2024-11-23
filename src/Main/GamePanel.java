@@ -130,18 +130,14 @@ public class GamePanel extends JPanel implements Runnable{
             System.out.println("Fullscreen not supported, using windowed mode.");
         }
 
-        screenWidth2 = screenWidth * scaleFactor;  // Scale by an integer factor
-        screenHeight2 = screenHeight * scaleFactor;
-
-//        screenWidth2 = Main.window.getWidth();
-//        screenHeight2 = Main.window.getHeight();
+        screenWidth2 = Main.window.getWidth();
+        screenHeight2 = Main.window.getHeight();
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
 
     @Override
     public void run() {
@@ -160,7 +156,8 @@ public class GamePanel extends JPanel implements Runnable{
             if (delta >= 1){
                 update(); // keeps track of key presses during gameplay and updates values
                 drawToTempScreen(); // draw everything to the buffered image
-                repaint(); // draw the buffered image to the screen
+                //repaint(); // draw the buffered image to the screen
+                drawToScreen();
                 delta--;
             }
 
@@ -226,30 +223,29 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void drawToScreen(){
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
-
         if (tempScreen != null) {
             // Draw with integer scaling for sharp pixels
-            scaleFactor = screenWidth2 / screenWidth; // Example: 4x scaling
-            g2.drawImage(tempScreen, 0, 0, screenWidth * scaleFactor, screenHeight * scaleFactor, null);
+            //scaleFactor = screenWidth2 / screenWidth; // Example: 4x scaling
+            g2.drawImage(tempScreen, 0, 0, screenWidth, screenHeight, null);
         }
-
         g2.dispose();
     }
 
-
     public void drawToTempScreen(){
 
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-        System.out.println("Drawing to temp screen...");
-        System.out.println("Repainting screen...");
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+//        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+//        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+//        System.out.println("Drawing to temp screen...");
+//        System.out.println("Repainting screen...");
 
         //tile screen
         if(gameState == titleState){
@@ -300,7 +296,7 @@ public class GamePanel extends JPanel implements Runnable{
             //SORT
             entityList.sort(new Comparator<Entity>() {
 
-                @Override
+            @Override
                 public int compare(Entity e1, Entity e2) {
                     return Integer.compare(e1.worldY, e2.worldY);
                 }
@@ -330,9 +326,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    public void drawToScreen(){
-        repaint();
-    }
+
 
     public void playMusic(int i){
         sound.setFile(i);

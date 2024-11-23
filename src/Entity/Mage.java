@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Mage extends Player{
@@ -172,7 +171,7 @@ public class Mage extends Player{
             }
 
             //collision checker
-            CollisionOn = false;
+            collisionOn = false;
             gp.cChecker.checkTile(this);
 
             //obj checker
@@ -190,7 +189,7 @@ public class Mage extends Player{
             gp.eHandler.checkEvent();
 
             //if collision != true, player can move
-            if (!CollisionOn && !keyH.enterPressed) {
+            if (!collisionOn && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;

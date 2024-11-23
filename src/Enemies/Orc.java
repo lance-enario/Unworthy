@@ -17,9 +17,10 @@ public class Orc extends Entity{
 
         this.gp = gp;
 
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         type = type_monster; //monster type
         name = "Orc";
-        speed = 2;
         maxLife = 6;
         life = maxLife;
         attack = 2;
@@ -111,8 +112,6 @@ public class Orc extends Entity{
         int yDistance = Math.abs(worldY-gp.player.worldY);
         int tileDistance = (xDistance+yDistance)/gp.tileSize;
 
-
-
         if(!onPath && tileDistance < 5){
             int i = new Random().nextInt(100)+1;
             if(i > 50) onPath = true;
@@ -120,7 +119,7 @@ public class Orc extends Entity{
 
         if(onPath && tileDistance > 20) onPath = false;
         setAction();
-        CollisionOn = false;
+        collisionOn = false;
     }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;

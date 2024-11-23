@@ -141,7 +141,7 @@ public class Ranger extends Player{
             }
 
             //collision checker
-            CollisionOn = false;
+            collisionOn = false;
             gp.cChecker.checkTile(this);
 
             //obj checker
@@ -159,7 +159,7 @@ public class Ranger extends Player{
             gp.eHandler.checkEvent();
 
             //if collision != true, player can move
-            if (!CollisionOn && !keyH.enterPressed) {
+            if (!collisionOn && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -285,7 +285,7 @@ public class Ranger extends Player{
             shotAvailableCounter = 0;
             for(int j = 0; j < gp.projectile[1].length; j++){
                 if(gp.projectile[gp.currentMap][j] == null){
-                    gp.projectile[gp.currentMap][j] = projectile;
+                    gp.projectile[gp.currentMap][j] = newProjectile;
                     break;
                 }
             }
@@ -327,24 +327,6 @@ public class Ranger extends Player{
             g2.drawImage(image, (screenX + gp.playerSize), screenY + 48, -(gp.playerSize - 16), gp.playerSize - 16, null);
         else
             g2.drawImage(image, screenX + 16, screenY + 48, gp.playerSize - 16, gp.playerSize - 16, null);
-
-
-//        if (image == idleFrames[(spriteNum - 1) % idleFrames.length]) {
-//            if (shouldFlip)
-//                g2.drawImage(image, (screenX + gp.playerSize), screenY + 32, -(gp.playerSize), gp.playerSize, null);
-//            else
-//                g2.drawImage(image, screenX , screenY, gp.playerSize, gp.playerSize, null);
-//        } else if (image == walkFrames[(spriteNum - 1) % walkFrames.length]){
-//            if (shouldFlip)
-//                g2.drawImage(image, (screenX + gp.playerSize), screenY, -(gp.playerSize), gp.playerSize, null);
-//            else
-//                g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
-//        } else {
-//            if (shouldFlip)
-//                g2.drawImage(image, (screenX + gp.playerSize), screenY, -(gp.playerSize), gp.playerSize, null);
-//            else
-//                g2.drawImage(image, screenX, screenY, gp.playerSize, gp.playerSize, null);
-//        }
 
         // reset composite
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));

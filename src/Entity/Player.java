@@ -2,15 +2,9 @@ package Entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
-import Main.Sound;
 import objects.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class Player extends Entity {
 
@@ -36,7 +30,8 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47      Dungeon = 73,14
         worldY = gp.tileSize * 41;
-        speed = 15; // 3 default but increased just for testing
+        defaultSpeed = 6;
+        speed = defaultSpeed;
 
         // PLAYER STATUS
         maxLife = 10;
@@ -45,10 +40,8 @@ public class Player extends Entity {
         strength = 1;   // the more strength he has, the more damage he gives
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
-        nextLevelExp = 30;
+        nextLevelExp = 10;
         coins = 0;
-        currentWeapon = new obj_Wand(gp);
-        currentShield = new obj_Book(gp);
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.
 
@@ -109,7 +102,7 @@ public class Player extends Entity {
             }
 
             //collision checker
-            CollisionOn = false;
+            collisionOn = false;
             gp.cChecker.checkTile(this);
 
             //obj checker
@@ -130,7 +123,7 @@ public class Player extends Entity {
             gp.eHandler.checkEvent();
 
             //if collision != true, player can move
-            if (!CollisionOn && !keyH.enterPressed) {
+            if (!collisionOn && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -201,27 +194,12 @@ public class Player extends Entity {
                 break;
         }
 
-        if (gp.keyH.bscAtkPressed && shotAvailableCounter == 30){
-            Projectile newProjectile = new obj_MageAttack(gp);
-            newProjectile.set(worldX, worldY, direction, true, this);
-            shotAvailableCounter = 0;
-
-            // CHECK VACANCY
-            for(int i = 0; i < gp.projectile[1].length; i++){
-                if(gp.projectile[gp.currentMap][i] == null){
-                    gp.projectile[gp.currentMap][i] = projectile;
-                    break;
-                }
-            }
-            gp.playSE(18);
-        }
-
         solidArea.width = attackArea.width;
         solidArea.height = attackArea.height;
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex, attack);
+        damageMonster(monsterIndex, attack, currentWeapon.knockbackPower);
 
         int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
         damageProjectile(projectileIndex);
@@ -236,11 +214,11 @@ public class Player extends Entity {
         if(i != 999){
             if(gp.obj[gp.currentMap][i].type == type_pickUpOnly){
                 gp.obj[gp.currentMap][i].use(this);
-                gp.obj[gp.currentMap][i] = null;
+                //gp.obj[gp.currentMap][i] = null;
             }
             // para OBSTACLE
             if(gp.obj[gp.currentMap][i].type == type_obstacle){
-                if(keyH.enterPressed == true){
+                if(keyH.enterPressed){
                     gp.obj[gp.currentMap][i].interact();
                 }
             }
@@ -295,10 +273,15 @@ public class Player extends Entity {
             }
         }
 
-    public void damageMonster(int i, int attack){
+    public void damageMonster(int i, int attack, int knockbackPower){
         if (i != 999){
             if(!gp.monster[gp.currentMap][i].isInvincible){
                 gp.playSE(22);
+
+                if (knockbackPower > 0) {
+                    knockback(gp.monster[gp.currentMap][i], knockbackPower);
+                }
+
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
                 if(damage < 0){
                     damage = 0;
@@ -320,15 +303,19 @@ public class Player extends Entity {
         }
     }
 
+    public void knockback(Entity entity, int knockbackPower){
+        entity.direction = direction;
+        entity.speed += knockbackPower;
+        entity.knockback = true;
+    }
+
     public void damageProjectile(int i){
         if(i != 999){
             Entity projectile = gp.projectile[gp.currentMap][i];
             projectile.isAlive = false;
-            //generateParticle(projectile, projectile);
+            generateParticle(projectile, projectile);
         }
     }
-
-
 
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
@@ -391,7 +378,7 @@ public class Player extends Entity {
         boolean isObtain = false;
 
         //CHECK IF STACKABLE
-        if(item.stackable == true){
+        if(item.stackable){
             int index = searchItemInInventory(item.name);
 
             if(index != 999){
@@ -412,6 +399,8 @@ public class Player extends Entity {
         }
         return isObtain;
     }
+
+
 
     public void draw (Graphics2D g2) {
 

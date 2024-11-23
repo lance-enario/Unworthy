@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Warrior extends Player{
@@ -23,6 +22,7 @@ public class Warrior extends Player{
     public int skill2Counter = 600;
     public int frameCounter = 1;
     boolean skill2Pressed = false;
+    boolean skill3Pressed = false;
 
     //variables for selecting attack animation
     private boolean attackSwitch = false;
@@ -37,8 +37,9 @@ public class Warrior extends Player{
         solidAreaDefaultY = solidArea.y;
 
         attackArea.width = 64;
-        attackArea.height = 64;
-
+        attackArea.height = 128;
+        currentWeapon = new obj_Sword(gp);
+        currentShield = new obj_ArmorNoob(gp);
         setDefaultValues();
         getPlayerImage();
         setItems();
@@ -47,7 +48,7 @@ public class Warrior extends Player{
     public void setDefaultValues() {
         worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
         worldY = gp.tileSize * 41;
-        speed = 15; // 3 default but increased just for testing
+        speed = 8; // 3 default but increased just for testing
 
         // PLAYER STATUS
         maxLife = 20;
@@ -58,8 +59,8 @@ public class Warrior extends Player{
         exp = 0;
         nextLevelExp = 30;
         coins = 0;
-        currentWeapon = new obj_Wand(gp);
-        currentShield = new obj_Book(gp);
+        currentWeapon = new obj_Sword(gp);
+        currentShield = new obj_ArmorNoob(gp);
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.
 
@@ -141,7 +142,7 @@ public class Warrior extends Player{
             }
 
             //collision checker
-            CollisionOn = false;
+            collisionOn = false;
             gp.cChecker.checkTile(this);
 
             //obj checker
@@ -159,7 +160,7 @@ public class Warrior extends Player{
             gp.eHandler.checkEvent();
 
             //if collision != true, player can move
-            if (!CollisionOn && !keyH.enterPressed) {
+            if (!collisionOn && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -271,7 +272,7 @@ public class Warrior extends Player{
     }
 
     public void skill3(){
-
+        skill3Pressed = true;
     }
 
     public void attacking(){
@@ -301,7 +302,10 @@ public class Warrior extends Player{
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex, attack);
+        damageMonster(monsterIndex, attack, currentWeapon.knockbackPower);
+
+        int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+        damageProjectile(projectileIndex);
 
         worldX = currentWorldX;
         worldY = currentWorldY;

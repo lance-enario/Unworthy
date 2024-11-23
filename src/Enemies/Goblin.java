@@ -17,6 +17,8 @@ public class Goblin extends Entity{
 
         this.gp = gp;
 
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         type = type_monster; //monster type
         name = "Goblin";
         speed = 2;
@@ -176,7 +178,7 @@ public class Goblin extends Entity{
 
         if(onPath && tileDistance > 20) onPath = false;
         setAction();
-        CollisionOn = false;
+        collisionOn = false;
     }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;

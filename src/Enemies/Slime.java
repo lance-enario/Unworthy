@@ -21,7 +21,8 @@ public class Slime extends Entity {
 
         type = type_monster; //monster type
         name = "Green Slime";
-        speed = 1;
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         maxLife = 5;
         life = maxLife;
         attack = 1;
@@ -108,7 +109,7 @@ public class Slime extends Entity {
 
         if(onPath && tileDistance > 20) onPath = false;
         setAction();
-        CollisionOn = false;
+        collisionOn = false;
     }
 
     public void damageReaction(){

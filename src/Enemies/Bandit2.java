@@ -4,7 +4,6 @@ import Entity.Entity;
 import Main.GamePanel;
 import objects.obj_Coin;
 import objects.obj_Potion;
-import objects.obj_Projectile;
 import objects.obj_arrow;
 
 import java.awt.*;
@@ -20,6 +19,8 @@ public class Bandit2 extends Entity {
 
         this.gp = gp;
 
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         type = type_monster; //monster type
         name = "Bandit2";
         speed = 2;
@@ -113,7 +114,7 @@ public class Bandit2 extends Entity {
 
         if(onPath && tileDistance > 20) onPath = false;
         setAction();
-        CollisionOn = false;
+        collisionOn = false;
     }
 
     public void damageReaction(){

@@ -17,9 +17,10 @@ public class Skeleton extends Entity{
 
         this.gp = gp;
 
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         type = type_monster; //monster type
         name = "Skeleton";
-        speed = 2;
         maxLife = 6;
         life = maxLife;
         attack = 2;
@@ -176,7 +177,7 @@ public class Skeleton extends Entity{
 
         if(onPath && tileDistance > 20) onPath = false;
         setAction();
-        CollisionOn = false;
+        collisionOn = false;
     }
     public void checkDrop(){
         int i = new Random().nextInt(100)+1;

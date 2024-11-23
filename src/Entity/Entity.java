@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import Main.GamePanel;
 import Main.UtilityTool;
-import objects.obj_MageAttack;
 
 import javax.imageio.ImageIO;
 
@@ -24,9 +23,15 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
 
-    public boolean hpBarOn = false;
 
+
+    //STATE
+    public boolean hpBarOn = false;
     public boolean onPath = false;
+    public boolean collisionOn = false;
+    public boolean isInvincible = false;
+    public boolean isAttacking = false;
+    public boolean knockback = false;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -34,12 +39,7 @@ public class Entity {
     public Rectangle DialogueArea = new Rectangle(32,56, 64, 64);
 
     public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean CollisionOn = false;
 
-    //entity invincibility
-    public boolean isInvincible = false;
-    //entity attack
-    public boolean isAttacking = false;
 
     //COUNTER
     public int invincibleCounter = 0;
@@ -48,6 +48,8 @@ public class Entity {
     public int attackCounter = 0;
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
+    int knockbackCounter = 0;
+
 
 
     public String[] dialogue = new String[20];
@@ -59,6 +61,7 @@ public class Entity {
 
     // CHARACTER ATTRIBUTES
     public int speed;
+    public int defaultSpeed;
     public int maxLife;
     public int life;
     public int level;
@@ -83,6 +86,7 @@ public class Entity {
     public int price;
     public boolean stackable = false;
     public int amount = 1;
+    public int knockbackPower = 0;
 
     //TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
@@ -93,11 +97,11 @@ public class Entity {
     public final int type_shield = 4;
     public final int type_wand = 5;
     public final int type_bow = 6;
-    public final int type_armor = 7;
+    public final int type_obstacle = 7;
     public final int type_consumable = 8;
     public final int type_pickUpOnly = 9;
-    public final int type_obstacle = 7;
     public final int type_sign = 10;
+    //public final int type_armor = 7;
 
     GamePanel gp;
 
@@ -159,14 +163,12 @@ public class Entity {
     }
 
     public void checkCollision(){
-        CollisionOn = false;
-
+        collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkOBJ(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
         gp.cChecker.checkEntity(this, gp.signs);
-      //  gp.cChecker.checkDialogue(this, gp.signs);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
         if (this.type == type_monster && contactPlayer){
@@ -220,19 +222,58 @@ public class Entity {
     }
 
     public void update() {
-        setAction();
-        checkCollision();
 
-        gp.cChecker.checkTile(this);
-        gp.cChecker.checkOBJ(this, false);
-        gp.cChecker.checkEntity(this, gp.npc);
-        gp.cChecker.checkEntity(this, gp.monster);
-        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if (knockback){
+            checkCollision();
 
-        if (this.type == 2 && contactPlayer){
-            if (!gp.player.isInvincible){
-                gp.player.life -= 1;
-                gp.player.isInvincible = true;
+            if (collisionOn){
+                knockbackCounter = 0;
+                knockback = false;
+                speed = defaultSpeed;
+            } else {
+                switch(gp.player.direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+
+                knockbackCounter++;
+                if (knockbackCounter == 10){
+                    knockbackCounter = 0;
+                    knockback = false;
+                    speed = defaultSpeed;
+                }
+            }
+        } else {
+            setAction();
+            checkCollision();
+
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    case "default":
+                        break;
+                }
             }
         }
 
@@ -271,24 +312,7 @@ public class Entity {
         }
 
 
-        if (!CollisionOn) {
-            switch (direction) {
-                case "up":
-                    worldY -= speed;
-                    break;
-                case "down":
-                    worldY += speed;
-                    break;
-                case "left":
-                    worldX -= speed;
-                    break;
-                case "right":
-                    worldX += speed;
-                    break;
-                case "default":
-                    break;
-            }
-        }
+
 
         spriteCounter++;
 

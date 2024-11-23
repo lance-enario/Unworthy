@@ -23,7 +23,6 @@ public class UI {
     Graphics2D g2;
     Font maruMonica, purisaBold;
     BufferedImage heart_full,heart_blank,heart_half,coin;
-    public boolean messageOn = false;
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
@@ -37,6 +36,7 @@ public class UI {
     public int npcSlotRow = 0;
     int counter = 0;
     int subState = 0;
+
     // for cutscenes
     public BufferedImage[] cutscenes = new BufferedImage[14];
     public URL[] narrations = new URL[12];
@@ -802,7 +802,7 @@ public class UI {
         }
 
         // CURSOR
-        if(cursor == true){
+        if(cursor){
             int cursorX = slotXstart + (slotSize * slotCol);
             int cursorY = slotYstart + (slotSize * slotRow);
             int cursorWidth = gp.tileSize;
