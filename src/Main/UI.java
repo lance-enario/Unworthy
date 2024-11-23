@@ -35,7 +35,9 @@ public class UI {
     public int npcSlotCol = 0;
     public int npcSlotRow = 0;
     int counter = 0;
-    int negCounter = 255;
+    int othercounter = 0;
+    int negCounter = 400;
+    int currRegion = 1;
     int subState = 0;
 
     // for cutscenes
@@ -57,6 +59,7 @@ public class UI {
     public String[] signDialogue = new String[20];
     private int charIndex = 0; // Current character index being displayed
     private Timer dialogueTimer; // Timer to control the typing effect
+
 
 
     public UI(GamePanel gp){
@@ -131,6 +134,7 @@ public class UI {
         if (gp.gameState == gp.playState){
             drawPlayerLife();
             drawMessage();
+            drawIntro();
         }
 
         //pause state
@@ -152,6 +156,7 @@ public class UI {
         if(gp.gameState == gp.characterState){
             drawCharacterScreen();
             drawInventory(gp.player, true);
+
         }
         // OPTION STATE
         if(gp.gameState == gp.optionState){
@@ -161,7 +166,18 @@ public class UI {
         // TRANSITION STATE
         if(gp.gameState == gp.transitionState){
             drawTransition();
-            drawMapRegion();
+                if (othercounter < 1500) {
+                    othercounter += 10; // Increase counter for fade-in effect
+                }else if( counter ==0) {
+                    othercounter = 0;
+                }
+                    float alpha = Math.min(othercounter / 200.0f, 1.0f); // Normalize negCounter to [0.0f, 1.0f]
+                    Composite originalComposite = g2.getComposite();
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                    drawMapRegion(currRegion);
+                    g2.setComposite(originalComposite);
+
+
         }
         // GAME OVER STATE
         if(gp.gameState == gp.gameOverState){
@@ -271,7 +287,7 @@ public class UI {
             }
             bg = true;
         }
-        if(cutsceneNum == 1)drawIntro();
+        if(cutsceneNum == 0){drawIntro();}
         g2.drawImage(cutscenes[cutsceneNum], 0, 0, gp.screenWidth, gp.screenHeight, null);
         //Draw the cutscene image with applied opacity
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
@@ -539,16 +555,19 @@ public class UI {
         }
     }
 
-    public void drawMapRegion(){
-        if(gp.currentMap == 0){
-            g2.drawImage(villageBanner,gp.tileSize *3,40, 1200, 600, null);
-        }else if(gp.currentMap == 1){
-            g2.drawImage(outskirtsBanner,gp.tileSize *3,40, 1200, 600, null);
-        }else if(gp.currentMap == 2){
-            g2.drawImage(dungeonBanner,gp.tileSize *3,40, 1200, 600, null);
-        }else if(gp.currentMap == 3){
-            g2.drawImage(castleBanner,gp.tileSize *3,40, 1200, 600, null);
+    public void drawMapRegion(int i){
+        BufferedImage banner = null;
+        switch (i) {
+            case 0 -> banner = villageBanner;
+            case 1 -> banner = outskirtsBanner;
+            case 2 -> banner = dungeonBanner;
+            case 3 -> banner = castleBanner;
         }
+
+
+        g2.drawImage(banner, gp.tileSize * 3, 150, 1200, 600, null);
+
+
     }
 
     public void drawDialogueScreen(){
@@ -1105,40 +1124,49 @@ public class UI {
     }
 
     public void drawIntro(){
+
         if (negCounter > 0) {
-            negCounter--;
+            negCounter -= 4; // Decrease counter
+
+            // Clamp alpha to the valid range [0, 255]
+            float alpha = (negCounter <= 200) ? Math.max(0.0f, Math.min(negCounter * 1.275f / 255.0f, 1.0f)) : 1.0f;
+
+            // Draw the fade effect with a solid black rectangle
+            g2.setColor(new Color(0, 0, 0, (int) (alpha * 255))); // Convert alpha to [0, 255] for Color
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+            Composite originalComposite = g2.getComposite();
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            drawMapRegion(currRegion);
+            g2.setComposite(originalComposite);
+
         }
-        int alpha = Math.max(0, negCounter);
-        g2.setColor(new Color(0, 0, 0, alpha));
-        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
     }
 
 
+
     public void drawTransition(){
-        counter++;
-        g2.setColor(new Color(0,0,0,counter*5));
-        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+        counter+=4;
+        negCounter = 400;
+        int alpha = (counter <= 200) ? (int) Math.min(counter * 1.275, 255) : 255; // Gradually increase alpha to 255, max it out after 200
+        g2.setColor(new Color(0, 0, 0, alpha));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        if (counter >= 500) {
+            counter = 0;
+
+            gp.gameState = gp.playState;
+
+            // Teleport the player to the new position
+            gp.player.worldX = gp.tileSize * gp.eHandler.tempCol;
+            gp.player.worldY = gp.tileSize * gp.eHandler.tempRow;
+
+            gp.currentMap = gp.eHandler.tempMap;  // Set the map to the temporary map
 
 
-        if (counter >= 50) {
-                while(counter > 0) {
-                    counter--;
-                    g2.setColor(new Color(0,0,0,counter*5));
+            gp.eHandler.previousEventX = gp.player.worldX;
+            gp.eHandler.previousEventY = gp.player.worldY;
 
-                }
-               // counter = 0;
-            if(counter == 0) {
-                gp.gameState = gp.playState;
-
-                // Teleport the player to the new position
-                gp.player.worldX = gp.tileSize * gp.eHandler.tempCol;
-                gp.player.worldY = gp.tileSize * gp.eHandler.tempRow;
-
-                gp.currentMap = gp.eHandler.tempMap;  // Set the map to the temporary map
-
-                gp.eHandler.previousEventX = gp.player.worldX;
-                gp.eHandler.previousEventY = gp.player.worldY;
-            }
         }
     }
 

@@ -40,7 +40,7 @@ public class GamePanel extends Canvas implements Runnable{
     public  int maxWorldRow;
     public boolean fullScreenOn = false;
     public final int maxMap = 5;
-    public int currentMap = 1;
+    public int currentMap = 0;
 
     //FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -88,7 +88,6 @@ public class GamePanel extends Canvas implements Runnable{
     public final int optionState = 5;
     public final int gameOverState = 6;
     public final int transitionState = 7;
-    public String text;
     public final int buyState = 8;
 
     public GamePanel(){
