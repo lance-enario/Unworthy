@@ -32,6 +32,8 @@ public class Orc extends Entity{
 
         getImage();
         getAttackImage();
+        getCenterX();
+        getCenterY();
     }
 
     public void getImage(){

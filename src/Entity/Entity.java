@@ -20,6 +20,7 @@ public class Entity {
     public boolean isDying = false;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
+    public int centerX,centerY;
     public BufferedImage[] idleFrames;
     public int audioCounter = 0;
     public int spriteCounter = 0;
@@ -223,6 +224,8 @@ public class Entity {
     }
 
     public void update() {
+        System.out.println(centerX);
+        System.out.println(centerY);
 
         if (knockback){
             checkCollision();
@@ -803,6 +806,18 @@ public class Entity {
         target.knockBackDirection = attacker.direction;
         target.speed += knockbackPower;
         target.knockback = true;
+    }
+    public int getCenterX() {
+        return centerY = worldX + left1.getWidth() / 2;
+    }
+    public int getCenterY() {
+        return centerY =  worldY + up1.getHeight() / 2;
+    }
+    public int getXdistance(Entity target){
+        return Math.abs(getCenterX() - target.getCenterX());
+    }
+    public int getYdistance(Entity target){
+        return Math.abs(getCenterY() - target.getCenterY());
     }
 }
 
