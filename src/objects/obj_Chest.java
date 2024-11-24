@@ -12,7 +12,6 @@ public class obj_Chest extends Entity {
     public obj_Chest(GamePanel gp, Entity loot){
         super(gp);
         this.gp = gp;
-        this.loot = loot;
 
         type = type_obstacle;
         name = "Chest";
@@ -27,6 +26,10 @@ public class obj_Chest extends Entity {
         solidArea.height = gp.tileSize;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+    }
+
+    public void setLoot(Entity loot){
+        this.loot = loot;
     }
 
     public void interact(){

@@ -138,12 +138,11 @@ public class Mage extends Player{
             gp.cChecker.checkEntity(this, gp.signs);
             gp.cChecker.checkEntity(this, gp.monster);
 
-
             if (collisionOn){
                 knockbackCounter = 0;
                 knockback = false;
                 speed = defaultSpeed;
-            } else {
+            } else if(!collisionOn){
                 switch (gp.player.direction) {
                     case "up":
                         worldY -= speed;
@@ -338,6 +337,7 @@ public class Mage extends Player{
             invincibleCounter++;
             if (invincibleCounter > 60) {
                 isInvincible = false;
+                isTransparent= false;
                 invincibleCounter = 0;
             }
         }
@@ -380,6 +380,13 @@ public class Mage extends Player{
             mageSkill3Counter++;
         }
 
+        if (life > maxLife){
+            life = maxLife;
+        }
+        if(life <= 0){
+            gp.playSE(29);
+            gp.gameState = gp.gameOverState;
+        }
     }
 
     public void mageSkill1() {
@@ -492,7 +499,7 @@ public class Mage extends Player{
         }
 
         // visual confirmation of invincible state
-        if (isInvincible){
+        if (isTransparent){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         }
 

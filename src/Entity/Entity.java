@@ -36,6 +36,7 @@ public class Entity {
     public boolean isAttacking = false;
     public boolean knockback = false;
     public String knockBackDirection;
+    public boolean isTransparent = false;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -335,10 +336,10 @@ public class Entity {
             }
 
             if(damage != 0){
+                gp.player.isTransparent = true;
                 setknockback(gp.player, this, knockbackPower);
             }
 
-            setknockback(gp.player,this,knockbackPower);
             gp.player.life -= damage;
             gp.player.isInvincible = true;
 

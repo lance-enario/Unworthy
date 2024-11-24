@@ -220,6 +220,7 @@ public class Player extends Entity {
             invincibleCounter++;
             if (invincibleCounter > 60) {
                 isInvincible = false;
+                isTransparent= false;
                 invincibleCounter = 0;
             }
         }
@@ -328,6 +329,7 @@ public class Player extends Entity {
 
                     life -= damage;
                     isInvincible = true;
+                    isTransparent = false;
                 }
             }
         }

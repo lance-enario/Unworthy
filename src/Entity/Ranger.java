@@ -276,6 +276,7 @@ public class Ranger extends Player{
             invincibleCounter++;
             if (invincibleCounter > 60) {
                 isInvincible = false;
+                isTransparent= false;
                 invincibleCounter = 0;
             }
         }
@@ -290,6 +291,14 @@ public class Ranger extends Player{
 
         if (attackCounter == 30){
             isAttacking = false;
+        }
+
+        if (life > maxLife){
+            life = maxLife;
+        }
+        if(life <= 0){
+            gp.playSE(29);
+            gp.gameState = gp.gameOverState;
         }
     }
 
@@ -348,7 +357,7 @@ public class Ranger extends Player{
         }
 
         // visual confirmation of invincible state
-        if (isInvincible){
+        if (isTransparent){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         }
 
