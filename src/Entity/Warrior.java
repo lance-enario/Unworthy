@@ -302,7 +302,7 @@ public class Warrior extends Player{
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex, attack, currentWeapon.knockbackPower);
+        damageMonster(monsterIndex, this, attack, currentWeapon.knockbackPower);
 
         int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
         damageProjectile(projectileIndex);

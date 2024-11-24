@@ -214,7 +214,7 @@ public class Player extends Entity {
 
         //check monster collision on hit
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        damageMonster(monsterIndex, attack, currentWeapon.knockbackPower);
+        damageMonster(monsterIndex, this, attack, currentWeapon.knockbackPower);
 
         int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
         damageProjectile(projectileIndex);
@@ -288,13 +288,13 @@ public class Player extends Entity {
             }
         }
 
-    public void damageMonster(int i, int attack, int knockbackPower){
+    public void damageMonster(int i, Entity attacker, int attack, int knockbackPower){
         if (i != 999){
             if(!gp.monster[gp.currentMap][i].isInvincible){
                 gp.playSE(22);
 
                 if (knockbackPower > 0) {
-                    knockback(gp.monster[gp.currentMap][i], knockbackPower);
+                    setknockback(gp.monster[gp.currentMap][i], attacker, knockbackPower);
                 }
 
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
@@ -318,11 +318,7 @@ public class Player extends Entity {
         }
     }
 
-    public void knockback(Entity entity, int knockbackPower){
-        entity.direction = direction;
-        entity.speed += knockbackPower;
-        entity.knockback = true;
-    }
+
 
     public void damageProjectile(int i){
         if(i != 999){

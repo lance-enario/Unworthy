@@ -23,7 +23,13 @@ public class CollisionChecker {
 
         int tileNum1, tileNum2;
 
-        switch (entity.direction) {
+        //use temp direction when knockbacked
+        String direction = entity.direction;
+        if(entity.knockback){
+            direction = entity.knockBackDirection;
+        }
+
+        switch (direction){
             case "up":
                 entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
@@ -73,7 +79,13 @@ public class CollisionChecker {
                 gp.obj[gp.currentMap][i].solidArea.x = gp.obj[gp.currentMap][i].worldX + gp.obj[gp.currentMap][i].solidArea.x;
                 gp.obj[gp.currentMap][i].solidArea.y = gp.obj[gp.currentMap][i].worldY + gp.obj[gp.currentMap][i].solidArea.y;
 
-                switch (entity.direction){
+                //use temp direction when knockbacked
+                String direction = entity.direction;
+                if(entity.knockback){
+                    direction = entity.knockBackDirection;
+                }
+
+                switch (direction){
                     case "up":
                         entity.solidArea.y -= entity.speed;
                         if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
@@ -144,7 +156,13 @@ public class CollisionChecker {
                 target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].worldX + target[gp.currentMap][i].solidArea.x;
                 target[gp.currentMap][i].solidArea.y = target[gp.currentMap][i].worldY + target[gp.currentMap][i].solidArea.y;
 
-                switch (entity.direction) {
+                //use temp direction when knockbacked
+                String direction = entity.direction;
+                if(entity.knockback){
+                    direction = entity.knockBackDirection;
+                }
+
+                switch (direction){
                     case "up":
                         entity.solidArea.y -= entity.speed;
                         break;

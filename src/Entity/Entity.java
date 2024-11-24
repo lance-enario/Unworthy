@@ -24,6 +24,8 @@ public class Entity {
     public int audioCounter = 0;
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public Entity attacker;
+
 
     //STATE
     public boolean hpBarOn = false;
@@ -32,6 +34,7 @@ public class Entity {
     public boolean isInvincible = false;
     public boolean isAttacking = false;
     public boolean knockback = false;
+    public String knockBackDirection;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -229,7 +232,7 @@ public class Entity {
                 knockback = false;
                 speed = defaultSpeed;
             } else {
-                switch(gp.player.direction){
+                switch(knockBackDirection){
                     case "up":
                         worldY -= speed;
                         break;
@@ -781,7 +784,7 @@ public class Entity {
         } else {
             //check monster collision on hit
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            gp.player.damageMonster(monsterIndex, attack, currentWeapon.knockbackPower);
+            gp.player.damageMonster(monsterIndex, this, attack, currentWeapon.knockbackPower);
 
             int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
             gp.player.damageProjectile(projectileIndex);
@@ -792,6 +795,14 @@ public class Entity {
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
         solidArea.height = solidAreaHeight;
+    }
+
+    public void setknockback(Entity target, Entity attacker, int knockbackPower){
+
+        this.attacker = attacker;
+        target.knockBackDirection = attacker.direction;
+        target.speed += knockbackPower;
+        target.knockback = true;
     }
 }
 
