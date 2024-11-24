@@ -55,8 +55,9 @@ public class UI {
     public String currentDialogue = "";
     public String[] signDialogue = new String[20];
     public String[] storyLine =  new String[20];
-    private int charIndex = 0; // Current character index being displayed
-    private Timer dialogueTimer; // Timer to control the typing effect
+    int charIndex = 0; // Current character index being displayed
+    String combinedText = "";
+
 
 
 
@@ -600,8 +601,17 @@ public class UI {
             g2.drawImage(dialogueBanner, 0, 0, gp.screenWidth, 400, null);
 
         if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex] != null){
-            currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+           // currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+            char[] characters = npc.dialogues[npc.dialogueSet][npc.dialogueIndex].toCharArray();
+                if(charIndex < characters.length){
+                    String s = String.valueOf(characters[charIndex]);
+                    combinedText = combinedText+s;
+                    currentDialogue = combinedText;
+                    charIndex++;
+                }
             if(gp.keyH.enterPressed){
+                charIndex= 0;
+                combinedText = "";
                 if(gp.gameState == gp.dialogueState){
                     npc.dialogueIndex++;
                     System.out.println("Is ENTERing");

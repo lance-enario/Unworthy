@@ -139,31 +139,6 @@ public class GamePanel extends Canvas implements Runnable{
         gameThread.start();
     }
 
-//    @Override
-//    public void run() {
-//
-//        double drawInterval = 1000000000.0/FPS; // 0.01666 seconds
-//        double delta = 0;
-//        long lastTime = System.nanoTime();
-//        long currentTime;
-//
-//        while (gameThread != null){
-//
-//            currentTime = System.nanoTime();
-//            delta += (currentTime - lastTime) / drawInterval;
-//            lastTime = currentTime;
-//
-//            if (delta >= 1){
-//                update(); // keeps track of key presses during gameplay and updates values
-//                drawToTempScreen(); // draw everything to the buffered image
-//                //repaint(); // draw the buffered image to the screen
-//                drawToScreen();
-//                delta--;
-//            }
-//
-//        }
-//    }
-
     @Override
     public void run() {
         double drawInterval = 1000000000.0 / FPS; // 0.01666 seconds per frame

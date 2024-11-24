@@ -8,6 +8,7 @@ public class NPC_Traveller extends Entity {
         super(gp);
         direction = "default";
         speed = 0;
+        dialogueSet = -1;
         setDialogue();
         getImage();
     }
@@ -51,6 +52,10 @@ public class NPC_Traveller extends Entity {
 
     public void speak(){
        startDialogue(this, dialogueSet);
+       dialogueSet++;
+       if(dialogues[dialogueSet][0] == null){
+           dialogueSet --;
+       }
     }
 
 

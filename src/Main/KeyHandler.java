@@ -195,13 +195,15 @@ public class KeyHandler implements KeyListener {
 
     public void dialogueState(int code){
         if (code == KeyEvent.VK_ENTER) {
+            gp.ui.charIndex= 0;
+            gp.ui.combinedText = "";
             gp.ui.npc.dialogueIndex++;
             gp.gameState = gp.playState;
         }
     }
 
     public void characterState(int code){
-        // Need soundeffect
+        // Need sound effect
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.playState;
         }
