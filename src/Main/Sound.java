@@ -35,6 +35,9 @@ public class Sound {
         soundURL[26] = getClass().getResource("/sound/dirtstep3.wav");
         soundURL[27] = getClass().getResource("/sound/dirtstep4.wav");
         soundURL[28] = getClass().getResource("/sound/transformation.wav");
+        soundURL[29] = getClass().getResource("/sound/DeathSound.wav");
+        soundURL[30] = getClass().getResource("/sound/OptionMenuSound.wav");
+
     }
 
     public void setFile(int i){

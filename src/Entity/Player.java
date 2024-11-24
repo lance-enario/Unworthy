@@ -74,9 +74,46 @@ public class Player extends Entity {
     //@Override
     public void update() {
 
-        //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
+        if (knockback) {
 
-        if (isAttacking || keyH.bscAtkPressed) {
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+            gp.cChecker.checkOBJ(this, true);
+            gp.cChecker.checkEntity(this, gp.npc);
+            gp.cChecker.checkEntity(this, gp.signs);
+            gp.cChecker.checkEntity(this, gp.monster);
+
+
+            if (collisionOn) {
+                knockbackCounter = 0;
+                knockback = false;
+                speed = defaultSpeed;
+            } else {
+                switch (gp.player.direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+
+                knockbackCounter++;
+                if (knockbackCounter == 10) {
+                    knockbackCounter = 0;
+                    knockback = false;
+                    speed = defaultSpeed;
+                }
+            //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
+        }else if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
             attacking();
 
@@ -186,6 +223,13 @@ public class Player extends Entity {
                 invincibleCounter = 0;
             }
         }
+        if (life > maxLife){
+            life = maxLife;
+        }
+        if(life <= 0){
+            gp.playSE(29);
+            gp.gameState = gp.gameOverState;
+        }
     }
 
     public void attacking(){
@@ -229,27 +273,27 @@ public class Player extends Entity {
         if(i != 999){
             if(gp.obj[gp.currentMap][i].type == type_pickUpOnly){
                 gp.obj[gp.currentMap][i].use(this);
-                //gp.obj[gp.currentMap][i] = null;
-            }
-            // para OBSTACLE
-            if(gp.obj[gp.currentMap][i].type == type_obstacle){
-                if(keyH.enterPressed){
-                    gp.obj[gp.currentMap][i].interact();
-                }
-            }
-            // para INVENTORY
-            else {
-                String text;
-                if(canObtainItem(gp.obj[gp.currentMap][i])){
-                    // Need sounds
-                    text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
-                } else{
-                    text = "You cannot carry anymore stuff!";
-                }
-                gp.ui.showMessage(text);
                 gp.obj[gp.currentMap][i] = null;
             }
+            if (gp.obj[gp.currentMap][i] != null) {
+                // para OBSTACLE
+                if (gp.obj[gp.currentMap][i].type == type_obstacle) {
+                    if (keyH.enterPressed) {
 
+                        gp.obj[gp.currentMap][i].interact();
+                    }
+                } else { // para INVENTORY
+                    String text;
+                    if (canObtainItem(gp.obj[gp.currentMap][i])) {
+                        // Need sounds
+                        text = "You have picked up a " + gp.obj[gp.currentMap][i].name + "!";
+                    } else {
+                        text = "You cannot carry anymore stuff!";
+                    }
+                    gp.ui.showMessage(text);
+                    gp.obj[gp.currentMap][i] = null;
+                }
+            }
         }
     }
 

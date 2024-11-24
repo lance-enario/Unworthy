@@ -31,6 +31,7 @@ public class Skeleton extends Entity{
         solidAreaDefaultY = solidArea.y;
         getImage();
         getAttackImage();
+        knockbackPower = 5;
     }
 
     public void getImage(){

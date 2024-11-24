@@ -29,6 +29,7 @@ public class Orc extends Entity{
         solidArea = new Rectangle(10, 50, 50, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        knockbackPower = 5;
 
         getImage();
         getAttackImage();

@@ -99,7 +99,46 @@ public class Ranger extends Player{
     @Override
     public void update() {
 
-        if (keyH.bscAtkPressed && attackCounter == 30) {
+        if (knockback){
+
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+            gp.cChecker.checkOBJ(this, true);
+            gp.cChecker.checkEntity(this, gp.npc);
+            gp.cChecker.checkEntity(this, gp.signs);
+            gp.cChecker.checkEntity(this, gp.monster);
+
+
+            if (collisionOn){
+                knockbackCounter = 0;
+                knockback = false;
+                speed = defaultSpeed;
+            } else {
+                switch (gp.player.direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+
+                knockbackCounter++;
+                if (knockbackCounter == 10) {
+                    knockbackCounter = 0;
+                    knockback = false;
+                    speed = defaultSpeed;
+                }
+            //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
+          }else if (keyH.bscAtkPressed && attackCounter == 30) {
             isAttacking = true;
 
             if (attackSwitch){

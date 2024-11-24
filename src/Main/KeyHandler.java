@@ -228,14 +228,14 @@ public class KeyHandler implements KeyListener {
         }
 
         if (code == KeyEvent.VK_W) {
-            // NEED SE
+            gp.playSE(30);
             gp.ui.commandNum--;
             if (gp.ui.commandNum < 0) {
                 gp.ui.commandNum = maxCommandNum;
             }
         }
         if (code == KeyEvent.VK_S) {
-            // NEED SE
+            gp.playSE(30);
             gp.ui.commandNum++;
             if (gp.ui.commandNum > maxCommandNum) {
                 gp.ui.commandNum = 0;
@@ -246,11 +246,11 @@ public class KeyHandler implements KeyListener {
                 if (gp.ui.commandNum == 1 && gp.sound.volumeScale > 0) {
                     gp.sound.volumeScale--;
                     gp.sound.checkVolume();
-                    //NEED SE
+                    gp.playSE(30);
                 }
                 if (gp.ui.commandNum == 2 && gp.SE.volumeScale > 0) {
                     gp.SE.volumeScale--;
-                    //NEED SE
+                    gp.playSE(30);
                 }
             }
         }
@@ -259,11 +259,11 @@ public class KeyHandler implements KeyListener {
                 if (gp.ui.commandNum == 1 && gp.sound.volumeScale < 5) {
                     gp.sound.volumeScale++;
                     gp.sound.checkVolume();
-                    //NEED SE
+                    gp.playSE(30);
                 }
                 if (gp.ui.commandNum == 2 && gp.SE.volumeScale < 5) {
                     gp.SE.volumeScale++;
-                    //NEED SE
+                    gp.playSE(30);
                 }
             }
         }
@@ -274,14 +274,14 @@ public class KeyHandler implements KeyListener {
                 if(gp.ui.commandNum < 0){
                     gp.ui.commandNum = 1;
                 }
-                //NEED SE
+                gp.playSE(30);
             }
             if(code == KeyEvent.VK_S){
                 gp.ui.commandNum++;
                 if(gp.ui.commandNum > 1){
                     gp.ui.commandNum = 0;
                 }
-                //NEED SE
+                gp.playSE(30);
             }
             if(code == KeyEvent.VK_ENTER){
                 if(gp.ui.commandNum == 0){
@@ -305,14 +305,14 @@ public class KeyHandler implements KeyListener {
                     if(gp.ui.commandNum < 0){
                         gp.ui.commandNum = 1;
                     }
-                    gp.playSE(9);
+                    gp.playSE(30);
                 }
                 if(code == KeyEvent.VK_S){
                     gp.ui.commandNum++;
                     if(gp.ui.commandNum > 1){
                         gp.ui.commandNum = 0;
                     }
-                    gp.playSE(9);
+                    gp.playSE(30);
                 }
             }
             if(gp.ui.subState == 1){
@@ -334,21 +334,25 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_W){
             if(gp.ui.playerSlotRow != 0) {
+                gp.playSE(30);
                 gp.ui.playerSlotRow--;
             }
         }
         if(code == KeyEvent.VK_A){
             if(gp.ui.playerSlotCol != 0) {
+                gp.playSE(30);
                 gp.ui.playerSlotCol--;
             }
         }
         if(code == KeyEvent.VK_S){
             if(gp.ui.playerSlotRow != 3) {
+                gp.playSE(30);
                 gp.ui.playerSlotRow++;
             }
         }
         if(code == KeyEvent.VK_D){
-            if(gp.ui.playerSlotCol != 4) {
+            if(gp.ui.playerSlotCol != 3) {
+                gp.playSE(30);
                 gp.ui.playerSlotCol++;
             }
         }
@@ -358,21 +362,25 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_W){
             if(gp.ui.npcSlotRow != 0) {
+                gp.playSE(30);
                 gp.ui.npcSlotRow--;
             }
         }
         if(code == KeyEvent.VK_A){
             if(gp.ui.npcSlotCol != 0) {
+                gp.playSE(30);
                 gp.ui.npcSlotCol--;
             }
         }
         if(code == KeyEvent.VK_S){
-            if(gp.ui.npcSlotRow != 6) {
+            if(gp.ui.npcSlotRow != 3) {
+                gp.playSE(30);
                 gp.ui.npcSlotRow++;
             }
         }
         if(code == KeyEvent.VK_D){
-            if(gp.ui.npcSlotCol != 2) {
+            if(gp.ui.npcSlotCol != 3) {
+                gp.playSE(30);
                 gp.ui.npcSlotCol++;
             }
         }

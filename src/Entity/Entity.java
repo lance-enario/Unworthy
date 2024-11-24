@@ -334,8 +334,14 @@ public class Entity {
                 damage = 0;
             }
 
+            if(damage != 0){
+                setknockback(gp.player, this, knockbackPower);
+            }
+
+            setknockback(gp.player,this,knockbackPower);
             gp.player.life -= damage;
             gp.player.isInvincible = true;
+
         }
     }
 
@@ -820,4 +826,3 @@ public class Entity {
         return Math.abs(getCenterY() - target.getCenterY());
     }
 }
-

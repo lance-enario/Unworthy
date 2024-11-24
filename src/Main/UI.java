@@ -714,19 +714,19 @@ public class UI {
         if(entity == gp.player){
             frameX = gp.tileSize*17;
             frameY = gp.tileSize;
-            frameWidth = gp.tileSize*6;
+            frameWidth = gp.tileSize*5;
             frameHeight = gp.tileSize*5;
             slotCol = playerSlotCol;
             slotRow = playerSlotRow;
             g2.drawImage(shop, 1050, 0, shop.getWidth() - 400, shop.getHeight() - 400, null);
         }else{
-            frameX = gp.tileSize;
+            frameX = gp.tileSize-20;
             frameY = gp.tileSize;
-            frameWidth = gp.tileSize*6;
+            frameWidth = gp.tileSize*5;
             frameHeight = gp.tileSize*5;
             slotCol = npcSlotCol;
             slotRow = npcSlotRow;
-            g2.drawImage(shop, 0, 0, shop.getWidth() - 280, shop.getHeight() - 400, null);
+            g2.drawImage(shop, 0, 0, shop.getWidth() - 400, shop.getHeight() - 400, null);
         }
 
         //SLOT
@@ -769,7 +769,7 @@ public class UI {
 
             slotX += slotSize;
 
-            if(i == 4 || i == 9 || i == 14 || i == 19){
+            if(i == 3 || i == 8 || i == 13 || i == 18){
                 slotX = slotXstart;
                 slotY += slotSize;
             }
@@ -880,8 +880,10 @@ public class UI {
                     g2.drawString(">", textX + 15,textY);
                     if(gp.keyH.enterPressed) {
                         if (!gp.fullScreenOn) {
+                            gp.playSE(30);
                             gp.fullScreenOn = true;
                         } else if (gp.fullScreenOn) {
+                            gp.playSE(30);
                             gp.fullScreenOn = false;
                         }
                         subState = 1;

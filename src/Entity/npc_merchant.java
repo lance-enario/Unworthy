@@ -12,7 +12,7 @@ public class npc_merchant extends Entity{
             super(gp);
 
             direction = "down";
-            speed = 1;
+            speed = 0;
 
             solidArea = new Rectangle();
             solidArea.x = 8;

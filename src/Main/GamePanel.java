@@ -326,7 +326,7 @@ public class GamePanel extends Canvas implements Runnable{
             //SORT
             entityList.sort(new Comparator<Entity>() {
 
-            @Override
+                @Override
                 public int compare(Entity e1, Entity e2) {
                     return Integer.compare(e1.worldY, e2.worldY);
                 }
@@ -378,8 +378,5 @@ public class GamePanel extends Canvas implements Runnable{
         SE.setFile(i);
         SE.play();
     }
-
-
-
 
 }
