@@ -64,10 +64,10 @@ public class KeyHandler implements KeyListener {
         //refresh map
         if (code == KeyEvent.VK_R){
             switch(gp.currentMap){
-                case 0: gp.tileM.loadMap("/Maps/Stage1.txt",0); System.out.println("Refreshing 0");break;
-                case 1: gp.tileM.loadMap("/Maps/Stage2.txt",1); System.out.println("Refreshing 1");break;
-                case 2: gp.tileM.loadMap("/Maps/Stage2.txt",2); System.out.println("Refreshing 2as");break;
-                case 3: gp.tileM.loadMap("/Maps/Dungeon.txt",3); System.out.println("Refreshing 3");break;
+                case 0: gp.tileM.loadMap("/Maps/Stage1.txt",0);break;
+                case 1: gp.tileM.loadMap("/Maps/Stage2.txt",1);break;
+                case 2: gp.tileM.loadMap("/Maps/Stage2.txt",2);break;
+                case 3: gp.tileM.loadMap("/Maps/Dungeon.txt",3);break;
             }
         }
     }
@@ -124,17 +124,14 @@ public class KeyHandler implements KeyListener {
             }
             if(code == KeyEvent.VK_ENTER) {
                 if (gp.ui.commandNum == 0) {
-                    System.out.println("Do some warrior specific stuff!");
                     gp.player = gp.warrior;
                     gp.gameState = gp.playState;
                 }
                 if (gp.ui.commandNum == 1) {
-                    System.out.println("Do some mage specific stuff!");
                     gp.player = gp.mage;
                     gp.gameState = gp.playState;
                 }
                 if (gp.ui.commandNum == 2) {
-                    System.out.println("Do some ranger specific stuff!");
                     gp.player = gp.ranger;
                     gp.gameState = gp.playState;
                 }

@@ -21,7 +21,6 @@ public class obj_IronDoor2 extends Entity{
         name = "Iron_Door2";
         up1 = setup("/objects/iron_door1");
         collision = true;
-
         solidArea.x = 0;
         solidArea.y = 0;
         solidArea.width = 48;

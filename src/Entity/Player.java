@@ -24,8 +24,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47      Dungeon = 73,14
-        worldY = gp.tileSize * 41;
+        worldX = gp.tileSize * 49; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47      Dungeon = 73,14
+        worldY = gp.tileSize * 47;
         defaultSpeed = 6;
         speed = defaultSpeed;
 
@@ -105,7 +105,6 @@ public class Player extends Entity {
                     knockback = false;
                     speed = defaultSpeed;
                 }
-            //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
         }else if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
             attacking();
@@ -121,18 +120,14 @@ public class Player extends Entity {
             //MOVEMENT
             if (keyH.upPressed) {
                 direction = "up";
-                //System.out.println("up");
             } else if (keyH.downPressed) {
                 direction = "down";
-                //System.out.println("down");
             } else if (keyH.leftPressed) {
                 direction = "left";
                 maintain = direction;
-                //System.out.println("left");
             } else if (keyH.rightPressed) {
                 direction = "right";
                 maintain = direction;
-                //System.out.println("right");
             }
 
             //collision checker

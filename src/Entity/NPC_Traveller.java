@@ -8,7 +8,6 @@ public class NPC_Traveller extends Entity {
         super(gp);
         direction = "default";
         speed = 0;
-        dialogueSet = -1;
         setDialogue();
         getImage();
     }
@@ -34,25 +33,29 @@ public class NPC_Traveller extends Entity {
                  and no one went to bed cold or hungry. Now... now we are forgotten.""";
         dialogues[0][2] = """
                 Then hope is not lost. We’ve waited for this day, my lord. The people remember your kindness,
-                your courage. You’ve come back to us, and we will stand with you. Whatever you need, the 
+                your courage. You’ve come back to us, and we will stand with you. Whatever you need, the\s
                 villagers and I will follow you to the end."\
                \s""";
         dialogues[0][3] = """
-                Unfortunately, a ferocious monster guards the town gates. We of low stature, cannot enter the
-                town as the king highly forbids it. Most of your followers were cast out from the castle and
-                left to live miserably. He believes we bring misfortune to the kingdom.\s
+               Unfortunately, a band of monsters are scattered around the town gates. We of low stature,
+               cannot enter the town as it is dangerous and that also the king highly forbids it. Most
+               of your followers were cast out from the castle and left to live miserably. He believes
+               we bring misfortune to the kingdom.\s
                \s""";
         dialogues[0][4] = """
-                Please, Lord Lucian, we beg you. You’re the only one who can save us. Defeat the beast and
+                Please, Lord Lucian, we beg you. You’re the only one who can save us. Defeat the beastS and
                 free our town. Without the gates open, we can’t trade, we can’t flee—we’re at the mercy of\s
                 starvation and the king’s soldiers.
                \s""";
 
+        dialogues[1][0] = "TYSMNIDA";
     }
 
     public void speak(){
        startDialogue(this, dialogueSet);
-       dialogueSet++;
+       if(gp.ui.numberofdeadppl <=0){
+           dialogueSet++;
+       }
        if(dialogues[dialogueSet][0] == null){
            dialogueSet --;
        }

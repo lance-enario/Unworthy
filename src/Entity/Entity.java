@@ -241,9 +241,7 @@ public class Entity {
     }
 
     public void update() {
-        System.out.println(centerX);
-        System.out.println(centerY);
-
+        System.out.println(gp.ui.numberofdeadppl);
         if (knockback){
             checkCollision();
 
@@ -550,23 +548,6 @@ public class Entity {
         int col = user.getCol();
         int row = user.getRow();
 
-//        for (int[] direction : directions) {
-//            int checkCol = col + direction[0];
-//            int checkRow = row + direction[1];
-//
-//            System.out.println("Checking tile at: " + checkCol + ", " + checkRow); // Debug log
-//
-//            for (int i = 0; i < target[1].length; i++) {
-//                if (target[gp.currentMap][i] != null &&
-//                        target[gp.currentMap][i].getCol() == checkCol &&
-//                        target[gp.currentMap][i].getRow() == checkRow &&
-//                        target[gp.currentMap][i].name.equals(targetName)) {
-//                    index = i;
-//                    return index;  // Return immediately if found
-//                }
-//            }
-//        }
-
         // Checking all four directions (up, down, left, right) for target
         for (int i = 0; i < 4; i++) {
             int checkCol = col;
@@ -770,7 +751,6 @@ public class Entity {
             } else {
                 // If the player is more than 2 tiles away, stop attacking
                 isAttacking = false;
-                //System.out.println("Player is too far away to attack.");
             }
         } else {
             // If the player is not in range, stop attacking

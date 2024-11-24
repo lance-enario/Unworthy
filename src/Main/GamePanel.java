@@ -40,7 +40,7 @@ public class GamePanel extends Canvas implements Runnable{
     public  int maxWorldRow;
     public boolean fullScreenOn = false;
     public final int maxMap = 5;
-    public int currentMap = 0;
+    public int currentMap = 3;
 
     //FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -163,7 +163,7 @@ public class GamePanel extends Canvas implements Runnable{
 
             // Print FPS to console (for debugging purposes)
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + delta);
+             //   System.out.println("FPS: " + delta);
                 drawCount = 0;
                 timer = 0;
             }
@@ -218,6 +218,8 @@ public class GamePanel extends Canvas implements Runnable{
                     if(!monster[currentMap][i].isAlive){
                         monster[currentMap][i].checkDrop();
                         monster[currentMap][i] = null;
+                        ui.numberofdeadppl--;
+                        System.out.println(ui.numberofdeadppl);
                     }
                 }
             }

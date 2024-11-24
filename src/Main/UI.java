@@ -39,6 +39,7 @@ public class UI {
     int negCounter = 400;
     int currRegion = 1;
     int subState = 0;
+    public int numberofdeadppl = 1;
 
     // for cutscenes
     public BufferedImage[] cutscenes = new BufferedImage[14];
@@ -47,7 +48,6 @@ public class UI {
     boolean bg = false;
     public int cutsceneNum = 0;
     String[] caption = new String[12];
-    String displayedDialogue = "";
     Clip curr, titleBg;
     float opacity = 0.0f;
     public Entity npc; // easy access for inventory
@@ -601,7 +601,6 @@ public class UI {
             g2.drawImage(dialogueBanner, 0, 0, gp.screenWidth, 400, null);
 
         if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex] != null){
-           // currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
             char[] characters = npc.dialogues[npc.dialogueSet][npc.dialogueIndex].toCharArray();
                 if(charIndex < characters.length){
                     String s = String.valueOf(characters[charIndex]);
@@ -609,17 +608,8 @@ public class UI {
                     currentDialogue = combinedText;
                     charIndex++;
                 }
-            if(gp.keyH.enterPressed){
-                charIndex= 0;
-                combinedText = "";
-                if(gp.gameState == gp.dialogueState){
-                    npc.dialogueIndex++;
-                    System.out.println("Is ENTERing");
-                    gp.keyH.enterPressed = false;
-                }
-            }
         }else{
-            npc.dialogueIndex = 0;
+            npc.dialogueIndex--;
             if(gp.gameState == gp.dialogueState){
                 gp.gameState = gp.playState;
             }
