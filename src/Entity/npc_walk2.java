@@ -36,16 +36,16 @@ public class npc_walk2 extends Entity {
     }
 
     public void setDialogue() {
-        dialogue[0] = "Hi! Bye!";
-        dialogue[1] = "I cannot be bothered right now!";
-        dialogue[2] = "i got work to do!";
-        dialogue[3] = "Tsk";
+        dialogues[0][0] = "Hi! Bye!";
+        dialogues[0][1] = "I cannot be bothered right now!";
+        dialogues[0][2] = "i got work to do!";
+        dialogues[0][3] = "Tsk";
     }
 
     @Override
-    public void speak() {
 
-        super.speak();
+    public void speak(){
+        startDialogue(this, dialogueSet);
         onPath = true;
     }
 

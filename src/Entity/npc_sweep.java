@@ -27,15 +27,16 @@ public class npc_sweep extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Clean clean clean!";
-        dialogue[1] = "That my home be serene";
-        dialogue[2] = "Sweep sweep sweep";
-        dialogue[3] = "Dust and dirt i defeat";
+        dialogues[0][0] = "Clean clean clean!";
+        dialogues[0][1] = "That my home be serene";
+        dialogues[0][2] = "Sweep sweep sweep";
+        dialogues[0][3] = "Dust and dirt i defeat";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
 
     @Override

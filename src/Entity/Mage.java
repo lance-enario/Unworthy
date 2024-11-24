@@ -93,6 +93,8 @@ public class Mage extends Player{
         maintain = "right";
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
+
+        setDialogue();
     }
 
     public int getAttack(){

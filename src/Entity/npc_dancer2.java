@@ -27,15 +27,16 @@ public class npc_dancer2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Every movement is a story, and every step carries the weight of a thousand tales.";
-        dialogue[1] = "The secret is not in the steps but in the soul you pour into them. Without that, you’re merely moving.";
-        dialogue[2] = "Do not ask me to perform for your coin. If I dance, it is for a cause greater than gold.";
-        dialogue[3] = "The dragons of the south move in the air as I do on the ground—perhaps we share the same teacher.";
+        dialogues[0][0] = "Every movement is a story, and every step carries the weight of a thousand tales.";
+        dialogues[0][1] = "The secret is not in the steps but in the soul you pour into them. Without that, you’re merely moving.";
+        dialogues[0][2] = "Do not ask me to perform for your coin. If I dance, it is for a cause greater than gold.";
+        dialogues[0][3] = "The dragons of the south move in the air as I do on the ground—perhaps we share the same teacher.";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {

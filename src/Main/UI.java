@@ -50,13 +50,11 @@ public class UI {
     String displayedDialogue = "";
     Clip curr, titleBg;
     float opacity = 0.0f;
-    public boolean fadingOut = false;
-    public boolean transitioning = false; // True during a transition
-    private long lastUpdateTime = System.currentTimeMillis(); // Timer to control fade speed
     public Entity npc; // easy access for inventory
 
     public String currentDialogue = "";
     public String[] signDialogue = new String[20];
+    public String[] storyLine =  new String[20];
     private int charIndex = 0; // Current character index being displayed
     private Timer dialogueTimer; // Timer to control the typing effect
 
@@ -199,21 +197,18 @@ public class UI {
     }
 
     public void trade_select(){
+        npc.dialogueSet = 0;
         drawDialogueScreen();
 
-        // DRAW WINDOW
+        //  DRAW TEXTS
         int x = gp.tileSize * 15;
         int y = gp.tileSize + 20;
-        int width = gp.tileSize * 3;
-        int height = (int)(gp.tileSize * 3.5);
-
-        //  DRAW TEXTS
         x += gp.tileSize;
         y += gp.tileSize+15;
         g2.drawString("Buy", x, y);
         if(commandNum == 0){
             g2.drawString(">", x-24, y);
-            if(gp.keyH.enterPressed == true){
+            if(gp.keyH.enterPressed){
                 subState = 1;
             }
         }
@@ -222,10 +217,9 @@ public class UI {
         g2.drawString("Leave", x, y);
         if(commandNum == 1){
             g2.drawString(">", x-24, y);
-            if(gp.keyH.enterPressed == true){
+            if(gp.keyH.enterPressed){
                 commandNum = 0;
-                gp.gameState = gp.dialogueState;
-                currentDialogue = "Thank you! Come again!";
+                npc.startDialogue(npc, 1);
             }
         }
     }
@@ -256,9 +250,7 @@ public class UI {
             if(gp.keyH.enterPressed){
                 if(npc.inventory.get(itemIndex).price > gp.player.coins){
                     subState = 0;
-                    gp.gameState = gp.dialogueState;
-                    currentDialogue = "You don't have sufficient coin to buy this item!";
-                    drawDialogueScreen();
+                    npc.startDialogue(npc,2);
                 }
                 else{
                     if(gp.player.canObtainItem(npc.inventory.get(itemIndex))){
@@ -266,8 +258,7 @@ public class UI {
                     }
                     else{
                         subState = 0;
-                        gp.gameState = gp.dialogueState;
-                        currentDialogue = "Your inventory is full, you cannot carry any more items";
+                        npc.startDialogue(npc, 3);
                     }
                 }
             }
@@ -276,6 +267,8 @@ public class UI {
     }
     public void rollCutScene() {
         if (cutsceneNum == 12) {
+            gp.stopMusic();
+            curr  = titleBg;
             stopCurr();
             titleScreenState = 2;
             return;
@@ -284,6 +277,7 @@ public class UI {
         if (!bg) {
             if (titleBg == null) {
                 titleBg = gp.playCutScenes(17); // Play background sound
+
             }
             bg = true;
         }
@@ -340,12 +334,10 @@ public class UI {
     }
 
     public  void drawCaptions(int i){
-
-       // startTypewriterEffect(caption[cutsceneNum]);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32f));
         int y = 130, x = 200;
         if(cutsceneNum == 0){
-            drawDialogueScreen();
+            drawTitleBoxScreen();
             for(String line :caption[0].split("\n")){
                 g2.setColor(Color.darkGray);
                 g2.drawString(line, x, y);
@@ -571,45 +563,67 @@ public class UI {
 
     }
 
+    public void drawStorylineScreen(){
+        if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex] != null){
+            currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+            if(gp.keyH.enterPressed){
+                if(gp.gameState == gp.dialogueState){
+                    npc.dialogueIndex++;
+
+                    gp.keyH.enterPressed = false;
+                }
+            }
+        }else{
+            npc.dialogueIndex = 0;
+            if(gp.gameState == gp.dialogueState){
+                gp.gameState = gp.playState;
+            }
+        }
+
+    }
+    public void  drawTitleBoxScreen(){
+        int x = gp.tileSize*3  , y = gp.tileSize;
+        g2.drawImage(dialogueBanner, 0, 0, gp.screenWidth, 400, null);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+        x += gp.tileSize;
+        y+= gp.tileSize;
+
+        for(String line :currentDialogue.split("\n")){
+            g2.drawString(line, x-60, y + 15);
+            y += 40;
+        }
+    }
+
     public void drawDialogueScreen(){
-            int x = gp.tileSize*3  , y = gp.tileSize, width = gp.screenWidth - (gp.tileSize*6), height = gp.tileSize*4;
+            int x = gp.tileSize*3  , y = gp.tileSize;
             g2.drawImage(dialogueBanner, 0, 0, gp.screenWidth, 400, null);
+
+        if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex] != null){
+            currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+            if(gp.keyH.enterPressed){
+                if(gp.gameState == gp.dialogueState){
+                    npc.dialogueIndex++;
+                    System.out.println("Is ENTERing");
+                    gp.keyH.enterPressed = false;
+                }
+            }
+        }else{
+            npc.dialogueIndex = 0;
+            if(gp.gameState == gp.dialogueState){
+                gp.gameState = gp.playState;
+            }
+        }
 
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             x += gp.tileSize;
             y+= gp.tileSize;
 
             for(String line :currentDialogue.split("\n")){
-                g2.drawString(line, x, y + 15);
+                g2.drawString(line, x-60, y + 15);
                 y += 40;
             }
     }
-
-    public void startTypewriterEffect(String dialogue) {
-        currentDialogue = dialogue;
-
-        charIndex = 0;
-
-        if (dialogueTimer != null) {
-            dialogueTimer.stop(); // Stop any previous timer
-        }
-
-        // Timer to reveal characters one by one
-        dialogueTimer = new Timer(50, new ActionListener() { // Adjust delay (e.g., 50ms)
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (charIndex < currentDialogue.length()) {
-                    displayedDialogue += currentDialogue.charAt(charIndex); // Add the next character
-                    charIndex++;
-                    gp.repaint(); // Redraw the screen
-                } else {
-                    dialogueTimer.stop(); // Stop when the dialogue is fully displayed
-                }
-            }
-        });
-        dialogueTimer.start();
-    }
-
 
     public void drawCharacterScreen(){
         //CREATE A FRAME
@@ -1147,6 +1161,14 @@ public class UI {
             gp.eHandler.previousEventY = gp.player.worldY;
 
         }
+    }
+
+    public void storyline(){
+            storyLine[0] = """
+                    For too long, the people of Eldoria have suffered under Sirius’s reign. He was my brother once,\s
+                    but the man who sits on the throne now is no brother of mine. He has let fear and greed poison\s
+                    his heart, turning a kingdom of hope into one of despair""";
+            storyLine[1] = "";
     }
 
 }

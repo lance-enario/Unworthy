@@ -12,7 +12,7 @@ public class obj_Chest extends Entity {
     public obj_Chest(GamePanel gp, Entity loot){
         super(gp);
         this.gp = gp;
-
+        this.loot = loot;
         type = type_obstacle;
         name = "Chest";
         image = setup("/objects/chest");
@@ -26,30 +26,37 @@ public class obj_Chest extends Entity {
         solidArea.height = gp.tileSize;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        setDialogue();
+        setLoot(loot);
     }
 
     public void setLoot(Entity loot){
         this.loot = loot;
+        setDialogue();
     }
 
+
+    public void setDialogue(){
+        dialogues[0][0] = "You open the chest and find a " + loot.name + "!" + "\n...Your hands are too full to pick that up!";
+        dialogues[1][0] =  "You open the chest and find a" + loot.name + "!" + "You obtained " + loot.name +"!";
+        dialogues[2][0] =  "It's empty!";;
+
+    }
     public void interact(){
         gp.gameState = gp.dialogueState;
 
         if(!opened){
-            StringBuilder sb = new StringBuilder();
-            sb.append("You open the chest and find a " + loot.name + "!");
-
+            //SFX
             if(!gp.player.canObtainItem(loot)){
-                sb.append("\n...Your hands are too full to pick that up!");
+               startDialogue(this, 0);
             } else {
-                sb.append("\nYou obtained "+loot.name+"!");
+               startDialogue(this, 1);
                 up1 = image2;
                 opened = true;
             }
-            gp.ui.currentDialogue = sb.toString();
         }
         else {
-            gp.ui.currentDialogue = "It's empty!";
+            startDialogue(this, 2);
         }
     }
 }

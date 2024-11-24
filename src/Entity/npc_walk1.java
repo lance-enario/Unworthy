@@ -28,17 +28,17 @@ public class npc_walk1 extends Entity {
     }
 
     public void setDialogue() {
-        dialogue[0] = "Oops! Sorry";
-        dialogue[1] = "Out of the way mate!";
-        dialogue[2] = "Pardon!";
-        dialogue[3] = "Im on a hurry!!";
+        dialogues[0][0] = "Oops! Sorry";
+        dialogues[0][1] = "Out of the way mate!";
+        dialogues[0][2] = "Pardon!";
+        dialogues[0][3] = "Im on a hurry!!";
     }
 
     @Override
-    public void speak() {
-        super.speak();
-    }
 
+    public void speak(){
+        startDialogue(this, dialogueSet);
+    }
 
     @Override
     public void setAction() {

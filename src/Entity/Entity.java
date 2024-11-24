@@ -25,6 +25,7 @@ public class Entity {
     public int audioCounter = 0;
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public String[][] dialogues = new String[20][20];
     public Entity attacker;
 
 
@@ -37,6 +38,7 @@ public class Entity {
     public boolean knockback = false;
     public String knockBackDirection;
     public boolean isTransparent = false;
+    public int dialogueSet = 0;
 
     //placeholder area lines for collision & dialogue check
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
@@ -57,7 +59,8 @@ public class Entity {
 
 
     public String[] dialogue = new String[20];
-    int dialogueIndex = 0;
+    public int dialogueIndex = 0;
+
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision = false;
@@ -141,6 +144,19 @@ public class Entity {
         }
         gp.ui.currentDialogue = dialogue[dialogueIndex];
         dialogueIndex++;
+
+        switch (gp.player.direction){
+            case "up":  direction = "down"; break;
+            case "left": direction = "right"; break;
+            case "down": direction = "up"; break;
+            case "right": direction = "left"; break;
+        }
+    }
+
+    public void startDialogue(Entity entity, int setNum){
+        gp.gameState = gp.dialogueState;
+        gp.ui.npc = entity;
+        dialogueSet = setNum;
 
         switch (gp.player.direction){
             case "up":  direction = "down"; break;

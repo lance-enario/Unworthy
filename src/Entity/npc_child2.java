@@ -27,15 +27,16 @@ public class npc_child2 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Let’s pretend the floor is lava, and we’re pirates trying to save the treasure!";
-        dialogue[1] = "If cats have nine lives, how do they remember which one they’re on?";
-        dialogue[2] = "If we dig deep enough in the sandbox, do you think we’ll find a dragon egg?";
-        dialogue[3] = "I don’t need a nap. Naps are for grown-ups who drink coffee!";
+        dialogues[0][0] = "Let’s pretend the floor is lava, and we’re pirates trying to save the treasure!";
+        dialogues[0][1] = "If cats have nine lives, how do they remember which one they’re on?";
+        dialogues[0][2] = "If we dig deep enough in the sandbox, do you think we’ll find a dragon egg?";
+        dialogues[0][3] = "I don’t need a nap. Naps are for grown-ups who drink coffee!";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {

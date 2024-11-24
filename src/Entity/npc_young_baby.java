@@ -27,16 +27,17 @@ public class npc_young_baby extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Shh, little one, rest now. The world can wait for you. I’ll carry you through it all.";
-        dialogue[1] = "One day, you’ll be grown and strong, and I’ll be the one needing help to carry you.";
-        dialogue[2] = "You’ll see great things, my dear. The world will be a better place because of you.";
-        dialogue[3] = "The road is long, but we will walk it together. I’ll carry you through it all, my love.";
+        dialogues[0][0] = "Shh, little one, rest now. The world can wait for you. I’ll carry you through it all.";
+        dialogues[0][1] = "One day, you’ll be grown and strong, and I’ll be the one needing help to carry you.";
+        dialogues[0][2] = "You’ll see great things, my dear. The world will be a better place because of you.";
+        dialogues[0][3] = "The road is long, but we will walk it together. I’ll carry you through it all, my love.";
 
     }
 
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
+
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;

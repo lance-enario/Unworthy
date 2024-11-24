@@ -91,10 +91,9 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_ENTER) {
                 if (gp.ui.commandNum == 0) {
                     gp.ui.titleScreenState = 1;
-                    //gp.playMusic(0);
                 }
                 if (gp.ui.commandNum == 1) {
-                    //add later
+                   //add later
                 }
                 if (gp.ui.commandNum == 2) {
                     System.exit(0);
@@ -103,7 +102,6 @@ public class KeyHandler implements KeyListener {
         }else if(gp.ui.titleScreenState == 1){
             if(code == KeyEvent.VK_ENTER){
                 gp.ui.cutsceneNum++;
-                //gp.ui.fadingOut = true;
             }
             if(code == KeyEvent.VK_D){
                 gp.ui.titleScreenState = 2;
@@ -192,19 +190,17 @@ public class KeyHandler implements KeyListener {
     }
 
     public void pauseState(int code){
-//        if (code == KeyEvent.VK_P){
-//            gp.gameState = gp.playState;
-//        }
+
     }
 
     public void dialogueState(int code){
         if (code == KeyEvent.VK_ENTER) {
+            gp.ui.npc.dialogueIndex++;
             gp.gameState = gp.playState;
         }
     }
 
     public void characterState(int code){
-
         // Need soundeffect
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.playState;

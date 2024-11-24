@@ -43,6 +43,7 @@ public class Warrior extends Player{
         setDefaultValues();
         getPlayerImage();
         setItems();
+        setDialogue();
     }
 
     public void setDefaultValues() {

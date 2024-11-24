@@ -27,15 +27,16 @@ public class npc_farmer1 extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "This loaf of bread? It’s more than food—it’s the sweat of my brow and the blessing of the soil.";
-        dialogue[1] = "I’m no hero, but my plow keeps the kingdom fed. That’s enough for me.";
-        dialogue[2] = "Every sunrise over the fields is a gift. The day it stops feeling like one, I’ll know it’s time to rest.";
-        dialogue[3] = "No dragon, no war, no curse will stop me from harvesting these fields. My family needs bread.";
+        dialogues[0][0] = "This loaf of bread? It’s more than food—it’s the sweat of my brow and the blessing of the soil.";
+        dialogues[0][1] = "I’m no hero, but my plow keeps the kingdom fed. That’s enough for me.";
+        dialogues[0][2] = "Every sunrise over the fields is a gift. The day it stops feeling like one, I’ll know it’s time to rest.";
+        dialogues[0][3] = "No dragon, no war, no curse will stop me from harvesting these fields. My family needs bread.";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {

@@ -19,14 +19,19 @@ public class obj_Potion extends Entity {
         up1 = setup("/objects/potion");
         description = "[" + name + "]\nA magical salve that\ncan mend even the\ndeepest of wounds.";
         stackable = true;
+        setDialogue();
+    }
+
+    public void setDialogue(){
+        dialogues[0][0] = "You drink the " + name + "!\n" + "Your wounds have been healed by " + value + ".";
     }
     public boolean use(Entity e){
-        gp.gameState = gp.dialogueState;
-        gp.ui.currentDialogue = "You drink the " + name + "!\n" + "Your wounds have been healed by " + value + ".";
+        startDialogue(this, 0);
         e.life += value;
         if(gp.player.life > gp.player.maxLife){
             gp.player.life = gp.player.maxLife;
         }
+
         //needs sounds
         return true;
     }

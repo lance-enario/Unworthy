@@ -23,15 +23,16 @@ public class npc_cat extends Entity {
         right2 = setup("/NPC/cat/cat_1");
     }
     public void setDialogue(){
-        dialogue[0] = "*meow*";
-        dialogue[1] = "*meeooww*";
-        dialogue[2] = " *meow?*";
-        dialogue[3] = "What you lookin at? I said meow";
+        dialogues[0][0] = "*meow*";
+        dialogues[0][1] = "*meeooww*";
+        dialogues[0][2] = " *meow?*";
+        dialogues[0][3] = "What you lookin at? I said meow";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
 
 

@@ -10,6 +10,7 @@ public class EventHandler {
     GamePanel gp;
     Rectangle eventRect;
     int eventRectDefaultX, eventRectDefaultY;
+    Entity eventMaster;
 
     int previousEventY;
     int previousEventX;
@@ -20,7 +21,7 @@ public class EventHandler {
     public EventHandler(GamePanel gp){
         this.gp = gp;
 
-
+        eventMaster = new Entity(gp);
         eventRect = new EventRect();
         eventRect.x = 23;
         eventRect.y = 23;
@@ -28,6 +29,14 @@ public class EventHandler {
         eventRect.height = 25;
         eventRectDefaultX = eventRect.x;
         eventRectDefaultY = eventRect.y;
+    }
+
+//    public void interact(){
+//        startDialogue(this, 0);
+//    }
+
+    public void setDialogue(){
+        eventMaster.dialogues[0][0] =  "You fell in a hole and took damage! \nYou climb up the hole.";
     }
 
     public void checkEvent(){
@@ -39,7 +48,6 @@ public class EventHandler {
             canTouchEvent = true;
         }
 
-        if(canTouchEvent){
             // 0 to 1
             if (canTouchEvent) {
                 //dungeon hole
@@ -124,7 +132,7 @@ public class EventHandler {
                 else if(hit(1, 12, 9, "up")) {speak(gp.npc[1][0]);}
             }
         }
-    }
+
 
     public boolean hit(int map,int col ,int row, String reqDirection){
         boolean hit = false;
@@ -161,15 +169,17 @@ public class EventHandler {
         canTouchEvent = false;
     }
 
+
+
     public void damagePit(int gameState){
         gp.gameState = gameState;
-        gp.ui.currentDialogue = "You fell in a hole and took damage! \nYou climb up the hole."; // depending on the dialogue
+        eventMaster.startDialogue(eventMaster, 0);
         gp.player.life -= 1;
         canTouchEvent = false;
     }
 
     public void speak(Entity entity){
-        if(gp.keyH.enterPressed == true){
+        if(gp.keyH.enterPressed){
             gp.gameState = gp.dialogueState;
             entity.speak();
         }

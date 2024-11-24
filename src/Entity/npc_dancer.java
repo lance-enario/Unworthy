@@ -27,15 +27,16 @@ public class npc_dancer extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "One day, I’ll dance for the king and queen, and they’ll toss gold coins at my feet!";
-        dialogue[1] = "Do you think the minstrel’s lute can play a tune fast enough for my twirls?";
-        dialogue[2] = "Let’s pretend the marketplace is a grand hall, and I’m dancing for all the nobles!";
-        dialogue[3] = "I’ll travel to the next kingdom and learn dances from faraway lands. Imagine the stories in their steps!";
+        dialogues[0][0] = "One day, I’ll dance for the king and queen, and they’ll toss\ngold coins at my feet!";
+        dialogues[0][1] = "Do you think the minstrel’s lute can play a tune fast enough for my twirls?";
+        dialogues[0][2] = "Let’s pretend the marketplace is a grand hall, and I’m dancing for all the nobles!";
+        dialogues[0][3] = "I’ll travel to the next kingdom and learn dances from faraway lands.\nImagine the stories in their steps!";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {

@@ -27,15 +27,16 @@ public class npc_old_baby extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "Hush now, little one. The world may be loud, but I’ll keep you safe in my arms.";
-        dialogue[1] = "Isn't she an adorable little bundle?";
-        dialogue[2] = "Look at those tiny hands. One day, they’ll shape a world far beyond my time.";
-        dialogue[3] = "I may not see you take your first steps, but I’ll carry you as far as I can.";
+        dialogues[0][0] = "Hush now, little one. The world may be loud, but I’ll keep you safe in my arms.";
+        dialogues[0][1] = "Isn't she an adorable little bundle?";
+        dialogues[0][2] = "Look at those tiny hands. One day, they’ll shape a world far beyond my time.";
+        dialogues[0][3] = "I may not see you take your first steps, but I’ll carry you as far as I can.";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {

@@ -28,15 +28,14 @@ public class obj_IronDoor2 extends Entity{
         solidArea.height = 32;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        setDialogue();
     }
     public void interact(){
-        gp.gameState = gp.dialogueState;
-        gp.ui.currentDialogue = "It wont budge!";
-
+        startDialogue(this, 0);
     }
 
     public void setDialogue(){
-
+        dialogues[0][0] =  "It wont budge!";
     }
     public BufferedImage setup(String imagePath) {
 

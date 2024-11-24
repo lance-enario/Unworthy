@@ -37,7 +37,7 @@ public class Ranger extends Player{
 
         attackArea.width = 64;
         attackArea.height = 64;
-
+        setDialogue();
         setDefaultValues();
         getPlayerImage();
         setItems();

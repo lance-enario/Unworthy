@@ -17,18 +17,10 @@ public class Player extends Entity {
     int max=4,min=1;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-
         super(gp);          // setter for gp
         this.keyH = keyH;   //setter for keyH
-
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-
-        // (30, 75, 45, 40)
-        //DialogueArea = new Rectangle(13, 40, 100, 100);
-        //solidArea = new Rectangle(40,80, 33, 32);
-        //solidAreaDefaultX = solidArea.x;
-        //solidAreaDefaultY = solidArea.y;
     }
 
     public void setDefaultValues() {
@@ -53,6 +45,7 @@ public class Player extends Entity {
         maintain = "right";
         isAttacking = false;
         projectile = new obj_MageAttack(gp);
+        setDialogue();
     }
 
     public void setItems(){
@@ -233,6 +226,10 @@ public class Player extends Entity {
         }
     }
 
+    public void setDialogue(){
+        dialogues[0][0] = "You leveled up to " + level + "!\n" + "You are now stronger than you are before";
+    }
+
     public void attacking(){
         int currentWorldX = worldX;
         int currentWorldY = worldY;
@@ -301,7 +298,6 @@ public class Player extends Entity {
     public void interactNPC(int i) {
              if(i!=999){
                  if(gp.keyH.enterPressed){
-                     gp.gameState = gp.dialogueState;
                      gp.npc[gp.currentMap][i].speak();
                  }
              }
@@ -387,7 +383,7 @@ public class Player extends Entity {
 
             //need sound effect;
             gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "You leveled up to " + level + "!\n" + "You are now stronger than you are before";
+            startDialogue(this, 0);
         }
     }
 

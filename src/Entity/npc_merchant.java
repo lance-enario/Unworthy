@@ -40,7 +40,10 @@ public class npc_merchant extends Entity{
         }
 
         public void setDialogue(){
-            dialogue[0] = "Hey there!\nI have some good stuff.\nDo you want to buy?";
+            dialogues[0][0] = "Hey there!\nI have some good stuff.\nDo you want to buy?";
+            dialogues[1][0] = "Thank you! Come again!";
+            dialogues[2][0] = "You don't have sufficient coin to buy this item!";
+            dialogues[3][0] = "Your inventory is full, you cannot carry any more items";
 
         }
 
@@ -51,7 +54,7 @@ public class npc_merchant extends Entity{
         }
 
         public void speak(){
-            super.speak();
+            startDialogue(this, dialogueSet);
             gp.gameState = gp.buyState;
             gp.ui.npc = this;
 

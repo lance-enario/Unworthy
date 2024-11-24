@@ -27,16 +27,17 @@ public class npc_blacksmith extends Entity {
     }
 
     public void setDialogue(){
-        dialogue[0] = "By Hammer and Hand All Arts Do Stand!";
-        dialogue[1] = "\tDoes that one interest you?";
-        dialogue[2] = " Heat, beat, repeat.";
-        dialogue[3] = "A blacksmiths hell is not made of fire and brimstone, It is a world of clinker\"\n" +
+        dialogues[0][0] = "By Hammer and Hand All Arts Do Stand!";
+        dialogues[0][1] = "\tDoes that one interest you?";
+        dialogues[0][2] = " Heat, beat, repeat.";
+        dialogues[0][3] = "A blacksmiths hell is not made of fire and brimstone, It is a world of clinker\"\n" +
                 "thats not the exact wording but ya..read it somewhere..";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {
