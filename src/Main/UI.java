@@ -287,23 +287,24 @@ public class UI {
             }
             bg = true;
         }
-        if(cutsceneNum == 0){drawIntro();}
-        g2.drawImage(cutscenes[cutsceneNum], 0, 0, gp.screenWidth, gp.screenHeight, null);
-        //Draw the cutscene image with applied opacity
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        g2.setColor(Color.black);
-        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-        if (!soundPlayed[cutsceneNum]) {
-            fadingOut = true;
-            playNarrationClip(cutsceneNum + 3); // Play narration for the current cutscene
-            soundPlayed[cutsceneNum] = true;   // Mark as played to prevent repeats
+        if(cutsceneNum == 0){
+            g2.drawImage(cutscenes[0], 0, 0, gp.screenWidth, gp.screenHeight, null);
+            if (!soundPlayed[0]) {
+                playNarrationClip(3); // Play narration for the current cutscene
+                soundPlayed[0] = true;   // Mark as played to prevent repeats
+            }
+            setCaptions();
+            drawCaptions(cutsceneNum);
+            drawNarrationIntro();
+        }else{
+            g2.drawImage(cutscenes[cutsceneNum], 0, 0, gp.screenWidth, gp.screenHeight, null);
+            if (!soundPlayed[cutsceneNum]) {
+                playNarrationClip(cutsceneNum + 3); // Play narration for the current cutscene
+                soundPlayed[cutsceneNum] = true;   // Mark as played to prevent repeats
+            }
+            setCaptions();
+            drawCaptions(cutsceneNum);
         }
-        setCaptions();
-        drawCaptions(cutsceneNum);
-       // startTypewriterEffect(caption[cutsceneNum]);
-
 
     }
 
@@ -362,9 +363,9 @@ public class UI {
              if(caption[i] != null) {
                  for(String line :caption[i].split("\n")){
                      g2.setColor(Color.darkGray);
-                     g2.drawString(line, x, y);
+                     g2.drawString(line, x-90, y);
                      g2.setColor(Color.white);
-                     g2.drawString(line, x, y+3);
+                     g2.drawString(line, x-90, y+3);
                      y+=50;
                  }
              }
@@ -1098,33 +1099,6 @@ public class UI {
         return tailX - length;
     }
 
-
-    public void handleFadeEffect() {
-        long currentTime = System.currentTimeMillis();
-        long elapsed = currentTime - lastUpdateTime;
-
-        if (elapsed > 2) { // ~60 FPS fade speed
-            lastUpdateTime = currentTime;
-
-            if (fadingOut) {
-                opacity += 0.02f; // Fade to black
-                if (opacity >= 1.0f) { // Fully faded out
-                    opacity = 1.0f;
-                    fadingOut = false; // Start fading in
-                    transitioning = true; // Still in transition
-                    System.out.println("fade in");
-                }
-            } else if (transitioning) {
-                opacity -= 0.02f; // Fade back to the scene
-                if (opacity <= 0.0f) { // Fully faded in
-                    opacity = 0.0f;
-                    transitioning = false; // Transition complete
-                    System.out.println("fade out");
-                }
-            }
-        }
-    }
-
     public void drawIntro(){
 
         if (negCounter > 0) {
@@ -1145,6 +1119,14 @@ public class UI {
         }
     }
 
+    public void drawNarrationIntro(){
+        if (negCounter > 0) {
+            negCounter -= 4;
+            float alpha = (negCounter <= 200) ? Math.max(0.0f, Math.min(negCounter * 1.275f / 255.0f, 1.0f)) : 1.0f;
+            g2.setColor(new Color(0, 0, 0, (int) (alpha * 255)));
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        }
+    }
 
 
     public void drawTransition(){
@@ -1156,16 +1138,11 @@ public class UI {
 
         if (counter >= 500) {
             counter = 0;
-
             gp.gameState = gp.playState;
-
             // Teleport the player to the new position
             gp.player.worldX = gp.tileSize * gp.eHandler.tempCol;
             gp.player.worldY = gp.tileSize * gp.eHandler.tempRow;
-
             gp.currentMap = gp.eHandler.tempMap;  // Set the map to the temporary map
-
-
             gp.eHandler.previousEventX = gp.player.worldX;
             gp.eHandler.previousEventY = gp.player.worldY;
 
