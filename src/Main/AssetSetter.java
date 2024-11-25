@@ -18,14 +18,6 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldX = 39 * gp.tileSize;
         gp.obj[mapNum][i].worldY =42 * gp.tileSize;
         i++;
-        gp.obj[mapNum][i] = new obj_Chest(gp, new obj_Key(gp));
-        gp.obj[mapNum][i].worldX = 41 * gp.tileSize;
-        gp.obj[mapNum][i].worldY = 42 * gp.tileSize;
-        i++;
-        gp.obj[mapNum][i] = new obj_Potion(gp);
-        gp.obj[mapNum][i].worldX = 45 * gp.tileSize;
-        gp.obj[mapNum][i].worldY = 42 * gp.tileSize;
-        i++;
         gp.obj[mapNum][i] = new obj_guardl(gp);
         gp.obj[mapNum][i].worldX = 82 * gp.tileSize;
         gp.obj[mapNum][i].worldY =41 * gp.tileSize;
@@ -61,7 +53,7 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldY = 18 * gp.tileSize;
         i++;
 
-        gp.obj[mapNum][i] = new obj_Chest(gp, new obj_Door(gp));
+        gp.obj[mapNum][i] = new obj_Chest(gp, new obj_Key(gp));
         gp.obj[mapNum][i].worldX = 56 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 32 * gp.tileSize;
         i++;
@@ -77,10 +69,6 @@ public class AssetSetter {
         gp.npc[mapNum][i].worldY = 40 * gp.tileSize;
         i++;
 
-        gp.npc[mapNum][i] = new SIGN(gp, gp.ui.signDialogue[0]);
-        gp.npc[mapNum][i].worldX = 21 * gp.tileSize;
-        gp.npc[mapNum][i].worldY = 40 * gp.tileSize;
-        i++;
 
         mapNum = 1;
 //        gp.npc[mapNum][i] = new npc_guardr(gp);
@@ -91,10 +79,14 @@ public class AssetSetter {
 //        gp.npc[mapNum][i].worldX = 49 * gp.tileSize;
 //        gp.npc[mapNum][i].worldY = 22 * gp.tileSize;
 //        i++;
+        gp.npc[mapNum][i] = new NPC_Traveller(gp);
+        gp.npc[mapNum][i].worldX = 16 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 47 * gp.tileSize;
+        i++;
 
         gp.npc[mapNum][i] = new npc_merchant(gp);
-        gp.npc[mapNum][i].worldX = 20 * gp.tileSize;
-        gp.npc[mapNum][i].worldY = 50 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = 42 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 46 * gp.tileSize;
         i++;
 
         gp.npc[mapNum][i] = new npc_bard1(gp);
@@ -138,13 +130,13 @@ public class AssetSetter {
         i++;
 
         gp.npc[mapNum][i] = new npc_young_baby(gp);
-        gp.npc[mapNum][i].worldX = 58 * gp.tileSize;
-        gp.npc[mapNum][i].worldY = 45 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = 51 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 53 * gp.tileSize;
         i++;
 
         gp.npc[mapNum][i] = new npc_blacksmith(gp);
-        gp.npc[mapNum][i].worldX = (51 * gp.tileSize) - (gp.tileSize/3);
-        gp.npc[mapNum][i].worldY = 53 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = (58 * gp.tileSize) - (gp.tileSize/3);
+        gp.npc[mapNum][i].worldY = 45 * gp.tileSize;
         i++;
 
         gp.npc[mapNum][i] = new npc_child1(gp);

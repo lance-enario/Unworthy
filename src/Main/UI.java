@@ -609,7 +609,7 @@ public class UI {
                     charIndex++;
                 }
         }else{
-            npc.dialogueIndex--;
+            npc.dialogueIndex = 0;
             if(gp.gameState == gp.dialogueState){
                 gp.gameState = gp.playState;
             }

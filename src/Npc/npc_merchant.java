@@ -27,17 +27,16 @@ public class npc_merchant extends Entity {
             setItems();
         }
 
-        public void getImage(){
-            up1 = setup("/NPC/farmer2/farmer2_1");
-            up2 = setup("/NPC/farmer2/farmer2_2");
-            down1 = setup("/NPC/farmer2/farmer2_3");
-            down2 = setup("/NPC/farmer2/farmer2_1");
-            left1 = setup("/NPC/farmer2/farmer2_2");
-            left2 = setup("/NPC/farmer2/farmer2_3");
-            right1 = setup("/NPC/farmer2/farmer2_3");
-            right2 = setup("/NPC/farmer2/farmer2_3");
-
-        }
+    public void getImage() {
+        up1 = setup("/NPC/farmer2/farmer2_1");
+        up2 = setup("/NPC/farmer2/farmer2_2");
+        down1 = setup("/NPC/farmer2/farmer2_3");
+        down2 = setup("/NPC/farmer2/farmer2_1");
+        left1 = setup("/NPC/farmer2/farmer2_2");
+        left2 = setup("/NPC/farmer2/farmer2_3");
+        right1 = setup("/NPC/farmer2/farmer2_2");
+        right2 = setup("/NPC/farmer2/farmer2_2");
+    }
 
         public void setDialogue(){
             dialogues[0][0] = "Hey there!\nI have some good stuff.\nDo you want to buy?";

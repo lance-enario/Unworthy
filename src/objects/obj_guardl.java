@@ -34,11 +34,25 @@ public class obj_guardl extends Entity {
     }
 
     public void interact(){
-        startDialogue(this, 0);
+        if (gp.ui.numberofdeadppl <=0) {
+            gp.obj[gp.currentMap][1] = null;
+        }else{
+            startDialogue(this, 0);
+        }
+
+
+    }
+
+    @Override
+    public void setAction(){
+        if (gp.ui.numberofdeadppl <=0) {
+            gp.obj[0][1] = null;
+        }
     }
 
     public void setDialogue(){
         dialogues[0][0] =  "You cannot enter here!";
+        dialogues[1][0] =  "You can now traverse to the village.";
     }
 
     public BufferedImage setup(String imagePath) {
@@ -59,6 +73,7 @@ public class obj_guardl extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
+
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
@@ -71,7 +86,7 @@ public class obj_guardl extends Entity {
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
             switch (direction) {
-                case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
+                case "right":
                     if (spriteNum == 1) image = up1;
                     if (spriteNum == 2) image = up2;
                     if (spriteNum == 3) image = down1;
@@ -83,7 +98,7 @@ public class obj_guardl extends Entity {
                     break;
             }
 
-            boolean shouldFlip = direction.equals("left");
+            boolean shouldFlip = direction.equals("right");
 
 
             if (shouldFlip) {

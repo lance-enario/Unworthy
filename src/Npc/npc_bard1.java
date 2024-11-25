@@ -32,20 +32,32 @@ npc_bard1 extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Fine day innit!";
-        dialogues[0][1] = "Puff, the magic dragon lived by the sea\n" +
-                      "And frolicked in the autumn mist in a land called Honah Lee\n" +
-                      "Little Jackie Paper loved that rascal Puff\n" +
-                      "And brought him strings, and sealing wax, and other fancy stuff";
-        dialogues[0][2] = " Oh, Puff, the magic dragon lived by the sea\n" +
-                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
-                "Puff, the magic dragon, lived by the sea\n" +
-                "And frolicked in the autumn mist, in a land called Honah Lee";
-        dialogues[0][3] = "Together they would travel on a boat with billowed sail\n" +
-                "Jackie kept a lookout perched on Puff's gigantic tail\n" +
-                "Noble kings and princes would bow whenever they came\n" +
-                "Pirate ships would lower their flags when Puff roared out his name";
-
+        dialogues[0][0] = "Ah, a lord graces my stage! Tell me, traveler, do you seek\n" +
+                          "a tale or a tune? Or perhaps... both?";
+        dialogues[0][1] = "The Tomb, you say? A dangerous tune, that one. Many have sought\n" +
+                          " its secrets, and most never sang again. But I’ll share what I know...\nin song, of course.";
+        dialogues[0][2] = """
+               In the southeasts where the winds bite deep,
+               A sovereign lies in eternal sleep.
+               Beneath the ice, in the frozen gloom,
+               A tomb awaits—a ruler’s doom.
+               \s""";
+        dialogues[0][3] = """
+               The Soulbrand rests where the frost is cold,
+               A blade of legend, both dark and bold.
+               The dead rise here, their whispers loud,
+               To guard the relic beneath its shroud."
+               \s""";
+        dialogues[0][4] = """
+                But beware, brave knight, of the blade you seek,
+                Its power tempts both strong and weak.
+                The Soulbrand’s call, a chilling sound,
+                Can raise a king—or drag him down."*
+               \s""";
+        dialogues[0][5] = """
+                A brave soul, indeed! May your steps be swift, your blade be true,
+                And when you return, perhaps a song or two? Best of luck, Lord Lucian."
+               \s""";
     }
 
 

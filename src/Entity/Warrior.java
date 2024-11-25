@@ -36,8 +36,8 @@ public class Warrior extends Player{
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 64;
-        attackArea.height = 128;
+        attackArea.width = 175;
+        attackArea.height = 150;
         currentWeapon = new obj_Sword(gp);
         currentShield = new obj_ArmorNoob(gp);
         setDefaultValues();

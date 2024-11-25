@@ -30,15 +30,17 @@ public class obj_guard extends Entity {
         solidArea.height = 64;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        setDialogue();
     }
 
-    public void interact(){
-        startDialogue(this, 0);
+    public void interact() {
+
+        gp.gameState = gp.dialogueState;
+        gp.ui.currentDialogue = "You cannot enter here!";
+
     }
 
-    public void setDialogue(){
-        dialogues[0][0] =  "You cannot enter here!";
+    public void setDialogue() {
+
     }
 
     public BufferedImage setup(String imagePath) {
