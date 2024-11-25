@@ -71,8 +71,8 @@ public class Mage extends Player{
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 59; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
-        worldY = gp.tileSize * 32;
+        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
+        worldY = gp.tileSize * 41;
         speed = 15; // 3 default but increased just for testing
 
         // PLAYER STATUS

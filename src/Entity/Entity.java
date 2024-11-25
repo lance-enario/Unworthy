@@ -241,7 +241,7 @@ public class Entity {
     }
 
     public void update() {
-        System.out.println(gp.ui.numberofdeadppl);
+        //System.out.println(gp.ui.numberofdeadppl);
         if (knockback){
             checkCollision();
 

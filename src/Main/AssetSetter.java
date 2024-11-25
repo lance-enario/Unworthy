@@ -25,6 +25,10 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldX = 45 * gp.tileSize;
         gp.obj[mapNum][i].worldY = 42 * gp.tileSize;
         i++;
+        gp.obj[mapNum][i] = new obj_guardl(gp);
+        gp.obj[mapNum][i].worldX = 82 * gp.tileSize;
+        gp.obj[mapNum][i].worldY =41 * gp.tileSize;
+        i++;
 
         // Map 1 Village
         mapNum = 1;
