@@ -4,6 +4,7 @@ import Entity.Entity;
 import Entity.Projectile;
 import Main.GamePanel;
 import Main.UtilityTool;
+import objects.obj_BossProj;
 import objects.obj_Coin;
 import objects.obj_LichSkill;
 import objects.obj_Potion;
@@ -25,9 +26,9 @@ public class Boss_King extends Entity{
     BufferedImage[] transformFrames = new BufferedImage[8];
 
     //ult frames for Sirius
-    BufferedImage[] ultWalkFrames = new BufferedImage[6];
-    BufferedImage[] ultIdleFrames = new BufferedImage[6];
-    BufferedImage[] ultBscAttackFrames = new BufferedImage[7];
+    BufferedImage[] ultWalkFrames = new BufferedImage[8];
+    BufferedImage[] ultIdleFrames = new BufferedImage[8];
+    BufferedImage[] ultBscAttackFrames = new BufferedImage[8];
 
     // ATTACK INTERVALS
     int attackInterval = 120;
@@ -35,8 +36,11 @@ public class Boss_King extends Entity{
     int skill2Interval = 0;
     int skill3Interval = 0;
 
+
+    int transformCounter = 0;
     // BOOLEAN
-    boolean isCasting = false;
+    boolean isTransformed = false;
+    boolean isDead = false;
 
     public static final String king = "King Sirius";
 
@@ -45,25 +49,38 @@ public class Boss_King extends Entity{
 
         this.gp = gp;
 
-        defaultSpeed = 3;
+        defaultSpeed = 1;
         speed = defaultSpeed;
         type = type_boss; //monster type
         name = king;
-        maxLife = 200;
+        maxLife = 100;
         life = maxLife;
         attack = 5;
         defense = 0;
         exp = 200;
-        solidArea = new Rectangle(32, 92, 150, 200);
+        solidArea = new Rectangle(32, 64, 64, 96);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
         getImage();
     }
 
-    public void skill1(){
 
+    public void skill2() {
+        String[] directions = {"up", "down", "left", "right", "upleft", "upright", "downleft", "downright"};
+        for (int i = 0; i < directions.length; i++) {
+            Projectile proj = new obj_BossProj(gp);
+            proj.set(worldX, worldY, directions[i], true, this);
+            for(int j = 0; j < gp.projectile[1].length; j++){
+                if(gp.projectile[gp.currentMap][j] == null){
+                    gp.projectile[gp.currentMap][j] = proj;
+                    break;
+                }
+            }
+        }
+        gp.playSE(19);
     }
+
 
     public void getImage(){
         for (int i = 0; i < 8; i++) {
@@ -79,41 +96,174 @@ public class Boss_King extends Entity{
 
     @Override
     public void setAction() {
-        // If the Lich King is within casting range, start casting
-        if (getTileDistance(gp.player) < 2) {
-            spriteNum = 1; // Reset sprite animation for casting
-            spriteCounter = 0;
+
+        if(onPath) {
+            //check if it stops chasing
+            checkStopChasingOrNot(gp.player,15,100);
+
+            //search direction to go
+            searchPath(getGoalCol(gp.player),getGoalRow(gp.player));
+        } else {
+            //check if it starts chasing
+            checkStartChasingOrNot(gp.player,5,100);
+            //get a random direction
+            getRandomDirection();
+        }
+
+        if(!isAttacking){
+            checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);
         }
     }
 
     @Override
     public void update() {
 
+        if (life < 50){
+            isTransformed = true;
+            transformCounter++;
+        }
+
+        if (life <= 0){
+            isDead = true;
+        }
+
+        if (isTransformed && attackInterval == 120){
+            skill2();
+            attackInterval = 0;
+        }
+
+        if (knockback){
+            checkCollision();
+
+            if (collisionOn){
+                knockbackCounter = 0;
+                knockback = false;
+                speed = defaultSpeed;
+            } else {
+                switch(knockBackDirection){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+
+                knockbackCounter++;
+                if (knockbackCounter == 10){
+                    knockbackCounter = 0;
+                    knockback = false;
+                    speed = defaultSpeed;
+                }
+            }
+        } else if(isAttacking){
+            attacking();
+            checkStopChasingOrNot(gp.player,1,100);
+        } else {
+            setAction();
+            checkCollision();
+        }
+
+        if (isInvincible){
+            invincibleCounter++;
+            if (invincibleCounter > 30){
+                isInvincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up":
+                    worldY -= speed;
+                    break;
+                case "down":
+                    worldY += speed;
+                    break;
+                case "left":
+                    worldX -= speed;
+                    break;
+                case "right":
+                    worldX += speed;
+                    break;
+            }
+        }
+
         if (attackInterval < 120){
             attackInterval++;
         }
 
-        super.update();
+        spriteCounter++;
+
+        if (spriteCounter > 6) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+            } else if (spriteNum == 3) {
+                spriteNum = 4;
+            } else if (spriteNum == 4) {
+                spriteNum = 5;
+            } else if (spriteNum == 5) {
+                spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            }  else if (spriteNum == 7) {
+                spriteNum = 8;
+            }  else {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+
     }
 
 
     @Override
     public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
-        if (worldX + gp.tileSize * 6 > gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize * 6 > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-            // Normal movement sprites
-            switch (direction) {
-                case "up" -> image = spriteNum == 1 ? up1 : up2;
-                case "down" -> image = spriteNum == 1 ? down1 : down2;
-                case "left" -> image = spriteNum == 1 ? left1 : left2;
-                case "right" -> image = spriteNum == 1 ? right1 : right2;
+
+        BufferedImage image = idleFrames[0];
+
+//        if (isTransformed && transformCounter == 8) {
+//            image = ultTransformFrames[transformationSpriteNum % ultTransformFrames.length];
+//        }
+
+        if (!isTransformed) {
+            if (isAttacking) {
+                image = bscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
+            } else if (direction.equals("left") || direction.equals("right") || direction.equals("down") || direction.equals("up")) {
+                image = switch (direction) {
+                    case "left", "right", "up", "down" -> walkFrames[spriteNum % walkFrames.length]; // Walk animation frame
+                    default -> idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
+                };
+            } else {
+                image = idleFrames[spriteNum % idleFrames.length];// Idle animation frame
             }
+        } else if (isTransformed && transformCounter < 60) {
+            image = transformFrames[spriteNum % transformFrames.length];
+        } else {
+            if (isAttacking) {
+                image = ultBscAttackFrames[spriteNum % bscAttackFrames.length]; // Use modulo to prevent index out of bounds
+            } else if (direction.equals("left") || direction.equals("right") || direction.equals("down") || direction.equals("up")) {
+                image = switch (direction) {
+                    case "left", "right", "up", "down" -> ultWalkFrames[spriteNum % walkFrames.length]; // Walk animation frame
+                    default -> idleFrames[0]; // Fallback to first idle frame if direction is unrecognized
+                };
+            } else {
+                image = ultIdleFrames[spriteNum % idleFrames.length];// Idle animation frame
+            }
+        }
+        // visual confirmation of invincible state
+        if (isTransparent){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         }
 
             //MONSTER HP BAR
@@ -151,9 +301,9 @@ public class Boss_King extends Entity{
                     (direction.equals("default") && maintain.equals("left"));
 
             if (shouldFlip) {
-                g2.drawImage(image, screenX + gp.tileSize * 3, screenY, -gp.tileSize*3, gp.tileSize*6, null);
+                g2.drawImage(image, screenX + gp.tileSize*2, screenY, -gp.tileSize*2, gp.tileSize*2, null);
             } else {
-                g2.drawImage(image, screenX, screenY, gp.tileSize*3, gp.tileSize*6, null);
+                g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize*2, null);
             }
 
             changeAlpha(g2,1f);
@@ -211,11 +361,11 @@ public class Boss_King extends Entity{
         return index;
     }
     public int getCenterX() {
-        return centerX = worldX + left1.getWidth() / 2;
+        return centerX = worldX + bscAttackFrames[0].getWidth() / 2;
     }
 
     public int getCenterY() {
-        return centerY =  worldY + up1.getHeight() / 2;
+        return centerY =  worldY + bscAttackFrames[0].getHeight() / 2;
     }
 
     @Override
@@ -240,22 +390,6 @@ public class Boss_King extends Entity{
         return (target.worldY + target.solidArea.y)/gp.tileSize;
     }
 
-    @Override
-    public void checkStopChasingOrNot(Entity target, int distance, int rate){
-        if(getTileDistance(target) > distance)
-        {
-            isAttacking = false;
-            onPath = false;
-        }
-    }
-
-    @Override
-    public void checkStartChasingOrNot(Entity target, int distance, int rate){
-        if(getTileDistance(target) < distance)
-        {
-            onPath = true;
-        }
-    }
 
     @Override
     public void checkShootOrNot(int rate, int shotInterval){
@@ -270,9 +404,7 @@ public class Boss_King extends Entity{
                     break;
                 }
             }
-
         }
-
     }
 
     @Override
@@ -331,19 +463,19 @@ public class Boss_King extends Entity{
             if (distanceToPlayer <= 2) {
                 int i = new Random().nextInt(rate);
                 if(i == 0){
-                    isCasting = true;
+                    isAttacking = true;
                     spriteNum = 1;
                     spriteCounter = 0;
                     shotAvailableCounter = 0;
                 }
             } else {
                 // If the player is more than 2 tiles away, stop attacking
-                isCasting = false;
+                isAttacking = false;
                 //System.out.println("Player is too far away to attack.");
             }
         } else {
             // If the player is not in range, stop attacking
-            isCasting = false;
+            isAttacking = false;
 
         }
     }

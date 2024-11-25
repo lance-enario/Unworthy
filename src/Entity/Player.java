@@ -37,7 +37,7 @@ public class Player extends Entity {
         strength = 1;   // the more strength he has, the more damage he gives
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
-        nextLevelExp = 10;
+        nextLevelExp = 5;
         coins = 0;
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.

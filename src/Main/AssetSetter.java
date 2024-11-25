@@ -263,6 +263,16 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldX = 10 * gp.tileSize;
         gp.monster[mapNum][i].worldY = 10 * gp.tileSize;
         i++;
+
+
+        // if ganahan mo place  in map 1
+        //mapNum = 1;
+        //same code
+        mapNum = 2;
+        gp.monster[mapNum][i] = new Boss_King(gp);
+        gp.monster[mapNum][i].worldX = 50 * gp.tileSize;
+        gp.monster[mapNum][i].worldY = 19 * gp.tileSize;
+        i++;
     }
 
 }

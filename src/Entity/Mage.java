@@ -82,7 +82,7 @@ public class Mage extends Player{
         strength = 1;   // the more strength he has, the more damage he gives
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
-        nextLevelExp = 30;
+        nextLevelExp = 10;
         coins = 10;
         currentWeapon = new obj_Wand(gp);
         currentShield = new obj_Book(gp);

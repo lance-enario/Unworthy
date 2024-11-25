@@ -54,7 +54,7 @@ public class Entity {
     public int attackCounter = 30;
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
-    int knockbackCounter = 0;
+    public int knockbackCounter = 0;
 
 
     public String[] dialogue = new String[20];
