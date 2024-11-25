@@ -30,6 +30,8 @@ public class Goblin extends Entity{
         solidArea = new Rectangle(3, 18, 32, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+
         getImage();
         getAttackImage();
     }

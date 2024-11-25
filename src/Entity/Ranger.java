@@ -44,8 +44,8 @@ public class Ranger extends Player{
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 19; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
-        worldY = gp.tileSize * 41;
+        worldX = gp.tileSize * 73; //spawn point    Stage 1 = 19,41     Stage2 = 14,47     Stage 3 = 49,47
+        worldY = gp.tileSize * 18;
         speed = 15; // 3 default but increased just for testing
 
         // PLAYER STATUS

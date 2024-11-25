@@ -1,6 +1,7 @@
 package Main;
 import Enemies.*;
 import Entity.*;
+import Npc.*;
 import objects.*;
 
 public class AssetSetter {
@@ -137,13 +138,13 @@ public class AssetSetter {
         i++;
 
         gp.npc[mapNum][i] = new npc_young_baby(gp);
-        gp.npc[mapNum][i].worldX = 51 * gp.tileSize;
-        gp.npc[mapNum][i].worldY = 53 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = 58 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 45 * gp.tileSize;
         i++;
 
         gp.npc[mapNum][i] = new npc_blacksmith(gp);
-        gp.npc[mapNum][i].worldX = (58 * gp.tileSize) - (gp.tileSize/3);
-        gp.npc[mapNum][i].worldY = 45 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = (51 * gp.tileSize) - (gp.tileSize/3);
+        gp.npc[mapNum][i].worldY = 53 * gp.tileSize;
         i++;
 
         gp.npc[mapNum][i] = new npc_child1(gp);
@@ -186,13 +187,10 @@ public class AssetSetter {
         int mapNum = 0;
 
         //testing
-        gp.monster[mapNum][i] = new Orc(gp);
-        gp.monster[mapNum][i].worldX = 26 * gp.tileSize;
-        gp.monster[mapNum][i].worldY = 40 * gp.tileSize;
-        i++;
-
-        //
-
+//        gp.monster[mapNum][i] = new Orc(gp);
+//        gp.monster[mapNum][i].worldX = 26 * gp.tileSize;
+//        gp.monster[mapNum][i].worldY = 40 * gp.tileSize;
+//        i++;
 
         gp.monster[mapNum][i] = new Slime(gp);
         gp.monster[mapNum][i].worldX = 36 * gp.tileSize;
@@ -244,6 +242,35 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldY = 64 * gp.tileSize;
         i++;
 
+        gp.monster[mapNum][i] = new Skeleton(gp);           // starts at [9]
+        gp.monster[mapNum][i].worldX =  10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY =  10 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNum][i]  = new Skeleton(gp);
+        gp.monster[mapNum][i].worldX =  10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY =  10 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNum][i] = new Skeleton(gp);
+        gp.monster[mapNum][i].worldX = 10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY = 10 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNum][i] = new Skeleton(gp);
+        gp.monster[mapNum][i].worldX =  10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY =  10 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNum][i]  = new Skeleton(gp);
+        gp.monster[mapNum][i].worldX =  10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY =  10 * gp.tileSize;
+        i++;
+
+        gp.monster[mapNum][i] = new Skeleton(gp);
+        gp.monster[mapNum][i].worldX = 10 * gp.tileSize;
+        gp.monster[mapNum][i].worldY = 10 * gp.tileSize;
+        i++;
     }
 
 }

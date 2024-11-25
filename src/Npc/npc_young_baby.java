@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_old_baby extends Entity {
-
-    public npc_old_baby(GamePanel gp) {
+public class npc_young_baby extends Entity {
+    GamePanel gp;
+    public npc_young_baby(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,28 +18,28 @@ public class npc_old_baby extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/old_baby/old_baby_1");
-        up2 = setup("/NPC/old_baby/old_baby_1");
-        down1 = setup("/NPC/old_baby/old_baby_2");
-        down2 = setup("/NPC/old_baby/old_baby_2");
-        left1 = setup("/NPC/old_baby/old_baby_3");
-        left2 = setup("/NPC/old_baby/old_baby_3");
-        right1 = setup("/NPC/old_baby/old_baby_2");
-        right2 = setup("/NPC/old_baby/old_baby_1");
+        up1 = setup("/NPC/young_baby/young_baby_1");
+        up2 = setup("/NPC/young_baby/young_baby_1");
+        down1 = setup("/NPC/young_baby/young_baby_2");
+        down2 = setup("/NPC/young_baby/young_baby_2");
+        left1 = setup("/NPC/young_baby/young_baby_3");
+        left2 = setup("/NPC/young_baby/young_baby_3");
+        right1 = setup("/NPC/young_baby/young_baby_2");
+        right2 = setup("/NPC/young_baby/young_baby_1");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Hush now, little one. The world may be loud, but I’ll keep you safe in my arms.";
-        dialogues[0][1] = "Isn't she an adorable little bundle?";
-        dialogues[0][2] = "Look at those tiny hands. One day, they’ll shape a world far beyond my time.";
-        dialogues[0][3] = "I may not see you take your first steps, but I’ll carry you as far as I can.";
+        dialogues[0][0] = "Shh, little one, rest now. The world can wait for you. I’ll carry you through it all.";
+        dialogues[0][1] = "One day, you’ll be grown and strong, and I’ll be the one needing help to carry you.";
+        dialogues[0][2] = "You’ll see great things, my dear. The world will be a better place because of you.";
+        dialogues[0][3] = "The road is long, but we will walk it together. I’ll carry you through it all, my love.";
 
     }
-
 
     public void speak(){
         startDialogue(this, dialogueSet);
     }
+
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
@@ -80,6 +82,5 @@ public class npc_old_baby extends Entity {
             changeAlpha(g2, 1.0f);
         }
     }
-
 
 }

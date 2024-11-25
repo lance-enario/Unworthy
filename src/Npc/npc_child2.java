@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_dancer2 extends Entity {
-
-    public npc_dancer2 (GamePanel gp) {
+public class npc_child2 extends Entity {
+    GamePanel gp;
+    public npc_child2(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +18,21 @@ public class npc_dancer2 extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/dancer2/dance2_1");
-        up2 = setup("/NPC/dancer2/dance2_1");
-        down1 = setup("/NPC/dancer2/dance2_2");
-        down2 = setup("/NPC/dancer2/dance2_2");
-        left1 = setup("/NPC/dancer2/dance2_3");
-        left2 = setup("/NPC/dancer2/dance2_3");
-        right1 = setup("/NPC/dancer2/dance2_1");
-        right2 = setup("/NPC/dancer2/dance2_1");
+        up1 = setup("/NPC/child2/child2_1");
+        up2 = setup("/NPC/child2/child2_2");
+        down1 = setup("/NPC/child2/child2_3");
+        down2 = setup("/NPC/child2/child2_1");
+        left1 = setup("/NPC/child2/child2_2");
+        left2 = setup("/NPC/child2/child2_3");
+        right1 = setup("/NPC/child2/child2_2");
+        right2 = setup("/NPC/child2/child2_2");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Every movement is a story, and every step carries the weight of a thousand tales.";
-        dialogues[0][1] = "The secret is not in the steps but in the soul you pour into them. Without that, you’re merely moving.";
-        dialogues[0][2] = "Do not ask me to perform for your coin. If I dance, it is for a cause greater than gold.";
-        dialogues[0][3] = "The dragons of the south move in the air as I do on the ground—perhaps we share the same teacher.";
+        dialogues[0][0] = "Let’s pretend the floor is lava, and we’re pirates trying to save the treasure!";
+        dialogues[0][1] = "If cats have nine lives, how do they remember which one they’re on?";
+        dialogues[0][2] = "If we dig deep enough in the sandbox, do you think we’ll find a dragon egg?";
+        dialogues[0][3] = "I don’t need a nap. Naps are for grown-ups who drink coffee!";
 
     }
 
@@ -66,7 +68,6 @@ public class npc_dancer2 extends Entity {
 
             boolean shouldFlip = direction.equals("default");
             g2.drawImage(image, (screenX + scaledTileSize), screenY, -scaledTileSize, scaledTileSize, null);
-
 
             solidArea.width = gp.tileSize ;
             solidArea.height = (gp.tileSize*2)-50;

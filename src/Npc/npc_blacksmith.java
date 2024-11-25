@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_farmer2 extends Entity {
-
-    public npc_farmer2(GamePanel gp) {
+public class npc_blacksmith extends Entity {
+    GamePanel gp;
+    public npc_blacksmith(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +18,22 @@ public class npc_farmer2 extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/farmer2/farmer2_1");
-        up2 = setup("/NPC/farmer2/farmer2_2");
-        down1 = setup("/NPC/farmer2/farmer2_3");
-        down2 = setup("/NPC/farmer2/farmer2_1");
-        left1 = setup("/NPC/farmer2/farmer2_2");
-        left2 = setup("/NPC/farmer2/farmer2_3");
-        right1 = setup("/NPC/farmer2/farmer2_2");
-        right2 = setup("/NPC/farmer2/farmer2_2");
+        up1 = setup("/NPC/blacksmith/blacksmith_0");
+        up2 = setup("/NPC/blacksmith/blacksmith_0");
+        down1 = setup("/NPC/blacksmith/blacksmith_1");
+        down2 = setup("/NPC/blacksmith/blacksmith_2");
+        left1 = setup("/NPC/blacksmith/blacksmith_2");
+        left2 = setup("/NPC/blacksmith/blacksmith_1");
+        right1 = setup("/NPC/blacksmith/blacksmith_1");
+        right2 = setup("/NPC/blacksmith/blacksmith_2");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "The day’s done, the crops are watered, and my boots can finally rest by the river.";
-        dialogues[0][1] = "The cows get the easy life—eat, sleep, and moo. Maybe I’ll trade places with them tomorrow.";
-        dialogues[0][2] = "I’m so tired, even the scarecrow could outrun me tonight.";
-        dialogues[0][3] = "A mug of ale and a chair that doesn’t wobble—that’s all I need after a day like this.";
+        dialogues[0][0] = "By Hammer and Hand All Arts Do Stand!";
+        dialogues[0][1] = "\tDoes that one interest you?";
+        dialogues[0][2] = " Heat, beat, repeat.";
+        dialogues[0][3] = "A blacksmiths hell is not made of fire and brimstone, It is a world of clinker\"\n" +
+                "thats not the exact wording but ya..read it somewhere..";
 
     }
 

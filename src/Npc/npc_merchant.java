@@ -1,16 +1,16 @@
-package Entity;
+package Npc;
+import Entity.Entity;
 import Main.GamePanel;
 import objects.obj_Key;
 import objects.obj_Potion;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.function.Supplier;
 
-public class npc_merchant extends Entity{
-        public npc_merchant(GamePanel gp){
+public class npc_merchant extends Entity {
+    GamePanel gp;
+    public npc_merchant(GamePanel gp){
             super(gp);
-
+            this.gp = gp;
             direction = "down";
             speed = 0;
 

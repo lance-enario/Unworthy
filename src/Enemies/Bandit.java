@@ -29,6 +29,8 @@ public class Bandit extends Entity{
         solidArea = new Rectangle(5, 30, 48, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+
         getImage();
         getAttackImage();
     }

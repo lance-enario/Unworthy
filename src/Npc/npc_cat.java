@@ -1,11 +1,13 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 public class npc_cat extends Entity {
-
+    GamePanel gp;
     public npc_cat(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();

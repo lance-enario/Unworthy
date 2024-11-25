@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_child2 extends Entity {
-
-    public npc_child2(GamePanel gp) {
+public class npc_farmer1 extends Entity {
+    GamePanel gp;
+    public npc_farmer1(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +18,21 @@ public class npc_child2 extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/child2/child2_1");
-        up2 = setup("/NPC/child2/child2_2");
-        down1 = setup("/NPC/child2/child2_3");
-        down2 = setup("/NPC/child2/child2_1");
-        left1 = setup("/NPC/child2/child2_2");
-        left2 = setup("/NPC/child2/child2_3");
-        right1 = setup("/NPC/child2/child2_2");
-        right2 = setup("/NPC/child2/child2_2");
+        up1 = setup("/NPC/farmer2_tired/farmer2_1");
+        up2 = setup("/NPC/farmer2_tired/farmer2_1");
+        down1 = setup("/NPC/farmer2_tired/farmer2_1");
+        down2 = setup("/NPC/farmer2_tired/farmer2_2");
+        left1 = setup("/NPC/farmer2_tired/farmer2_2");
+        left2 = setup("/NPC/farmer2_tired/farmer2_2");
+        right1 = setup("/NPC/farmer2_tired/farmer2_3");
+        right2 = setup("/NPC/farmer2_tired/farmer2_3");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Let’s pretend the floor is lava, and we’re pirates trying to save the treasure!";
-        dialogues[0][1] = "If cats have nine lives, how do they remember which one they’re on?";
-        dialogues[0][2] = "If we dig deep enough in the sandbox, do you think we’ll find a dragon egg?";
-        dialogues[0][3] = "I don’t need a nap. Naps are for grown-ups who drink coffee!";
+        dialogues[0][0] = "This loaf of bread? It’s more than food—it’s the sweat of my brow and the blessing of the soil.";
+        dialogues[0][1] = "I’m no hero, but my plow keeps the kingdom fed. That’s enough for me.";
+        dialogues[0][2] = "Every sunrise over the fields is a gift. The day it stops feeling like one, I’ll know it’s time to rest.";
+        dialogues[0][3] = "No dragon, no war, no curse will stop me from harvesting these fields. My family needs bread.";
 
     }
 

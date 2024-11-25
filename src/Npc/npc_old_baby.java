@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_blacksmith extends Entity {
-
-    public npc_blacksmith(GamePanel gp) {
+public class npc_old_baby extends Entity {
+    GamePanel gp;
+    public npc_old_baby(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,22 +18,21 @@ public class npc_blacksmith extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/blacksmith/blacksmith_0");
-        up2 = setup("/NPC/blacksmith/blacksmith_0");
-        down1 = setup("/NPC/blacksmith/blacksmith_1");
-        down2 = setup("/NPC/blacksmith/blacksmith_2");
-        left1 = setup("/NPC/blacksmith/blacksmith_2");
-        left2 = setup("/NPC/blacksmith/blacksmith_1");
-        right1 = setup("/NPC/blacksmith/blacksmith_1");
-        right2 = setup("/NPC/blacksmith/blacksmith_2");
+        up1 = setup("/NPC/old_baby/old_baby_1");
+        up2 = setup("/NPC/old_baby/old_baby_1");
+        down1 = setup("/NPC/old_baby/old_baby_2");
+        down2 = setup("/NPC/old_baby/old_baby_2");
+        left1 = setup("/NPC/old_baby/old_baby_3");
+        left2 = setup("/NPC/old_baby/old_baby_3");
+        right1 = setup("/NPC/old_baby/old_baby_2");
+        right2 = setup("/NPC/old_baby/old_baby_1");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "By Hammer and Hand All Arts Do Stand!";
-        dialogues[0][1] = "\tDoes that one interest you?";
-        dialogues[0][2] = " Heat, beat, repeat.";
-        dialogues[0][3] = "A blacksmiths hell is not made of fire and brimstone, It is a world of clinker\"\n" +
-                "thats not the exact wording but ya..read it somewhere..";
+        dialogues[0][0] = "Hush now, little one. The world may be loud, but I’ll keep you safe in my arms.";
+        dialogues[0][1] = "Isn't she an adorable little bundle?";
+        dialogues[0][2] = "Look at those tiny hands. One day, they’ll shape a world far beyond my time.";
+        dialogues[0][3] = "I may not see you take your first steps, but I’ll carry you as far as I can.";
 
     }
 
@@ -81,7 +82,6 @@ public class npc_blacksmith extends Entity {
             changeAlpha(g2, 1.0f);
         }
     }
-
 
 
 }

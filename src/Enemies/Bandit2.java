@@ -34,11 +34,11 @@ public class Bandit2 extends Entity {
         solidArea = new Rectangle(10, 40, 40, 53);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+
         getImage();
         getAttackImage();
     }
-
-
 
     public void getImage() {
         up1 = setup("/Enemies/Bandit2/bandit2_walk_0");

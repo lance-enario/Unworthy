@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_dancer extends Entity {
-
-    public npc_dancer (GamePanel gp) {
+public class npc_toss extends Entity {
+    GamePanel gp;
+    public npc_toss(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,27 +18,26 @@ public class npc_dancer extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/dancer1/dance_1");
-        up2 = setup("/NPC/dancer1/dance_1");
-        down1 = setup("/NPC/dancer1/dance_2");
-        down2 = setup("/NPC/dancer1/dance_2");
-        left1 = setup("/NPC/dancer1/dance_3");
-        left2 = setup("/NPC/dancer1/dance_3");
-        right1 = setup("/NPC/dancer1/dance_1");
-        right2 = setup("/NPC/dancer1/dance_1");
+        up1 = setup("/NPC/toss/toss_");
+        up2 = setup("/NPC/toss/toss_");
+        down1 = setup("/NPC/toss/toss_1");
+        down2 = setup("/NPC/toss/toss_1");
+        left1 = setup("/NPC/toss/toss_2");
+        left2 = setup("/NPC/toss/toss_2");
+        right1 = setup("/NPC/toss/toss_");
+        right2 = setup("/NPC/toss/toss_");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "One day, I’ll dance for the king and queen, and they’ll toss\ngold coins at my feet!";
-        dialogues[0][1] = "Do you think the minstrel’s lute can play a tune fast enough for my twirls?";
-        dialogues[0][2] = "Let’s pretend the marketplace is a grand hall, and I’m dancing for all the nobles!";
-        dialogues[0][3] = "I’ll travel to the next kingdom and learn dances from faraway lands.\nImagine the stories in their steps!";
+        dialogue[0] = "G'dday!";
+        dialogue[1] = "Ah, a discerning eye! You’ve chosen well. I’ll give you a fair price, as long as you don’t tell the others!";
+        dialogue[2] = "Step closer, my friend! No need to wander. I’ve got wares for all, and I’m sure we can come to a fair deal.";
+        dialogue[3] = "You won’t find a better deal in the market, I assure you. My goods are the finest quality, and my prices, well, they’re as fair as the sun rises!";
 
     }
 
-
     public void speak(){
-        startDialogue(this, dialogueSet);
+        super.speak();
     }
     @Override
     public void draw(Graphics2D g2) {
@@ -80,6 +81,7 @@ public class npc_dancer extends Entity {
             changeAlpha(g2, 1.0f);
         }
     }
+
 
 
 }

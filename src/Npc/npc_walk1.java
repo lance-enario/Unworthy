@@ -1,5 +1,6 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
@@ -7,8 +8,10 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class npc_walk1 extends Entity {
+    GamePanel gp;
     public npc_walk1(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";  // Initial direction
         speed = 2;  // Set speed to 1 for slower movement
         setDialogue();

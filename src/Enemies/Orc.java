@@ -14,7 +14,6 @@ public class Orc extends Entity{
 
     public Orc(GamePanel gp){
         super(gp);
-
         this.gp = gp;
 
         defaultSpeed = 2;
@@ -29,12 +28,12 @@ public class Orc extends Entity{
         solidArea = new Rectangle(10, 50, 50, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        attackArea.width = 64;
+        attackArea.height = 64;
         knockbackPower = 5;
 
         getImage();
         getAttackImage();
-        getCenterX();
-        getCenterY();
     }
 
     public void getImage(){
@@ -49,14 +48,14 @@ public class Orc extends Entity{
     }
 
     public void getAttackImage(){
-        attackUp1 = setup("/monster/orc/walk/attack/orc_attack_0");
-        attackUp2 = setup("/monster/orc/walk/attack/orc_attack_1");
-        attackDown1 = setup("/monster/orc/walk/attack/orc_attack_2");
-        attackDown2 = setup("/monster/orc/walk/attack/orc_attack_3");
-        attackLeft1 = setup("/monster/orc/walk/attack/orc_attack_4");
-        attackLeft2 = setup("/monster/orc/walk/attack/orc_attack_5");
-        attackRight1 = setup("/monster/orc/walk/attack/orc_attack_6");
-        attackRight2 = setup("/monster/orc/walk/attack/orc_attack_7");
+        attackUp1 = setup("/monster/orc/attack/orc_attack_0");
+        attackUp2 = setup("/monster/orc/attack/orc_attack_1");
+        attackDown1 = setup("/monster/orc/attack/orc_attack_2");
+        attackDown2 = setup("/monster/orc/attack/orc_attack_3");
+        attackLeft1 = setup("/monster/orc/attack/orc_attack_4");
+        attackLeft2 = setup("/monster/orc/attack/orc_attack_5");
+        attackRight1 = setup("/monster/orc/attack/orc_attack_6");
+        attackRight2 = setup("/monster/orc/attack/orc_attack_7");
     }
 
     @Override
@@ -72,9 +71,9 @@ public class Orc extends Entity{
         } else {
             //check if it starts chasing
             checkStartChasingOrNot(gp.player,5,100);
+
             //get a random direction
             getRandomDirection();
-
         }
 
         if(!isAttacking){

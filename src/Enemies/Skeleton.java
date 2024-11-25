@@ -14,7 +14,6 @@ public class Skeleton extends Entity{
 
     public Skeleton(GamePanel gp){
         super(gp);
-
         this.gp = gp;
 
         defaultSpeed = 2;
@@ -29,8 +28,10 @@ public class Skeleton extends Entity{
         solidArea = new Rectangle(3, 18, 32, 60);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
         getImage();
         getAttackImage();
+
         knockbackPower = 5;
     }
 
@@ -61,16 +62,13 @@ public class Skeleton extends Entity{
         if(onPath) {
             //check if it stops chasing
             checkStopChasingOrNot(gp.player,15,100);
-
             //search direction to go
             searchPath(getGoalCol(gp.player),getGoalRow(gp.player));
-
         } else {
             //check if it starts chasing
             checkStartChasingOrNot(gp.player,5,100);
             //get a random direction
             getRandomDirection();
-
         }
 
         if(!isAttacking){
@@ -78,6 +76,9 @@ public class Skeleton extends Entity{
         }
 
     }
+
+
+
 
     public void damageReaction(){
         actionLockCounter = 0;

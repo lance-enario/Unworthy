@@ -8,7 +8,6 @@ public class obj_Heart extends Entity {
     public obj_Heart(GamePanel gp){
         super(gp);
 
-
         name = "Heart";
         image = setup("/objects/heart2");
         image2 = setup("/objects/heart1");

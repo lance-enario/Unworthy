@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_sweep extends Entity {
-
-    public npc_sweep(GamePanel gp) {
+public class npc_bard2 extends Entity {
+    GamePanel gp;
+    public npc_bard2(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +18,33 @@ public class npc_sweep extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/sweep1/sweep_1");
-        up2 = setup("/NPC/sweep1/sweep_1");
-        down1 = setup("/NPC/sweep1/sweep_1");
-        down2 = setup("/NPC/sweep1/sweep_2");
-        left1 = setup("/NPC/sweep1/sweep_2");
-        left2 = setup("/NPC/sweep1/sweep_2");
-        right1 = setup("/NPC/sweep1/sweep_1");
-        right2 = setup("/NPC/sweep1/sweep_1");
+        up1 = setup("/NPC/bard2/bard1_0");
+        up2 = setup("/NPC/bard2/bard1_1");
+        down1 = setup("/NPC/bard2/bard1_0");
+        down2 = setup("/NPC/bard2/bard1_1");
+        left1 = setup("/NPC/bard2/bard1_0");
+        left2 = setup("/NPC/bard2/bard1_1");
+        right1 = setup("/NPC/bard2/bard1_0");
+        right2 = setup("/NPC/bard2/bard1_0");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Clean clean clean!";
-        dialogues[0][1] = "That my home be serene";
-        dialogues[0][2] = "Sweep sweep sweep";
-        dialogues[0][3] = "Dust and dirt i defeat";
+        dialogues[0][0] = "Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
+        dialogues[0][1] = "A dragon lives forever, but not so little boys\n" +
+                "Painted wings and giant's rings make way for other toys\n" +
+                "One gray night it happened, Jackie Paper came no more\n" +
+                "And Puff, that mighty dragon, he ceased his fearless roar";
+        dialogues[0][2] = " His head was bent in sorrow, green scales fell like rain\n" +
+                "Puff no longer went to play along the cherry lane\n" +
+                "Without his lifelong friend, Puff could not be brave\n" +
+                "So Puff, that mighty dragon, sadly slipped into his cave";
+        dialogues[0][3] = "Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
 
     }
 
@@ -68,8 +82,6 @@ public class npc_sweep extends Entity {
             boolean shouldFlip = direction.equals("default");
             g2.drawImage(image, (screenX + scaledTileSize), screenY, -scaledTileSize, scaledTileSize, null);
 
-
-            changeAlpha(g2, 1.0f);
             solidArea.width = gp.tileSize ;
             solidArea.height = (gp.tileSize*2)-50;
             solidArea.x = solidArea.width/3; // center
@@ -79,6 +91,8 @@ public class npc_sweep extends Entity {
             solidAreaDefaultY = solidArea.y;
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+
+            changeAlpha(g2, 1.0f);
         }
     }
 

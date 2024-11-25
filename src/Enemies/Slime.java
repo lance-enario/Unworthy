@@ -16,7 +16,6 @@ public class Slime extends Entity {
 
     public Slime(GamePanel gp){
         super(gp);
-
         this.gp = gp;
 
         type = type_monster; //monster type
@@ -29,12 +28,13 @@ public class Slime extends Entity {
         defense = 0;
         exp = 2;
         projectile = new obj_Projectile(gp);
-
         solidArea = new Rectangle(4, 15, 50, 47);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
         getImage();
         getAttackImage();
+
     }
 
     public void getImage(){
@@ -76,7 +76,6 @@ public class Slime extends Entity {
 
             //get a random direction
             getRandomDirection();
-
         }
         if(!isAttacking){
             checkAttackOrNot(30,gp.tileSize*4,gp.tileSize);

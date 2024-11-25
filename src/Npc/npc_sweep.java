@@ -1,14 +1,16 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_farmer1 extends Entity {
-
-    public npc_farmer1(GamePanel gp) {
+public class npc_sweep extends Entity {
+    GamePanel gp;
+    public npc_sweep(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +18,21 @@ public class npc_farmer1 extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/farmer2_tired/farmer2_1");
-        up2 = setup("/NPC/farmer2_tired/farmer2_1");
-        down1 = setup("/NPC/farmer2_tired/farmer2_1");
-        down2 = setup("/NPC/farmer2_tired/farmer2_2");
-        left1 = setup("/NPC/farmer2_tired/farmer2_2");
-        left2 = setup("/NPC/farmer2_tired/farmer2_2");
-        right1 = setup("/NPC/farmer2_tired/farmer2_3");
-        right2 = setup("/NPC/farmer2_tired/farmer2_3");
+        up1 = setup("/NPC/sweep1/sweep_1");
+        up2 = setup("/NPC/sweep1/sweep_1");
+        down1 = setup("/NPC/sweep1/sweep_1");
+        down2 = setup("/NPC/sweep1/sweep_2");
+        left1 = setup("/NPC/sweep1/sweep_2");
+        left2 = setup("/NPC/sweep1/sweep_2");
+        right1 = setup("/NPC/sweep1/sweep_1");
+        right2 = setup("/NPC/sweep1/sweep_1");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "This loaf of bread? It’s more than food—it’s the sweat of my brow and the blessing of the soil.";
-        dialogues[0][1] = "I’m no hero, but my plow keeps the kingdom fed. That’s enough for me.";
-        dialogues[0][2] = "Every sunrise over the fields is a gift. The day it stops feeling like one, I’ll know it’s time to rest.";
-        dialogues[0][3] = "No dragon, no war, no curse will stop me from harvesting these fields. My family needs bread.";
+        dialogues[0][0] = "Clean clean clean!";
+        dialogues[0][1] = "That my home be serene";
+        dialogues[0][2] = "Sweep sweep sweep";
+        dialogues[0][3] = "Dust and dirt i defeat";
 
     }
 
@@ -38,6 +40,7 @@ public class npc_farmer1 extends Entity {
     public void speak(){
         startDialogue(this, dialogueSet);
     }
+
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
@@ -67,6 +70,8 @@ public class npc_farmer1 extends Entity {
             boolean shouldFlip = direction.equals("default");
             g2.drawImage(image, (screenX + scaledTileSize), screenY, -scaledTileSize, scaledTileSize, null);
 
+
+            changeAlpha(g2, 1.0f);
             solidArea.width = gp.tileSize ;
             solidArea.height = (gp.tileSize*2)-50;
             solidArea.x = solidArea.width/3; // center
@@ -76,8 +81,6 @@ public class npc_farmer1 extends Entity {
             solidAreaDefaultY = solidArea.y;
             g2.setColor(Color.red);
             g2.drawRect(screenX+ solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
-
-            changeAlpha(g2, 1.0f);
         }
     }
 

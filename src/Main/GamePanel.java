@@ -74,7 +74,7 @@ public class GamePanel extends Canvas implements Runnable{
     public Entity[][] monster = new Entity[maxMap][20];
     public Entity[][] signs = new Entity[maxMap][20];
     public ArrayList<Entity> particleList = new ArrayList<>();
-    public Entity projectile[][] = new Entity[maxMap][20];
+    public Entity projectile[][] = new Entity[maxMap][50];
     //public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
 

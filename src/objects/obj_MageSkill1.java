@@ -15,7 +15,7 @@ public class obj_MageSkill1 extends Projectile{
         life = maxLife;
         attack = 5;
         isAlive = false;
-        knockbackPower = 3;
+        knockbackPower = 2;
         getImage();
     }
 

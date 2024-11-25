@@ -1,14 +1,19 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_child1 extends Entity {
+public class
+npc_bard1 extends Entity {
 
-    public npc_child1(GamePanel gp) {
+    GamePanel gp;
+
+    public npc_bard1(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
@@ -16,21 +21,30 @@ public class npc_child1 extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/NPC/child1/child1_1");
-        up2 = setup("/NPC/child1/child1_2");
-        down1 = setup("/NPC/child1/child1_3");
-        down2 = setup("/NPC/child1/child1_1");
-        left1 = setup("/NPC/child1/child1_2");
-        left2 = setup("/NPC/child1/child1_3");
-        right1 = setup("/NPC/child1/child1_2");
-        right2 = setup("/NPC/child1/child1_2");
+        up1 = setup("/NPC/bard1/bard_0");
+        up2 = setup("/NPC/bard1/bard_1");
+        down1 = setup("/NPC/bard1/bard_0");
+        down2 = setup("/NPC/bard1/bard_1");
+        left1 = setup("/NPC/bard1/bard_0");
+        left2 = setup("/NPC/bard1/bard_1");
+        right1 = setup("/NPC/bard1/bard_0");
+        right2 = setup("/NPC/bard1/bard_0");
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Did you see that rainbow? It’s like the sky painted itself with crayons!";
-        dialogues[0][1] = "Why do fish never close their eyes? Are they scared of the dark underwater?";
-        dialogues[0][2] = "Tag! You’re it! No wait—double tag, I’m it again!";
-        dialogues[0][3] = "I can eat broccoli… but only if it’s invisible broccoli";
+        dialogues[0][0] = "Fine day innit!";
+        dialogues[0][1] = "Puff, the magic dragon lived by the sea\n" +
+                      "And frolicked in the autumn mist in a land called Honah Lee\n" +
+                      "Little Jackie Paper loved that rascal Puff\n" +
+                      "And brought him strings, and sealing wax, and other fancy stuff";
+        dialogues[0][2] = " Oh, Puff, the magic dragon lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee\n" +
+                "Puff, the magic dragon, lived by the sea\n" +
+                "And frolicked in the autumn mist, in a land called Honah Lee";
+        dialogues[0][3] = "Together they would travel on a boat with billowed sail\n" +
+                "Jackie kept a lookout perched on Puff's gigantic tail\n" +
+                "Noble kings and princes would bow whenever they came\n" +
+                "Pirate ships would lower their flags when Puff roared out his name";
 
     }
 
@@ -80,7 +94,4 @@ public class npc_child1 extends Entity {
             changeAlpha(g2, 1.0f);
         }
     }
-
-
-
 }

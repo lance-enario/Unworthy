@@ -1,11 +1,13 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 public class NPC_Traveller extends Entity {
-
+    GamePanel gp;
     public NPC_Traveller(GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();

@@ -1,42 +1,44 @@
-package Entity;
+package Npc;
 
+import Entity.Entity;
 import Main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class npc_guardl extends Entity {
-
-    public npc_guardl(GamePanel gp) {
+public class npc_dancer extends Entity {
+    GamePanel gp;
+    public npc_dancer (GamePanel gp) {
         super(gp);
+        this.gp = gp;
         direction = "default";
         speed = 0;
         setDialogue();
         getImage();
-
     }
 
     public void getImage() {
-        up1 = setup("/NPC/npc_guardr/knight1_0");
-        up2 = setup("/NPC/npc_guardr/knight1_1");
-        down1 = setup("/NPC/npc_guardr/knight1_2");
-        down2 = setup("/NPC/npc_guardr/knight1_0");
-        left1 = setup("/NPC/npc_guardr/knight1_1");
-        left2 = setup("/NPC/npc_guardr/knight1_2");
-        right1 = setup("/NPC/npc_guardr/knight1_0");
-        right2 = setup("/NPC/npc_guardr/knight1_0");
+        up1 = setup("/NPC/dancer1/dance_1");
+        up2 = setup("/NPC/dancer1/dance_1");
+        down1 = setup("/NPC/dancer1/dance_2");
+        down2 = setup("/NPC/dancer1/dance_2");
+        left1 = setup("/NPC/dancer1/dance_3");
+        left2 = setup("/NPC/dancer1/dance_3");
+        right1 = setup("/NPC/dancer1/dance_1");
+        right2 = setup("/NPC/dancer1/dance_1");
     }
 
     public void setDialogue(){
-        dialogue[0] = "You cannot enter!";
-        dialogue[1] = "The walls are strong, but a watchful eye makes them impenetrable";
-        dialogue[2] = " Trouble doesn’t knock; it slips through the cracks when no one’s looking. Keep your eyes sharp.";
-        dialogue[3] = "Palambing";
+        dialogues[0][0] = "One day, I’ll dance for the king and queen, and they’ll toss\ngold coins at my feet!";
+        dialogues[0][1] = "Do you think the minstrel’s lute can play a tune fast enough for my twirls?";
+        dialogues[0][2] = "Let’s pretend the marketplace is a grand hall, and I’m dancing for all the nobles!";
+        dialogues[0][3] = "I’ll travel to the next kingdom and learn dances from faraway lands.\nImagine the stories in their steps!";
 
     }
 
+
     public void speak(){
-        super.speak();
+        startDialogue(this, dialogueSet);
     }
     @Override
     public void draw(Graphics2D g2) {
@@ -44,7 +46,7 @@ public class npc_guardl extends Entity {
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
-        int scaledTileSize = gp.tileSize * 2;  // Scale the tile size by the scaling factor
+        int scaledTileSize = (gp.tileSize * 2) - (gp.tileSize/2);  // Scale the tile size by the scaling factor
 
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
                 worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
@@ -64,11 +66,11 @@ public class npc_guardl extends Entity {
                     break;
             }
 
-            boolean shouldFlip = direction.equals("left");
+            boolean shouldFlip = direction.equals("default");
             g2.drawImage(image, (screenX + scaledTileSize), screenY, -scaledTileSize, scaledTileSize, null);
 
             solidArea.width = gp.tileSize ;
-            solidArea.height = gp.tileSize *2;
+            solidArea.height = (gp.tileSize*2)-50;
             solidArea.x = solidArea.width/3; // center
             solidArea.y = (64 - solidArea.height) / 2; // center
 
@@ -82,8 +84,4 @@ public class npc_guardl extends Entity {
     }
 
 
-
-
 }
-
-

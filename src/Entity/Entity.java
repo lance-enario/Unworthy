@@ -28,7 +28,6 @@ public class Entity {
     public String[][] dialogues = new String[20][20];
     public Entity attacker;
 
-
     //STATE
     public boolean hpBarOn = false;
     public boolean onPath = false;
@@ -97,7 +96,7 @@ public class Entity {
     //TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
     public final int type_player = 0;
-    public final int type_npc = 1;
+    public final int type_boss = 1;
     public final int type_monster = 2;
     public final int type_sword = 3;
     public final int type_shield = 4;
@@ -132,6 +131,7 @@ public class Entity {
     public int getRow(){
         return (worldY + solidArea.y)/gp.tileSize;
     }
+
     public void setAction(){}
 
     public void damageReaction(){}
@@ -275,10 +275,11 @@ public class Entity {
         } else if(isAttacking){
             attacking();
             checkStopChasingOrNot(gp.player,1,100);
-        }else  {
+        } else {
             setAction();
             checkCollision();
         }
+
         if (isInvincible){
             invincibleCounter++;
             if (invincibleCounter > 30){
@@ -286,9 +287,7 @@ public class Entity {
                 invincibleCounter = 0;
             }
         }
-        if(shotAvailableCounter < 30) {
-            shotAvailableCounter++;
-        }
+
         if (!collisionOn) {
             switch (direction) {
                 case "up":
@@ -302,8 +301,6 @@ public class Entity {
                     break;
                 case "right":
                     worldX += speed;
-                    break;
-                case "default":
                     break;
             }
         }
@@ -370,14 +367,17 @@ public class Entity {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             switch (direction) {
-                case "default", "up", "down", "left", "right", "upleft", "upright", "downleft", "downright":
+                case "default", "up", "down", "left", "right",
+                     "upleft", "upright", "downleft", "downright",
+                     "upleftleft", "downleftleft", "uprightright", "downrightright",
+                     "leftupleft", "leftdownleft", "rightupright", "rightdownright":
                     if (spriteNum == 1) {
                         if (isAttacking) {
                             image = attackUp1;
-                        } if(!isAttacking) {
+                        }
+                        if (!isAttacking) {
                             image = up1;
                         }
-
                     }
                     if (spriteNum == 2) {
                         if (isAttacking) {
@@ -424,7 +424,7 @@ public class Entity {
                             image = right1;
                         }
                     }
-                    if(spriteNum == 8) {
+                    if (spriteNum == 8) {
                         if (isAttacking) {
                             image = attackRight2;
                         } if(!isAttacking) {
@@ -435,19 +435,19 @@ public class Entity {
             }
 
             //MONSTER HP BAR
-            if(type == 2 && hpBarOn) {
-                double oneScale = (double)gp.tileSize/maxLife;
-                double hpBarValue = oneScale*life;
+            if ((type == type_monster || type == type_boss) && hpBarOn) {
+                double oneScale = (double) gp.tileSize / maxLife;
+                double hpBarValue = oneScale * life;
 
-                g2.setColor(new Color(35,35,35));
-                g2.fillRect(screenX-1,screenY-16,gp.tileSize+2, 12);
+                g2.setColor(new Color(35, 35, 35));
+                g2.fillRect(screenX - 1, screenY - 16, gp.tileSize + 2, 12);
 
                 g2.setColor(new Color(255, 0, 30));
-                g2.fillRect(screenX, screenY - 15, (int)hpBarValue, 10);
+                g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
 
                 hpBarCounter++;
 
-                if(hpBarCounter > 300) {
+                if (hpBarCounter > 300) {
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }
@@ -467,7 +467,14 @@ public class Entity {
                     (direction.equals("up") && maintain.equals("left")) ||
                     (direction.equals("down") && maintain.equals("left"));
 
-            if (type == 11) { //projectile size
+            if (type == type_boss){
+                if (shouldFlip) {
+                    g2.drawImage(image, (screenX + gp.tileSize * 5
+                    ), screenY, -(gp.tileSize*5), gp.tileSize*5, null);
+                } else {
+                    g2.drawImage(image, screenX, screenY, gp.tileSize*5, gp.tileSize*5, null);
+                }
+            } else if (type == 11) { //projectile size
                 if (shouldFlip) {
                     g2.drawImage(image, (screenX + 32), screenY, -(gp.tileSize-32), gp.tileSize-32, null);
                 } else {
@@ -526,22 +533,6 @@ public class Entity {
         return image;
     }
 
-    public BufferedImage setup(String imagePath, int widthScale, int heightScale) {
-
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
-            image = uTool.scaleImage(image, gp.tileSize * widthScale, gp.tileSize * heightScale);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        return image;
-    }
-
-
     public int getDetected(Entity user, Entity target[][], String targetName) {
         int index = 999;
 
@@ -571,7 +562,6 @@ public class Entity {
         }
         return index;
     }
-
 
     public void searchPath(int goalCol,int goalRow){
         int startCol = (worldX + solidArea.x) / gp.tileSize;
@@ -645,12 +635,6 @@ public class Entity {
         }
     }
 
-    public int getYDistance(Entity target) {
-        return Math.abs(worldY - target.worldY);
-    }
-    public int getXDistance(Entity target){
-        return Math.abs(worldX - target.worldX);
-    }
     public int getTileDistance(Entity target){
         return (getXDistance(target) + getYDistance(target))/gp.tileSize;
     }
@@ -689,6 +673,8 @@ public class Entity {
 
         }
     }
+
+
     public void getRandomDirection(){
         actionLockCounter++;
 
@@ -711,6 +697,7 @@ public class Entity {
             actionLockCounter = 0;
         }
     }
+
     public void checkAttackOrNot(int rate, int straight, int horizontal){
         boolean targetInRange = false;
         int xDis = getXDistance(gp.player);
@@ -730,7 +717,7 @@ public class Entity {
                     targetInRange = true;
                 break;
             case "right":
-                if(gp.player.worldX > worldX && xDis < straight && yDis < horizontal)
+                if(gp.player.worldX  > worldX && xDis < straight && yDis < horizontal)
                     targetInRange = true;
                 break;
         }
@@ -796,7 +783,6 @@ public class Entity {
             gp.player.damageProjectile(projectileIndex);
         }
 
-
         worldX = currentWorldX;
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
@@ -810,16 +796,13 @@ public class Entity {
         target.speed += knockbackPower;
         target.knockback = true;
     }
-    public int getCenterX() {
-        return centerY = worldX + left1.getWidth() / 2;
+
+    public int getYDistance(Entity target) {
+        int yDistance = Math.abs(worldY - target.worldY);
+        return yDistance;
     }
-    public int getCenterY() {
-        return centerY =  worldY + up1.getHeight() / 2;
-    }
-    public int getXdistance(Entity target){
-        return Math.abs(getCenterX() - target.getCenterX());
-    }
-    public int getYdistance(Entity target){
-        return Math.abs(getCenterY() - target.getCenterY());
+    public int getXDistance(Entity target){
+        int xDistance = Math.abs(worldX - target.worldX);
+        return xDistance;
     }
 }

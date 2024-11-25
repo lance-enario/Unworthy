@@ -18,7 +18,7 @@ public class obj_MageAttack extends Projectile{
         life = maxLife;
         attack = 3;
         isAlive = false;
-        knockbackPower = 1;
+        knockbackPower = 0;
         getImage();
     }
 
