@@ -44,7 +44,7 @@ npc_bard1 extends Entity {
                \s""";
         dialogues[0][3] = """
                The Soulbrand rests where the frost is cold,
-               A blade of legend, both dark and bold.
+               A relic of legend, both dark and bold.
                The dead rise here, their whispers loud,
                To guard the relic beneath its shroud."
                \s""";

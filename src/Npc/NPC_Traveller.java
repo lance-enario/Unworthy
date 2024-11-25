@@ -24,7 +24,7 @@ public class NPC_Traveller extends Entity {
         left1 = setup("/NPC_Traveller/wanderingTraveller4");
         left2 = setup("/NPC_Traveller/wanderingTraveller5");
         right1 = setup("/NPC_Traveller/wanderingTraveller6");
-        right1 = setup("/NPC_Traveller/wanderingTraveller6");
+        right2 = setup("/NPC_Traveller/wanderingTraveller6");
     }
 
     public void setDialogue(){
@@ -47,7 +47,7 @@ public class NPC_Traveller extends Entity {
                we bring misfortune to the kingdom.\s
                \s""";
         dialogues[0][4] = """
-                Please, Lord Lucian, we beg you. You’re the only one who can save us. Defeat the beastS and
+                Please, Lord Lucian, we beg you. You’re the only one who can save us. Defeat the beasts and
                 free our town. Without the gates open, we can’t trade, we can’t flee—we’re at the mercy of\s
                 starvation and the king’s soldiers. We shall meet again at the castle gates should you be
                 able to free us.
