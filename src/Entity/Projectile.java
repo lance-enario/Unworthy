@@ -1,3 +1,4 @@
+
 package Entity;
 
 import Main.GamePanel;
@@ -57,6 +58,27 @@ public class Projectile extends Entity{
             case "rightupright": worldY -= speed/2; worldX += speed; break;
             case "leftdownleft": worldY += speed/2; worldX -= speed; break;
             case "rightdownright": worldY += speed/2; worldX += speed; break;
+        }
+
+        if (spriteCounter > 8) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+            } else if (spriteNum == 3) {
+                spriteNum = 4;
+            } else if (spriteNum == 4) {
+                spriteNum = 5;
+            } else if (spriteNum == 5) {
+                spriteNum = 6;
+            } else if (spriteNum == 6){
+                spriteNum = 7;
+            } else if (spriteNum == 7) {
+                spriteNum = 8;
+            } else {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
         }
 
         life--;

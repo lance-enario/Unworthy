@@ -28,6 +28,8 @@ public class obj_LichSkill extends Projectile{
         down2 = setup("/General/Lich/basic_attack/projectile/lich_basic_projectile_3");
         left1 = setup("/General/Lich/basic_attack/projectile/lich_basic_projectile_4");
         left2 = setup("/General/Lich/basic_attack/projectile/lich_basic_projectile_5");
+        right1 = setup("/General/Lich/basic_attack/projectile/lich_basic_projectile_5");
+        right2 = setup("/General/Lich/basic_attack/projectile/lich_basic_projectile_5");
     }
 
     public Color getParticleColor(){

@@ -25,7 +25,15 @@ public class obj_RangerBasicArrow extends Projectile {
     }
 
     public void getImage(){
+
         up1 = setup("/projectile/arrow");
+        up2 = setup("/projectile/arrow");
+        down1 = setup("/projectile/arrow");
+        down2 = setup("/projectile/arrow");
+        right1 = setup("/projectile/arrow");
+        right2 = setup("/projectile/arrow");
+        left1 = setup("/projectile/arrow");
+        left2 = setup("/projectile/arrow");
     }
     @Override
     public void draw(Graphics2D g2) {
