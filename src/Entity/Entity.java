@@ -348,7 +348,6 @@ public class Entity {
 
             if(damage != 0){
                 gp.player.isTransparent = true;
-                setknockback(gp.player, this, knockbackPower);
             }
 
             gp.player.life -= damage;

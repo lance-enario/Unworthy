@@ -24,7 +24,7 @@ public class Slime extends Entity {
         speed = defaultSpeed;
         maxLife = 5;
         life = maxLife;
-        attack = 1;
+        attack = 2;
         defense = 0;
         exp = 2;
         projectile = new obj_Projectile(gp);

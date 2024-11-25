@@ -7,9 +7,9 @@ public class obj_Wand extends Entity{
         super(gp);
         name = "Dagon";
         down1 = setup("/objects/wand");
-        attackValue = 2;
-        description = "[" + name + "]\nA lesser wand that\ngrows in power the\nlonger it is used.";
-
+        attackValue = 3;
+        description = "[" + name + "]\nA magical wand that\ngrows in power the\nlonger it is used.";
+        knockbackPower = 5;
     }
 
 

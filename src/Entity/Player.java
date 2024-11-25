@@ -68,45 +68,7 @@ public class Player extends Entity {
     //@Override
     public void update() {
 
-        if (knockback) {
-
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-            gp.cChecker.checkOBJ(this, true);
-            gp.cChecker.checkEntity(this, gp.npc);
-            gp.cChecker.checkEntity(this, gp.signs);
-            gp.cChecker.checkEntity(this, gp.monster);
-
-
-            if (collisionOn) {
-                knockbackCounter = 0;
-                knockback = false;
-                speed = defaultSpeed;
-            } else {
-                switch (gp.player.direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-
-
-                knockbackCounter++;
-                if (knockbackCounter == 10) {
-                    knockbackCounter = 0;
-                    knockback = false;
-                    speed = defaultSpeed;
-                }
-        }else if (isAttacking || keyH.bscAtkPressed) {
+        if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
             attacking();
 

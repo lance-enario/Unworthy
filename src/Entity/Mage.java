@@ -83,7 +83,7 @@ public class Mage extends Player{
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
         nextLevelExp = 30;
-        coins = 100;
+        coins = 10;
         currentWeapon = new obj_Wand(gp);
         currentShield = new obj_Book(gp);
         attack = getAttack();   // total attack value is decided by strength and weapon.
@@ -131,44 +131,9 @@ public class Mage extends Player{
 
     @Override
     public void update() {
-        if (knockback){
 
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-            gp.cChecker.checkOBJ(this, true);
-            gp.cChecker.checkEntity(this, gp.npc);
-            gp.cChecker.checkEntity(this, gp.signs);
-            gp.cChecker.checkEntity(this, gp.monster);
-
-            if (collisionOn){
-                knockbackCounter = 0;
-                knockback = false;
-                speed = defaultSpeed;
-            } else if(!collisionOn){
-                switch (gp.player.direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-
-                knockbackCounter++;
-                if (knockbackCounter == 10) {
-                    knockbackCounter = 0;
-                    knockback = false;
-                    speed = defaultSpeed;
-                }
             //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
-        }else if (isAttacking || keyH.bscAtkPressed) {
+        if (isAttacking || keyH.bscAtkPressed) {
             isAttacking = true;
             attacking();
 

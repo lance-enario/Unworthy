@@ -56,9 +56,9 @@ public class Ranger extends Player{
         dexterity = 1;  // the more dexterity he has, the less damage he receives.
         exp = 0;
         nextLevelExp = 30;
-        coins = 0;
-        currentWeapon = new obj_Wand(gp);
-        currentShield = new obj_Book(gp);
+        coins = 10;
+        currentWeapon = new obj_Bow(gp);
+        currentShield = new obj_arrows(gp);
         attack = getAttack();   // total attack value is decided by strength and weapon.
         defense = getDefense(); // total defense value is decided by dexterity and shield.
 
@@ -99,46 +99,7 @@ public class Ranger extends Player{
     @Override
     public void update() {
 
-        if (knockback){
-
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-            gp.cChecker.checkOBJ(this, true);
-            gp.cChecker.checkEntity(this, gp.npc);
-            gp.cChecker.checkEntity(this, gp.signs);
-            gp.cChecker.checkEntity(this, gp.monster);
-
-
-            if (collisionOn){
-                knockbackCounter = 0;
-                knockback = false;
-                speed = defaultSpeed;
-            } else {
-                switch (gp.player.direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-
-
-                knockbackCounter++;
-                if (knockbackCounter == 10) {
-                    knockbackCounter = 0;
-                    knockback = false;
-                    speed = defaultSpeed;
-                }
-            //System.out.println("X: " + worldX/gp.tileSize + " " + "Y: " + worldY/gp.tileSize);
-          }else if (keyH.bscAtkPressed && attackCounter == 30) {
+        if (keyH.bscAtkPressed && attackCounter == 30) {
             isAttacking = true;
 
             if (attackSwitch){

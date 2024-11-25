@@ -45,6 +45,7 @@ public class General_Lich extends Entity{
         attack = 5;
         defense = 0;
         exp = 30;
+
         solidArea = new Rectangle(32, 92, 150, 200);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -55,6 +56,7 @@ public class General_Lich extends Entity{
 
     public void skill1(){
         System.out.println("Skill 1 activated!");
+
         gp.monster[3][10].worldX =  44 * gp.tileSize;
         gp.monster[3][10].worldY =  69 * gp.tileSize;
     }

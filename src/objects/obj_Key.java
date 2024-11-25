@@ -18,6 +18,7 @@ public class obj_Key extends Entity {
         down1 = setup("/objects/key");
         price = 100;
         stackable = true;
+        description = "[" + name + "]\nA red key used to open \nor unlock something";
         setDialogue();
     }
     public boolean use(Entity entity) {
